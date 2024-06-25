@@ -1,0 +1,4 @@
+delia, $8, cafe latte
+hope, $7, chai tea
+patricia, $5, cappuccino
+wayne, $6, cafe americano

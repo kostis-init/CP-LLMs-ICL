@@ -1,0 +1,28 @@
+### Plan:
+Each entity will be represented by a decision variable that will take a value from 1 to 4. All decision variables with the same value will correspond to the same pairing. For example, if Ingram == 1, and Goals7 == 1, and Checkers == 1, then Ingram scored 7 goals this season and is from the Checkers.
+
+### Decision variables:
+-   Names of the players: Ingram, Parrish, Quinn, Underwood (all different, 1 to 4)
+-   Number of goals scored: Goals6, Goals7, Goals8, Goals9 (all different, 1 to 4)
+-   Names of the teams: Checkers, Comets, IceHogs, Monsters (all different, 1 to 4)
+
+### Constraints:
+-   Ingram had 7 goals this season:
+    This is a direct assignment constraint:
+    Ingram == Goals7.
+
+-   The four players are Underwood, the player from the Ice Hogs, the player from the Monsters, and the player from the Checkers:
+    This is a constraint that states that all these entities are different, thus:
+    AllDifferent([Underwood, IceHogs, Monsters, Checkers]).
+
+-   Parrish scored 1 goal more than Quinn:
+    For this, we will need to add a constraint for each possible assignment of the number of goals for Parrish and Quinn, such that Parrish's number of goals is 1 more than Quinn's number of goals. So, the constraints will be of the form:
+    g1 == Parrish and g2 == Quinn => g1_to_int == g2_to_int + 1, for all g1, g2 in goals.
+
+-   The player with 9 goals is from the Ice Hogs:
+    This is a direct assignment constraint:
+    Goals9 == IceHogs.
+
+-   Ingram is either the player from the Checkers or the player with 6 goals:
+    This is a constraint that states that Ingram's team is either the Checkers or Ingram's number of goals is 6, but not both. So:
+    Xor([Ingram == Checkers, Ingram == Goals6]).

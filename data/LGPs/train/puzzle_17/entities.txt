@@ -1,0 +1,5 @@
+diplomats, months, durations
+
+Fitzgerald, Howell, Riggs, Vasquez
+January, February, March, April
+2 day, 6 day, 8 day, 9 day

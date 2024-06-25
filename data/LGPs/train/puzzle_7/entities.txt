@@ -1,0 +1,5 @@
+vintages, wines, types
+
+1984, 1988, 1992, 1996
+Annata Branco, Friambliss, Luzagueil, Zifennwein
+chardonnay, merlot, pinot gris, syrah

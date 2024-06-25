@@ -1,0 +1,39 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+flatbread, pumpernickel, rye_bread, wheat_bread = breads = intvar(1, 4, shape=4)
+_7am, _730am, _8am, _830am = times = intvar(1, 4, shape=4)
+felicia, isabel, ora, tricia = customers = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+times_values = {_7am: 7, _730am: 7.5, _8am: 8, _830am: 8.5} # in hours
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(breads)
+m += AllDifferent(times)
+m += AllDifferent(customers)
+
+# The person who came in at 8:00am asked for wheat bread.
+m += (wheat_bread == _8am)
+
+# Tricia came in a half-hour after Ora.
+m += add_comparable_constraints(times_values, lambda var1, var2: var1 == var2 + 0.5, var1=tricia, var2=ora)
+
+# Of Felicia and the customer who ordered flatbread, one came in at 7:30am and the other came in at 7:00am.
+m += Xor([(felicia == _730am) & (flatbread == _7am), (felicia == _7am) & (flatbread == _730am)])
+
+# Of the customer who ordered wheat bread and the person who ordered pumpernickel, one came in at 8:30am and the other was Tricia.
+m += Xor([(wheat_bread == _830am) & (pumpernickel == tricia), (wheat_bread == tricia) & (pumpernickel == _830am)])
+
+# The end. You can take it from here.
+```

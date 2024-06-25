@@ -1,0 +1,16 @@
+A bank van had several bags of coins, each containing either 16, 17, 23, 24, 39, or 40 coins (there are multiple bags of the same kind). While the van was parked on the street, thieves stole some bags. A total of 100 coins were lost. It is required to find how many bags were stolen for each type of coin bag.
+
+It is mandatory that the answer should be given according to the following JSON schema:
+```json
+{
+  "bags": [int]
+}
+```
+where `bags` is a list of integers, each representing the number of bags stolen for each type of coin bag. The order of the integers in the list should be the same as the order of the coin bags in the input list.
+
+For example, if they stole 2 bags of 16 coins and 3 bags of 40 coins, the answer should be:
+```json
+{
+  "bags": [2, 0, 0, 0, 0, 3]
+}
+```

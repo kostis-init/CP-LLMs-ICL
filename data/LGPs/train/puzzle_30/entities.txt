@@ -1,0 +1,5 @@
+superheroes, years, real names
+
+Deep Shadow, Green Avenger, Max Fusion, Ultra Hex
+2007, 2008, 2009, 2010
+Arnold Ashley, Lyle Lucas, Orel Osborne, Red Reilly

@@ -1,0 +1,4 @@
+ali shan, 4, 215 degree
+jin xuan, 5, 190 degree
+pouchong, 6, 195 degree
+red robe, 7, 200 degree

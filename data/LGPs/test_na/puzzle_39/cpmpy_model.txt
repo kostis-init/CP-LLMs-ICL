@@ -1,0 +1,42 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+ebony, jan, orlando, suzanne = translators = intvar(1, 4, shape=4)
+_150pages, _175pages, _200pages, _225pages = pages = intvar(1, 4, shape=4)
+_2002, _2007, _2010, _2011 = years = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+pages_values = {_150pages: 150, _175pages: 175, _200pages: 200, _225pages: 225} # in pages
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(translators)
+m += AllDifferent(pages)
+m += AllDifferent(years)
+
+# The 200 page project is either the book published in 2011 or the book published in 2010.
+m += Xor([_200pages == _2011, _200pages == _2010])
+
+# The book published in 2011 is either Orlando's project or Jan's project.
+m += Xor([_2011 == orlando, _2011 == jan])
+
+# The book published in 2007 is 25 pages shorter than the book published in 2002.
+m += add_comparable_constraints(pages_values, lambda var1, var2: var1 == var2 - 25, var1=_2007, var2=_2002)
+
+# The four projects are the book published in 2007, the 225 page assignment, Suzanne's project and the 175 page assignment.
+m += AllDifferent([_2007, _225pages, suzanne, _175pages])
+
+# Jan's assignment is 175 pages long.
+m += jan == _175pages
+
+# The end. You can take it from here.
+```

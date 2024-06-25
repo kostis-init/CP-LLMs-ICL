@@ -1,0 +1,42 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+jorge, otis, philip, shaun = names = intvar(1, 4, shape=4)
+_1982, _1983, _1984, _1985 = years = intvar(1, 4, shape=4)
+lime_green, pink, red, yellow = suit_colors = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+years_values = {_1982: 1982, _1983: 1983, _1984: 1984, _1985: 1985} # in years
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(names)
+m += AllDifferent(years)
+m += AllDifferent(suit_colors)
+
+# Jorge is either the skydiver who wears the red suit or the jumper who started in 1982.
+m += Xor([jorge == red, jorge == _1982])
+
+# The skydiver who wears the pink suit started skydiving 1 year before Otis.
+m += add_comparable_constraints(years_values, lambda var1, var2: var1 == var2 - 1, var1=pink, var2=otis)
+
+# The jumper who wears the yellow suit started skydiving sometime after Philip.
+m += add_comparable_constraints(years_values, lambda var1, var2: var1 > var2, var1=yellow, var2=philip)
+
+# The jumper who wears the lime green suit started skydiving sometime after the jumper who wears the yellow suit.
+m += add_comparable_constraints(years_values, lambda var1, var2: var1 > var2, var1=lime_green, var2=yellow)
+
+# The jumper who wears the pink suit started skydiving 2 years before Shaun.
+m += add_comparable_constraints(years_values, lambda var1, var2: var1 == var2 - 2, var1=pink, var2=shaun)
+
+# The end. You can take it from here.
+```

@@ -1,0 +1,36 @@
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+edna_easton, irma, jane, sonia = boxers = intvar(1, 4, shape=4)
+wins24, wins27, wins30, wins33 = wins = intvar(1, 4, shape=4)
+losses2, losses4, losses8, losses12 = losses = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+wins_values = {wins24: 24, wins27: 27, wins30: 30, wins33: 33} # in wins
+losses_values = {losses2: 2, losses4: 4, losses8: 8, losses12: 12} # in losses
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(boxers)
+m += AllDifferent(wins)
+m += AllDifferent(losses)
+
+# The woman with 2 losses has 3 more wins than the boxer with 8 losses.
+m += add_comparable_constraints(wins_values, lambda var1, var2: var1 == var2 + 3, var1=losses2, var2=losses8)
+
+# Edna Easton has 6 more wins than Irma.
+m += add_comparable_constraints(wins_values, lambda var1, var2: var1 == var2 + 6, var1=edna_easton, var2=irma)
+
+# Of the boxer with 33 wins and the fighter with 27 wins, one is Sonia and the other has 12 losses.
+m += Xor([(wins33 == sonia) & (wins27 == losses12), (wins33 == losses12) & (wins27 == sonia)])
+
+# The boxer with 12 losses is either the fighter with 33 wins or Jane.
+m += Xor([losses12 == wins33, losses12 == jane])

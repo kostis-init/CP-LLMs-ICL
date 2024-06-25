@@ -1,0 +1,5 @@
+names, days, departures
+
+Francis, Luke, Roderick, Vernon
+June 10, June 11, June 12, June 13
+Hardwick, Indio, Kent, Leland

@@ -1,0 +1,39 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+bessie, clara, lillian, verna = names = intvar(1, 4, shape=4)
+_181, _184, _187, _190 = points = intvar(1, 4, shape=4)
+first, third, seventh, ninth = orders = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+points_values = {_181: 181, _184: 184, _187: 187, _190: 190} # in points
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(names)
+m += AllDifferent(points)
+m += AllDifferent(orders)
+
+# Lillian scored 6 points higher than Bessie.
+m += add_comparable_constraints(points_values, lambda var1, var2: var1 == var2 + 6, var1=lillian, var2=bessie)
+
+# The dancer who performed first scored 3 points lower than the dancer who performed ninth.
+m += add_comparable_constraints(points_values, lambda var1, var2: var1 == var2 - 3, var1=first, var2=ninth)
+
+# Verna scored somewhat higher than the person who danced third.
+m += add_comparable_constraints(points_values, lambda var1, var2: var1 > var2, var1=verna, var2=third)
+
+# The dancer who performed seventh scored 6 points higher than the person who danced ninth.
+m += add_comparable_constraints(points_values, lambda var1, var2: var1 == var2 + 6, var1=seventh, var2=ninth)
+
+# The end. You can take it from here.
+```

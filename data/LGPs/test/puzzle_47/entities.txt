@@ -1,0 +1,5 @@
+children, times, rooms
+
+Glenn, Henrietta, Olivia, Willie
+8:00am, 9:00am, 10:00am, 11:00am
+dining room, laundry room, living room, mud room

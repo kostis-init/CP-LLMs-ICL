@@ -1,0 +1,4 @@
+banion, $550, zenix 2c
+dayero, $575, fc-520
+honwa, $600, mx-827
+torvia, $625, dm-5000

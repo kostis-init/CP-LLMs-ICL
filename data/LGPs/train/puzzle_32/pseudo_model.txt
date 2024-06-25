@@ -1,0 +1,27 @@
+### Plan:
+Each entity will be represented by a decision variable that will take a value from 1 to 4. All decision variables with the same value will correspond to the same pairing. For example, if ColorBlinds == 1, and First == 1, and Green == 1, then Color Blinds finished first and used green paintballs.
+
+### Decision variables:
+-   Names of the teams: ColorBlinds, NightNinjas, OilCrew, TargetBombs (all different, 1 to 4)
+-   Rankings of the teams: First, Second, Third, Fourth (all different, 1 to 4)
+-   Colors of the paintballs: Green, Orange, Purple, White (all different, 1 to 4)
+
+### Constraints:
+-   The Color Blinds finished first:
+    This is a direct assignment constraint:
+    ColorBlinds == First.
+
+-   The Color Blinds was ranked 1 place ahead of the green team:
+    For this, we will need to add a constraint for each possible assignment of the rankings for the Color Blinds and the green team, such that the Color Blinds' ranking is 1 place ahead of the green team's ranking. So, the constraints will be of the form:
+    r1 == ColorBlinds and r2 == Green => r1_to_int == r2_to_int - 1, for all r1, r2 in rankings.
+
+-   The Target Bombs uses white paintballs:
+    This is a direct assignment constraint:
+    TargetBombs == White.
+
+-   Of the Oil Crew and the orange team, one finished third and the other finished second:
+    This is a constraint that states that for the Oil Crew and the orange team, one finished third and the other finished second, but not both. So:
+    Xor([
+        (OilCrew == Third, Orange == Second),
+        (OilCrew == Second, Orange == Third)
+    ]).

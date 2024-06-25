@@ -1,0 +1,27 @@
+### Plan:
+Each entity will be represented by a decision variable that will take a value from 1 to 4. All decision variables with the same value will correspond to the same pairing. For example, if Herbert == 1, and Riders100 == 1, and Pink == 1, then Herbert served 100 riders and works in the pink section.
+
+### Decision variables:
+-   Names of the employees: Herbert, Marc, Nathan, Victor (all different, 1 to 4)
+-   Number of riders served: Riders50, Riders75, Riders100, Riders125 (all different, 1 to 4)
+-   Colors of the sections: Green, Pink, Purple, Red (all different, 1 to 4)
+
+### Constraints:
+-   Herbert served 25 fewer riders than Marc:
+    For this, we will need to add a constraint for each possible assignment of the number of riders served by Herbert and Marc, such that Herbert's number of riders is 25 less than Marc's number of riders. So, the constraints will be of the form:
+    r1 == Herbert and r2 == Marc => r1_to_int == r2_to_int - 25, for all r1, r2 in riders.
+
+-   The worker who served 125 riders works in the red section:
+    This is a direct assignment constraint:
+    Riders125 == Red.
+
+-   Of the person who works in the pink section and the person who served 100 riders, one is Herbert and the other is Marc:
+    This is a constraint that states that for the pink section and the 100 riders, one is associated with Herbert and the other with Marc, but not both. So:
+    Xor([
+        (Pink == Herbert, Riders100 == Marc),
+        (Pink == Marc, Riders100 == Herbert)
+    ]).
+
+-   Victor is either the employee who served 50 riders or the employee who works in the purple section:
+    This is a constraint that states that Victor's number of riders served is either 50 or Victor works in the purple section, but not both. So:
+    Xor([Victor == Riders50, Victor == Purple]).

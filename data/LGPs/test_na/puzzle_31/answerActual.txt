@@ -1,0 +1,4 @@
+hope, 8, espresso
+linda, 7, cafe mocha
+norman, 5, cafe latte
+opal, 6, cafe americano

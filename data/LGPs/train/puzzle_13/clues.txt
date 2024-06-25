@@ -1,0 +1,4 @@
+Herbert served 25 fewer riders than Marc.
+The worker who served 125 riders works in the red section.
+Of the person who works in the pink section and the person who served 100 riders, one is Herbert and the other is Marc.
+Victor is either the employee who served 50 riders or the employee who works in the purple section.

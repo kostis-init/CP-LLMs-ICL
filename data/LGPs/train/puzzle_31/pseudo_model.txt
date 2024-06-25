@@ -1,0 +1,31 @@
+### Plan:
+Each entity will be represented by a decision variable that will take a value from 1 to 4. All decision variables with the same value will correspond to the same pairing. For example, if Clara == 1, and 181points == 1, and Second == 1, then Clara is the dancer who performed second and scored 181 points.
+
+### Decision variables:
+-   Names of the dancers: Clara, Fannie, Hannah, Kara (all different, 1 to 4)
+-   Points scored by the dancers: Points181, Points184, Points187, Points190 (all different, 1 to 4)
+-   Orders of the performances: Second, Fourth, Sixth, Seventh (all different, 1 to 4)
+
+### Constraints:
+-   The person who danced seventh scored somewhat higher than the dancer who performed fourth:
+    For this, we will need to add a constraint for each possible assignment of the points for the seventh and fourth performers, such that the seventh performer's points are higher than the fourth performer's points. So, the constraints will be of the form:
+    p1 == Seventh and p2 == Fourth => p1_to_int > p2_to_int, for all p1, p2 in points.
+
+-   The dancer who performed second scored 3 points lower than the dancer who performed fourth:
+    For this, we will need to add a constraint for each possible assignment of the points for the second and fourth performers, such that the second performer's points are 3 points lower than the fourth performer's points. So, the constraints will be of the form:
+    p1 == Second and p2 == Fourth => p1_to_int == p2_to_int - 3, for all p1, p2 in points.
+
+-   Kara scored somewhat lower than Fannie:
+    For this, we will need to add a constraint for each possible assignment of the points for Kara and Fannie, such that Kara's points are lower than Fannie's points. So, the constraints will be of the form:
+    p1 == Kara and p2 == Fannie => p1_to_int < p2_to_int, for all p1, p2 in points.
+
+-   Hannah was either the dancer who performed fourth or the person who danced sixth:
+    This is a constraint that states that Hannah's order of performance is either fourth or sixth, but not both. So:
+    Xor([Hannah == Fourth, Hannah == Sixth]).
+
+-   Of Clara and Kara, one scored 184 points and the other danced seventh:
+    This is a constraint that states that for Clara and Kara, one scored 184 points and the other performed seventh, but not both. So:
+    Xor([
+        (Clara == Points184, Kara == Seventh),
+        (Kara == Points184, Clara == Seventh)
+    ]).

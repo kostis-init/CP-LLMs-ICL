@@ -1,0 +1,15 @@
+Decision Variables:
+    Define integer variables for each item to represent the price of the item in cents. The variable 'prices' is an array of size equal to the number of items (4 in this case).
+
+Domains:
+    Each variable in 'prices' has a domain of [1, 711] as the price of each item can be at least 1 cent and at most 711 cents.
+
+Constraints:
+    Total Price: The sum of the prices of the four items must equal the total price, which is 711 cents. This is captured by the equation:
+    prices[0] + prices[1] + prices[2] + prices[3] = 711
+
+    Product of Prices: The product of the prices of the four items must equal the total price scaled by 100 to the power of the number of items minus 1, which is 711000000. This is captured by the equation:
+    prices[0] * prices[1] * prices[2] * prices[3] = 711000000
+
+Objective:
+    As this is a feasibility problem, there is no objective function to be minimized or maximized. The goal is to find a feasible solution that satisfies all the constraints.

@@ -1,0 +1,42 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+_2007, _2008, _2009, _2010 = years = intvar(1, 4, shape=4)
+criminal_bane, deep_shadow, ultra_hex, wonderman = superheroes = intvar(1, 4, shape=4)
+gabe_grant, ivor_ingram, matt_minkle, peter_powers = names = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+years_values = {_2007: 2007, _2008: 2008, _2009: 2009, _2010: 2010} # in years
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(superheroes)
+m += AllDifferent(years)
+m += AllDifferent(names)
+
+# Ultra Hex is Gabe Grant.
+m += (ultra_hex == gabe_grant)
+
+# Criminal Bane is either the hero who started in 2007 or the superhero who started in 2009.
+m += Xor([criminal_bane == _2007, criminal_bane == _2009])
+
+# Peter Powers began sometime before Matt Minkle.
+m += add_comparable_constraints(years_values, lambda var1, var2: var1 < var2, var1=peter_powers, var2=matt_minkle)
+
+# Gabe Grant began 1 year after Wonderman.
+m += add_comparable_constraints(years_values, lambda var1, var2: var1 == var2 + 1, var1=gabe_grant, var2=wonderman)
+
+# The four people are Deep Shadow, the superhero who started in 2007, the hero who started in 2009 and Matt Minkle.
+m += AllDifferent([deep_shadow, _2007, _2009, matt_minkle])
+
+# The end. You can take it from here.
+```

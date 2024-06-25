@@ -1,0 +1,40 @@
+At the hospital n people are on a waiting list for a kidney’s transplant. We have the information about the compatibility between these people as a directed graph: compatible[i] is the set of people to which i can donate. Given this information, we want to maximize the number of people that receive a new kidney: anyone who gives a kidney must receive one, and no person receives more than one kidney. Use the following data:
+
+{
+    "num_people": 8,
+    "compatible": [  // 1-based index
+        [2, 3],
+        [1, 6],
+        [1, 4, 7],
+        [2],
+        [2],
+        [5],
+        [8],
+        [3]
+    ]
+}
+
+It is mandatory that the answer should be given according to the following JSON schema:
+```json
+{
+    "transplants": [[0 | 1]]
+}
+```
+
+Where transplants[i][j] is 1 if person i gives a kidney to person j, and 0 otherwise.
+
+For example, a valid JSON (but not the answer for the example above) would be:
+```json
+{
+    "transplants": [
+        [1, 1, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0]
+    ]
+}
+```

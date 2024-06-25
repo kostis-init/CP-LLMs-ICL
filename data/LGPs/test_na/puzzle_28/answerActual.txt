@@ -1,0 +1,4 @@
+credit korp, 8%, 5000
+mid atlantic, 10%, 4000
+southwest inc, 9%, 2000
+trustco, 11%, 20000

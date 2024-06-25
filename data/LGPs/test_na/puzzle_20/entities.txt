@@ -1,0 +1,5 @@
+names, heights, countries
+
+Cerbel, Irskela, Inawatai, Oginao
+100 ft, 105 ft, 110 ft, 115 ft
+Canada, Brazil, New Zealand, Switzerland

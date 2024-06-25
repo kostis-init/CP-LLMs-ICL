@@ -1,0 +1,28 @@
+### Plan:
+Each entity will be represented by a decision variable that will take a value from 1 to 4. All decision variables with the same value will correspond to the same pairing. For example, if Gentry == 1, and 230 == 1, and Football == 1, then Gentry is the football facility with a capacity of 230 people.
+
+### Decision variables:
+-   Names of the arenas: Gentry, Underwood, Vazquez, Young (all different, 1 to 4)
+-   Capacities of the arenas: Capacity110, Capacity150, Capacity190, Capacity230 (all different, 1 to 4)
+-   Types of sports: Basketball, Football, Lacrosse, Soccer (all different, 1 to 4)
+
+### Constraints:
+-   The football facility holds more people than Underwood Arena:
+    For this, we will need to add a constraint for each possible assignment of the capacities for the football facility and Underwood Arena, such that the football facility's capacity is greater than Underwood Arena's capacity. So, the constraints will be of the form:
+    c1 == Football and c2 == Underwood => c1_to_int > c2_to_int, for all c1, c2 in capacities.
+
+-   The basketball facility holds 80 more people than Vazquez Arena:
+    For this, we will need to add a constraint for each possible assignment of the capacities for the basketball facility and Vazquez Arena, such that the basketball facility's capacity is 80 more than Vazquez Arena's capacity. So, the constraints will be of the form:
+    c1 == Basketball and c2 == Vazquez => c1_to_int == c2_to_int + 80, for all c1, c2 in capacities.
+
+-   Young Arena holds 230 people:
+    This is a direct assignment constraint:
+    Young == Capacity230.
+
+-   Underwood Arena holds 40 fewer people than Vazquez Arena:
+    For this, we will need to add a constraint for each possible assignment of the capacities for Underwood Arena and Vazquez Arena, such that Underwood Arena's capacity is 40 less than Vazquez Arena's capacity. So, the constraints will be of the form:
+    c1 == Underwood and c2 == Vazquez => c1_to_int == c2_to_int - 40, for all c1, c2 in capacities.
+
+-   The facility with seating for 190 people is either the lacrosse facility or Underwood Arena:
+    This is a constraint that states that the facility with a capacity of 190 people is either the lacrosse facility or Underwood Arena, but not both. So:
+    Xor([Capacity190 == Lacrosse, Capacity190 == Underwood]).

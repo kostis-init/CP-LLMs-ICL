@@ -1,0 +1,5 @@
+heights, mountains, climbers
+
+210, 340, 470, 600
+Mt. Brewer, Mt. Gillespie, Mt. Quinn, Mt. York
+Ben Beasley, Eddie English, Kermit Kramer, Leonard Lara

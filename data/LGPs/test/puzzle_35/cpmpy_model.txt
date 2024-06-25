@@ -1,0 +1,42 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+angela, edmund, homer, irene = names = intvar(1, 4, shape=4)
+_4, _5, _6, _7 = prices = intvar(1, 4, shape=4)
+cream_soda, iced_tea, root_beer, water = drinks = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+prices_values = {_4: 4, _5: 5, _6: 6, _7: 7} # in dollars
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(names)
+m += AllDifferent(prices)
+m += AllDifferent(drinks)
+
+# Edmund paid 1 dollar less than the one who got the water.
+m += add_comparable_constraints(prices_values, lambda var1, var2: var1 == var2 - 1, var1=edmund, var2=water)
+
+# The diner who paid $4 had the iced tea.
+m += _4 == iced_tea
+
+# Angela paid more than the one who got the cream soda.
+m += add_comparable_constraints(prices_values, lambda var1, var2: var1 > var2, var1=angela, var2=cream_soda)
+
+# The diner who paid $5 was either the one who got the cream soda or the one who got the iced tea.
+m += Xor([_5 == cream_soda, _5 == iced_tea])
+
+# The four diners were the diner who paid $5, the one who got the iced tea, the one who got the root beer and Irene.
+m += AllDifferent([_5, iced_tea, root_beer, irene])
+
+# The end. You can take it from here.
+```

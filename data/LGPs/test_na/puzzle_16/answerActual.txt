@@ -1,0 +1,4 @@
+erma, 40000, theology
+hattie, 35000, archaeology
+ora, 25000, physics
+tracy, 30000, english

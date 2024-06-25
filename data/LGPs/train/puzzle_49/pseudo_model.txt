@@ -1,0 +1,31 @@
+### Plan:
+Each entity will be represented by a decision variable that will take a value from 1 to 4. All decision variables with the same value will correspond to the same pairing. For example, if Andy == 1, and 50riders == 1, and Blue == 1, then Andy works in the blue section and served 50 riders.
+
+### Decision variables:
+-   Names of the employees: Andy, Brett, Victor, Zachary (all different, 1 to 4)
+-   Number of riders served: Riders50, Riders75, Riders100, Riders125 (all different, 1 to 4)
+-   Colors of the sections: Blue, Green, Red, Yellow (all different, 1 to 4)
+
+### Constraints:
+-   The worker who works in the green section served 25 more riders than Andy:
+    For this, we will need to add a constraint for each possible assignment of the number of riders served by the worker in the green section and Andy, such that the green section's worker served 25 more riders than Andy. So, the constraints will be of the form:
+    r1 == Green and r2 == Andy => r1_to_int == r2_to_int + 25, for all r1, r2 in riders.
+
+-   Of the employee who works in the red section and the worker who works in the yellow section, one served 50 riders and the other is Victor:
+    This is a constraint that states that for the red section and the yellow section, one served 50 riders and the other is associated with Victor, but not both. So:
+    Xor([
+        (Red == Riders50, Yellow == Victor),
+        (Red == Victor, Yellow == Riders50)
+    ]).
+
+-   The employee who works in the green section is either Zachary or the worker who served 100 riders:
+    This is a constraint that states that the employee in the green section is either Zachary or served 100 riders, but not both. So:
+    Xor([Green == Zachary, Green == Riders100]).
+
+-   The person who works in the yellow section served 50 more riders than Zachary:
+    For this, we will need to add a constraint for each possible assignment of the number of riders served by the worker in the yellow section and Zachary, such that the yellow section's worker served 50 more riders than Zachary. So, the constraints will be of the form:
+    r1 == Yellow and r2 == Zachary => r1_to_int == r2_to_int + 50, for all r1, r2 in riders.
+
+-   Victor served more riders than the worker who works in the blue section:
+    For this, we will need to add a constraint for each possible assignment of the number of riders served by Victor and the worker in the blue section, such that Victor served more riders than the blue section's worker. So, the constraints will be of the form:
+    r1 == Victor and r2 == Blue => r1_to_int > r2_to_int, for all r1, r2 in riders.

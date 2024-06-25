@@ -1,0 +1,24 @@
+Baker, Cooper, Fletcher, Miller, and Smith live on the first five floors of an apartment house. Baker does not live on the fifth floor. Cooper does not live on the first floor. Fletcher does not live on either the fifth or the first floor. Miller lives on a higher floor than does Cooper. Smith does not live on a floor adjacent to Fletcher’. Fletcher does not live on a floor adjacent to Cooper’s. They all live on different floors. Find the floors where these people live.
+
+It is mandatory that the answer should be given according to the following JSON schema:
+
+```json
+{
+    "B": int,
+    "C": int,
+    "F": int,
+    "M": int,
+    "S": int
+}
+```
+
+For example, if Baker lives on the 2nd floor, Cooper on the 1st, Fletcher on the 5th, Miller on the 3rd, and Smith on the 4th, then the answer should be:
+```json
+{
+    "B": 2,
+    "C": 1,
+    "F": 5,
+    "M": 3,
+    "S": 4
+}
+```

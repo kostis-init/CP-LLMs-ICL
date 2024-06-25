@@ -1,0 +1,4 @@
+pairdiff(A1, A2, B1, C2)
+comp(C1, A3, 40, >)
+is(A1, B3)
+comp(A3, C3, 80, <)

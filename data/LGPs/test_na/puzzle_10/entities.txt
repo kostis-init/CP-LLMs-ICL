@@ -1,0 +1,5 @@
+employees, rides, section
+
+Brett, Peter, Victor, Willis
+50 riders, 75 riders, 100 riders, 125 riders
+blue, green, orange, yellow

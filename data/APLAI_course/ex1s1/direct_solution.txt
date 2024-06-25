@@ -1,0 +1,23 @@
+To solve this problem, we need to assign each person to a unique floor from 1 to 5, following the given constraints. Let's analyze the constraints one by one and use logical deduction to assign floors:
+
+1. **Baker does not live on the fifth floor.**
+2. **Cooper does not live on the first floor.**
+3. **Fletcher does not live on either the fifth or the first floor.**
+4. **Miller lives on a higher floor than Cooper.**
+5. **Smith does not live on a floor adjacent to Fletcher.**
+6. **Fletcher does not live on a floor adjacent to Cooper.**
+
+Let's start assigning floors based on these constraints:
+
+- Since **Fletcher** can't live on the 1st or 5th floors, and must also not be adjacent to Cooper, Fletcher has limited options. If Fletcher were on the 2nd floor, Cooper could only be on the 4th or 5th floor (not the 1st), but then Miller must be higher than Cooper, leaving no room for Miller on a higher floor if Cooper is on the 5th. Thus, Fletcher cannot be on the 2nd floor. If Fletcher is on the 3rd floor, Cooper can be on the 1st floor, and Miller can then be on any floor above the 1st, which is feasible. If Fletcher is on the 4th floor, Cooper can only be on the 2nd floor (not adjacent and not the 1st), and Miller must be on the 5th floor. This setup works and is the only feasible setup for these three given all constraints.
+
+- With **Fletcher on the 4th floor**, **Cooper on the 2nd floor**, and **Miller on the 5th floor**, we now place Baker and Smith. Baker can't be on the 5th floor, so Baker must be on the 1st or 3rd floor. Smith can't be adjacent to Fletcher, so Smith can't be on the 3rd or 5th floors. Thus, Smith must be on the 1st floor, and Baker on the 3rd floor.
+
+This assignment satisfies all constraints:
+- Baker is not on the 5th floor.
+- Cooper is not on the 1st floor.
+- Fletcher is not on the 1st or 5th floor and not adjacent to Cooper.
+- Miller is on a higher floor than Cooper.
+- Smith is not adjacent to Fletcher.
+
+### FINAL ANSWER: {"Baker": 3, "Cooper": 2, "Fletcher": 4, "Miller": 5, "Smith": 1}

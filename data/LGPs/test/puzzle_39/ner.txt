@@ -1,0 +1,1 @@
+[{'start': 106, 'end': 107, 'word': '1', 'entity_group': 'PARAM', 'score': 0.9973845943723991}, {'start': 167, 'end': 168, 'word': '1', 'entity_group': 'PARAM', 'score': 0.9984093150671238}]

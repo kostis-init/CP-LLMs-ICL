@@ -1,0 +1,5 @@
+prices, runners, pastas
+
+$6, $7, $8, $9
+Florence, Margie, Suzanne, Velma
+fettuccine, fusilli, spaghetti, taglioni

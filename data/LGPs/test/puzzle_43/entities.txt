@@ -1,0 +1,5 @@
+winners, prices, butterflies
+
+Brandon, Otis, Phillip, Rena
+$45, $60, $75, $90
+peacock, peppered, swallowtail, torturix

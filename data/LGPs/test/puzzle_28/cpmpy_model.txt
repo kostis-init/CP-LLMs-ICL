@@ -1,0 +1,42 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+chewie, snappy, speedy, toredo = tortoises = intvar(1, 4, shape=4)
+_14, _32, _50, _68 = ages = intvar(1, 4, shape=4)
+black_neck, horned, pitch_belly, swoopbacked = species = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+ages_values = {_14: 14, _32: 32, _50: 50, _68: 68} # in years
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(tortoises)
+m += AllDifferent(ages)
+m += AllDifferent(species)
+
+# Snappy is 18 years younger than the swoopbacked tortoise.
+m += add_comparable_constraints(ages_values, lambda var1, var2: var1 == var2 - 18, var1=snappy, var2=swoopbacked)
+
+# The 68 year old animal is the horned tortoise.
+m += _68 == horned
+
+# Chewie is 32 years old.
+m += chewie == _32
+
+# Of Snappy and Toredo, one is 14 years old and the other is the horned tortoise.
+m += Xor([(snappy == _14) & (toredo == horned), (snappy == horned) & (toredo == _14)])
+
+# The pitch belly tortoise is younger than Chewie.
+m += add_comparable_constraints(ages_values, lambda var1, var2: var1 < var2, var1=pitch_belly, var2=chewie)
+
+# The end. You can take it from here.
+```

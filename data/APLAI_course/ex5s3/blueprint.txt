@@ -1,0 +1,15 @@
+Decision Variables:
+    Define integer variables a, b, c, d to represent the four different numbers.
+
+Domains:
+    Each variable has a domain of [1, 100] as the numbers are between 1 and 100.
+
+Constraints:
+    Different Numbers: All variables must be different as the numbers are different. This can be represented as:
+    AllDifferent([a, b, c, d])
+
+    Sum of Squares: The sum of the squares of the first two numbers is equal to the sum of the squares of the other two numbers. This can be represented as:
+    a^2 + b^2 = c^2 + d^2
+
+Objective:
+    There is no objective function in this problem as we are not optimizing anything. We are simply finding a feasible solution that satisfies all the constraints.

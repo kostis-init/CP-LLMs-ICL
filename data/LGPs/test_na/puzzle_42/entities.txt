@@ -1,0 +1,5 @@
+customers, sq footage, prices
+
+Gillespie, Kirby, Pratt, Whitehead
+95 sq ft, 110 sq ft, 125 sq ft, 140 sq ft
+$25,000, $29,000, $35,000, $36,000

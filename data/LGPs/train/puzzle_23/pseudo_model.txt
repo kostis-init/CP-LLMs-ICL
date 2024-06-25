@@ -1,0 +1,20 @@
+### Plan:
+Each entity will be represented by a decision variable that will take a value from 1 to 4. All decision variables with the same value will correspond to the same pairing. For example, if Daniel == 1, and $280 == 1, and 3rd == 1, then Daniel won the butterfly that was auctioned 3rd and sold for $280.
+
+### Decision variables:
+-   Names of the winners: Daniel, Gabriel, Roland, Vincent (all different, 1 to 4)
+-   Prices of the butterflies: Price250, Price260, Price270, Price280 (all different, 1 to 4)
+-   Orders of the auction: Order3rd, Order4th, Order7th, Order8th (all different, 1 to 4)
+
+### Constraints:
+-   The butterfly that was auctioned 7th sold for 20 dollars less than the insect won by Daniel:
+    For this, we will need to add a constraint for each possible assignment of the prices for the butterfly auctioned 7th and the butterfly won by Daniel, such that the butterfly auctioned 7th's price is 20 dollars less than Daniel's butterfly's price. So, the constraints will be of the form:
+    p1 == Order7th and p2 == Daniel => p1_to_int == p2_to_int - 20, for all p1, p2 in prices.
+
+-   The four butterflies were the insect that sold for $260, the butterfly that was auctioned 4th, the butterfly that was auctioned 7th, and the butterfly won by Roland:
+    This is a constraint that states that all these entities are different, thus:
+    AllDifferent([Price260, Order4th, Order7th, Roland]).
+
+-   The butterfly won by Gabriel was the 8th lot:
+    This is a direct assignment constraint:
+    Gabriel == Order8th.

@@ -1,0 +1,4 @@
+anita, 2007, dalmatian
+elsie, 2009, irish setter
+fernando, 2006, maltese
+ginger, 2008, bulldog

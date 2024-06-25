@@ -1,0 +1,42 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+giant_tortoise, orangutan, polar_bear, white_rhino = animals = intvar(1, 4, shape=4)
+march, april, may, june = months = intvar(1, 4, shape=4)
+animal_science, earth_aware, nature_monthly, wildzone = magazines = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+months_values = {march: 1, april: 2, may: 3, june: 4} # in months order
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(animals)
+m += AllDifferent(months)
+m += AllDifferent(magazines)
+
+# The photo published by Nature Monthly was taken 2 months after the photo published by Earth Aware.
+m += add_comparable_constraints(months_values, lambda var1, var2: var1 == var2 + 2, var1=nature_monthly, var2=earth_aware)
+
+# The shot of the white rhino was either the photo published by Earth Aware or the photo published by Animal Science.
+m += Xor([white_rhino == earth_aware, white_rhino == animal_science])
+
+# The photo of the polar bear was taken sometime before the shot of the white rhino.
+m += add_comparable_constraints(months_values, lambda var1, var2: var1 < var2, var1=polar_bear, var2=white_rhino)
+
+# The photo taken in April was published by Animal Science.
+m += april == animal_science
+
+# The photo of the giant tortoise was taken in June.
+m += june == giant_tortoise
+
+# The end. You can take it from here.
+```

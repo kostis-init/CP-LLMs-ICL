@@ -1,0 +1,4 @@
+aimee, $170, nancy
+ginger, $150, teri
+freda, $180, whitney
+hannah, $160, lynda

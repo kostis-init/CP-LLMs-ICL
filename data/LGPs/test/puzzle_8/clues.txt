@@ -1,0 +1,5 @@
+Jorge is either the skydiver who wears the red suit or the jumper who started in 1982.
+The skydiver who wears the pink suit started skydiving 1 year before Otis.
+The jumper who wears the yellow suit started skydiving sometime after Philip.
+The jumper who wears the lime green suit started skydiving sometime after the jumper who wears the yellow suit.
+The jumper who wears the pink suit started skydiving 2 years before Shaun.

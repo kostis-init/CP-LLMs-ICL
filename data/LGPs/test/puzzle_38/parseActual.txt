@@ -1,0 +1,4 @@
+comp(C0, C1, 1, <)
+comp(A2, A3, 1, <)
+is(A2, C1)
+diff(A0, B2, C2, C0)

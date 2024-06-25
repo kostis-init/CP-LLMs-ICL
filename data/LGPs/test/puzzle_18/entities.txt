@@ -1,0 +1,5 @@
+genes, bacteria, doctors
+
+250, 500, 750, 1000
+B. mangeris, D. forcilitis, E. carolinus, P. wellington
+Jordan, Nielsen, Ortiz, Trujillo

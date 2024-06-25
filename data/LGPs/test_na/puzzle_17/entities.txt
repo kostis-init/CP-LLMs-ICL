@@ -1,0 +1,5 @@
+players, years, positions
+
+Banben, Hatcha, Kawa, Rothvum
+1976, 1979, 1982, 1985
+center back, center forward, goalie, wing back

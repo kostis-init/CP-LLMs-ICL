@@ -1,0 +1,24 @@
+### Plan:
+Each entity will be represented by a decision variable that will take a value from 1 to 4. All decision variables with the same value will correspond to the same pairing. For example, if Ivan == 1, and 8minutes == 1, and Constantine == 1, then Ivan talked about Constantine for 8 minutes.
+
+### Decision variables:
+-   Names of the presenters: Belinda, Ivan, Neal, Zachary (all different, 1 to 4)
+-   Lengths of the presentations: Length6, Length8, Length10, Length12 (all different, 1 to 4)
+-   Emperors discussed: Augustus, Constantine, Hadrian, Licinius (all different, 1 to 4)
+
+### Constraints:
+-   The presenter who gave the presentation on Hadrian spoke 4 minutes more than Ivan:
+    For this, we will need to add a constraint for each possible assignment of the lengths for the presenter on Hadrian and Ivan, such that the presenter on Hadrian's length is 4 minutes more than Ivan's length. So, the constraints will be of the form:
+    l1 == Hadrian and l2 == Ivan => l1_to_int == l2_to_int + 4, for all l1, l2 in lengths.
+
+-   Neal spoke 4 minutes more than the student who gave the presentation on Licinius:
+    For this, we will need to add a constraint for each possible assignment of the lengths for Neal and the presenter on Licinius, such that Neal's length is 4 minutes more than the presenter on Licinius's length. So, the constraints will be of the form:
+    l1 == Neal and l2 == Licinius => l1_to_int == l2_to_int + 4, for all l1, l2 in lengths.
+
+-   Ivan talked about Constantine:
+    This is a direct assignment constraint:
+    Ivan == Constantine.
+
+-   Ivan spoke 2 minutes less than Zachary:
+    For this, we will need to add a constraint for each possible assignment of the lengths for Ivan and Zachary, such that Ivan's length is 2 minutes less than Zachary's length. So, the constraints will be of the form:
+    l1 == Ivan and l2 == Zachary => l1_to_int == l2_to_int - 2, for all l1, l2 in lengths.

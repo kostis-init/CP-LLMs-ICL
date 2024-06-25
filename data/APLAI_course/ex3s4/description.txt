@@ -1,0 +1,9 @@
+A farmer has 25 cows numbered 1 to 25. number 1 cow gives 1kg milk, number 2 gives 2 kg... number and so on up to number 25 that gives 25 kg per day. The farmer has 5 sons and he wants to distribute his cows to them: 7 to the first, 6 to the second and so on down to 3 to the last, however, the total quantity of milk produced should be the same: how can he distribute the cows?
+
+It is mandatory that the answer should be given according to the following JSON schema:
+```json
+{
+    "cow_assignments": [int]
+}
+```
+where `cow_assignments` is a list of 25 integers (from 0 to 4) that maps the cow to the son.

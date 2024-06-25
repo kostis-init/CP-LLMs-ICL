@@ -1,0 +1,42 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+aimee, ginger, freda, hannah = clients = intvar(1, 4, shape=4)
+lynda, nancy, teri, whitney = masseuses = intvar(1, 4, shape=4)
+_150, _160, _170, _180 = prices = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+prices_values = {_150: 150, _160: 160, _170: 170, _180: 180}  # in dollars
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(clients)
+m += AllDifferent(prices)
+m += AllDifferent(masseuses)
+
+# Hannah paid more than Teri's client.
+m += add_comparable_constraints(prices_values, lambda var1, var2: var1 > var2, var1=hannah, var2=teri)
+
+# Freda paid 20 dollars more than Lynda's client.
+m += add_comparable_constraints(prices_values, lambda var1, var2: var1 == var2 + 20, var1=freda, var2=lynda)
+
+# Hannah paid 10 dollars less than Nancy's client.
+m += add_comparable_constraints(prices_values, lambda var1, var2: var1 == var2 - 10, var1=hannah, var2=nancy)
+
+# Nancy's client, Hannah and Ginger were all different clients.
+m += AllDifferent([nancy, hannah, ginger])
+
+# Hannah was either the person who paid $180 or Lynda's client.
+m += Xor([hannah == _180, hannah == lynda])
+
+# The end. You can take it from here.
+```

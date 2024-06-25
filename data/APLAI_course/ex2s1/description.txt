@@ -1,0 +1,37 @@
+We want to assign a different colour to the following countries: Belgium, Denmark, France, Germany, Netherlands and Luxembourg.
+Two neighbouring countries cannot have the same colour.
+Read the data below with the graph representing the adjacency of the countries: each pair (i; j) means that country i is adjacent to country j.
+You can use integers starting from 1 to represent the colours.
+Find a colouring that minimizes the number of colours used.
+
+Here is the data:
+{
+    "num_edges": 9,
+    "graph": [
+        [3, 1],
+        [3, 6],
+        [3, 4],
+        [6, 4],
+        [6, 1],
+        [1, 5],
+        [1, 4],
+        [4, 5],
+        [4, 2]
+    ],
+    "nodes": ["Belgium", "Denmark", "France", "Germany", "Netherlands", "Luxembourg"]
+}
+
+It is mandatory that the answer should be given according to the following JSON schema:
+```json
+{
+    "colors": [int]
+}
+```
+where the list of integers represents the colours assigned to the countries in the order they are given in the input.
+
+For example, a valid JSON (not the answer) would be:
+```json
+{
+    "colors": [1, 2, 4, 2, 3, 5]
+}
+```

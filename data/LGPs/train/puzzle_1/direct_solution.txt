@@ -1,0 +1,27 @@
+Let's solve the logic grid puzzle step by step.
+
+1. From "Hannah paid more than Teri's client", we know that Hannah did not pay $150 and Teri's client is not Hannah.
+
+2. From "Freda paid 20 dollars more than Lynda's client", we know that Freda did not pay $150, and Lynda's client is not Freda. Also, Freda must have paid either $170 or $180.
+
+3. From "Hannah paid 10 dollars less than Nancy's client", we know that Hannah did not pay $180 and Nancy's client is not Hannah. Also, Hannah must have paid either $150 or $160.
+
+4. From "Nancy's client, Hannah, and Ginger were all different clients", we know that Nancy's client is not Ginger and Ginger is not Hannah.
+
+5. From "Hannah was either the person who paid $180 or Lynda's client", we know that Hannah did not pay $180, so Hannah must be Lynda's client. And since Hannah must have paid either $150 or $160, and she paid more than Teri's client, Hannah paid $160 and Teri's client paid $150.
+
+6. Since Hannah paid $160 and she paid 10 dollars less than Nancy's client, Nancy's client paid $170.
+
+7. Since Freda paid 20 dollars more than Lynda's client and Lynda's client is Hannah who paid $160, Freda paid $180.
+
+8. Now, the only price left is $150, which must be the price that Ginger paid.
+
+9. For the masseuses, the only one left for Hannah is Lynda, for Ginger is Teri, for Freda is Whitney, and for Aimee (the only client left) is Nancy.
+
+So, the final assignment is:
+Hannah paid $160 and her masseuse was Lynda.
+Ginger paid $150 and her masseuse was Teri.
+Freda paid $180 and her masseuse was Whitney.
+Aimee paid $170 and her masseuse was Nancy.
+
+### FINAL ANSWER: {"mappings": [{"Hannah", "$160", "Lynda"}, {"Ginger", "$150", "Teri"}, {"Freda", "$180", "Whitney"}, {"Aimee", "$170", "Nancy"}]}

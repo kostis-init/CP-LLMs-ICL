@@ -1,0 +1,39 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+klein, underwood, walls, zimmerman = players = intvar(1, 4, shape=4)
+_6, _7, _8, _9 = goals = intvar(1, 4, shape=4)
+checkers, comets, ice_hogs, wolverines = teams = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+goals_values = {_6: 6, _7: 7, _8: 8, _9: 9} # in goals
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(players)
+m += AllDifferent(goals)
+m += AllDifferent(teams)
+
+# Zimmerman is from the Wolverines.
+m += (zimmerman == wolverines)
+
+# The person from the Ice Hogs scored 1 goal less than the player from the Wolverines.
+m += add_comparable_constraints(goals_values, lambda var1, var2: var1 == var2 - 1, var1=ice_hogs, var2=wolverines)
+
+# Klein had 9 goals this season.
+m += (klein == _9)
+
+# The player from the Checkers scored 1 goal more than Walls.
+m += add_comparable_constraints(goals_values, lambda var1, var2: var1 == var2 + 1, var1=checkers, var2=walls)
+
+# The end. You can take it from here.
+```

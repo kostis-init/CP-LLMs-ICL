@@ -1,0 +1,6 @@
+either(A0, B1, B0)
+either(A1, B0, C2)
+is(A1, B2)
+is(A2, B0)
+comp(A1, C3, 120, >)
+diff(C1, B0, B3)

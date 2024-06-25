@@ -1,0 +1,5 @@
+customers, shoe sizes, brands
+
+Estelle, Lucia, Paulette, Whitney
+4, 5, 6, 7
+Cormano, Manzarita, Schtillet, Williford

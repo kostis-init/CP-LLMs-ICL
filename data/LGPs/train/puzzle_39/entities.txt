@@ -1,0 +1,5 @@
+countries, gold medals, silver medals
+
+Dominica, Jordan, Venezuela, Zimbabwe
+1, 2, 3, 4
+2, 5, 6, 8

@@ -1,0 +1,40 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+jonathan, margie, rosie, yvonne = names = intvar(1, 4, shape=4)
+_57, _68, _72, _84 = linkedin = intvar(1, 4, shape=4)
+_120, _130, _140, _150 = facebook = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+linkedin_values = {_57: 57, _68: 68, _72: 72, _84: 84}
+facebook_values = {_120: 120, _130: 130, _140: 140, _150: 150}
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(names)
+m += AllDifferent(linkedin)
+m += AllDifferent(facebook)
+
+# The person with 72 LinkedIn connections has 10 fewer Facebook friends than the person with 84 LinkedIn connections.
+m += add_comparable_constraints(facebook_values, lambda var1, var2: var1 == var2 - 10, var1=_72, var2=_84)
+
+# Yvonne has 20 fewer Facebook friends than Margie.
+m += add_comparable_constraints(facebook_values, lambda var1, var2: var1 == var2 - 20, var1=yvonne, var2=margie)
+
+# The four people are the one with 68 LinkedIn connections, Jonathan, Rosie and the person with 120 Facebook friends.
+m += AllDifferent([_68, jonathan, rosie, _120])
+
+# Rosie has 150 Facebook friends.
+m += (rosie == _150)
+
+# The end. You can take it from here.
+```

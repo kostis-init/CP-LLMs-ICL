@@ -1,0 +1,4 @@
+gigasaurus, 1000, 72 million
+mirasaurus, 750, 90 million
+pilodontus, 500, 78 million
+rotosaurus, 1250, 75 million

@@ -1,0 +1,24 @@
+### Plan:
+Each entity will be represented by a decision variable that will take a value from 1 to 4. All decision variables with the same value will correspond to the same pairing. For example, if Zachary == 1, and 21minutes == 1, and Aquamarine == 1, then Zachary wore the aquamarine shirt and finished in 21 minutes.
+
+### Decision variables:
+-   Names of the runners: Franklin, Salvador, Ted, Zachary (all different, 1 to 4)
+-   Finishing times of the runners: Time21, Time22, Time23, Time24 (all different, 1 to 4)
+-   Shirt colors of the runners: Aquamarine, Black, Cyan, Maroon (all different, 1 to 4)
+
+### Constraints:
+-   Zachary wore the aquamarine shirt:
+    This is a direct assignment constraint:
+    Zachary == Aquamarine.
+
+-   The contestant in the cyan shirt finished 1 minute after Franklin:
+    For this, we will need to add a constraint for each possible assignment of the finishing times for the contestant in the cyan shirt and Franklin, such that the cyan shirt's finishing time is 1 minute after Franklin's finishing time. So, the constraints will be of the form:
+    t1 == Cyan and t2 == Franklin => t1_to_int == t2_to_int + 1, for all t1, t2 in times.
+
+-   Zachary finished 2 minutes after Salvador:
+    For this, we will need to add a constraint for each possible assignment of the finishing times for Zachary and Salvador, such that Zachary's finishing time is 2 minutes after Salvador's finishing time. So, the constraints will be of the form:
+    t1 == Zachary and t2 == Salvador => t1_to_int == t2_to_int + 2, for all t1, t2 in times.
+
+-   The contestant in the maroon shirt finished 1 minute before Salvador:
+    For this, we will need to add a constraint for each possible assignment of the finishing times for the contestant in the maroon shirt and Salvador, such that the maroon shirt's finishing time is 1 minute before Salvador's finishing time. So, the constraints will be of the form:
+    t1 == Maroon and t2 == Salvador => t1_to_int == t2_to_int - 1, for all t1, t2 in times.

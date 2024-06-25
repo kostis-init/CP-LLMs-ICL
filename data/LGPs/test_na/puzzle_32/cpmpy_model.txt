@@ -1,0 +1,42 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+becky, hazel, opal, yolanda = customers = intvar(1, 4, shape=4)
+_1100, _1200, _1300, _1400 = prices = intvar(1, 4, shape=4)
+aquamarine, diamond, ruby, topaz = stones = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+prices_values = {_1100: 1100, _1200: 1200, _1300: 1300, _1400: 1400}  # in dollars
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(customers)
+m += AllDifferent(prices)
+m += AllDifferent(stones)
+
+# The ring with the aquamarine cost less than the piece with the diamond.
+m += add_comparable_constraints(prices_values, lambda var1, var2: var1 < var2, var1=aquamarine, var2=diamond)
+
+# Opal's ring is either the piece that cost $1300 or the piece with the diamond.
+m += Xor([opal == _1300, opal == diamond])
+
+# The piece that cost $1400 is either the ring with the ruby or Hazel's ring.
+m += Xor([_1400 == ruby, _1400 == hazel])
+
+# Hazel's ring has the diamond.
+m += hazel == diamond
+
+# Becky's piece cost more than the ring with the diamond.
+m += add_comparable_constraints(prices_values, lambda var1, var2: var1 > var2, var1=becky, var2=diamond)
+
+# The end. You can take it from here.
+```

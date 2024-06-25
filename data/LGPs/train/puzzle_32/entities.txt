@@ -1,0 +1,5 @@
+rankings, teams, colors
+
+first, second, third, fourth
+Color Blinds, Night Ninjas, Oil Crew, Target Bombs
+green, orange, purple, white

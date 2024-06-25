@@ -1,0 +1,5 @@
+comp(C0, C3, >)
+diff(A0, C3, C0, B3)
+is(A0, C2)
+comp(A1, C2, <)
+comp(A3, A1, 250, >)

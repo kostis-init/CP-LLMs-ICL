@@ -1,0 +1,5 @@
+friends, years, activities
+
+Andy, Bill, Isabel, Yvonne
+2001, 2002, 2003, 2004
+cycling, hunting, kayaking, skydiving

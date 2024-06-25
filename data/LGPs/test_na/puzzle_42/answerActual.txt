@@ -1,0 +1,4 @@
+gillespie, 140 sq ft, 25000
+kirby, 95 sq ft, 36000
+pratt, 110 sq ft, 35000
+whitehead, 125 sq ft, 29000

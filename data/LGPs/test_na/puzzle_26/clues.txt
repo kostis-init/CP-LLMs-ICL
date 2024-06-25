@@ -1,0 +1,6 @@
+Henrietta's job is either the chore that starts at 9:00am or the chore that starts at 8:00am.
+Jack's task is either the job that starts at 8:00am or the living room assignment.
+Jack's job starts at 10:00am.
+Kay's chore starts at 8:00am.
+Jack's assignment starts 2 hours after the mud room assignment.
+The laundry room assignment, the chore that starts at 8:00am and the chore that starts at 11:00am are all different jobs.

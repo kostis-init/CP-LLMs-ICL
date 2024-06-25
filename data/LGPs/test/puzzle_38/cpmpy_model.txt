@@ -1,0 +1,40 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+ali_shan, jin_xuan, pouchong, red_robe = teas = intvar(1, 4, shape=4)
+price4, price5, price6, price7 = prices = intvar(1, 4, shape=4)
+temp190, temp195, temp200, temp215 = temperatures = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+prices_values = {price4: 4, price5: 5, price6: 6, price7: 7} # in dollars
+temperatures_values = {temp190: 190, temp195: 195, temp200: 200, temp215: 215} # in degrees
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(teas)
+m += AllDifferent(prices)
+m += AllDifferent(temperatures)
+
+# The variety that requires 190 degree water costs 1 dollar less than the variety that requires 195 degree water.
+m += add_comparable_constraints(prices_values, lambda var1, var2: var1 == var2 - 1, var1=temp190, var2=temp195)
+
+# The Pouchong costs 1 dollar less than the Red Robe.
+m += add_comparable_constraints(prices_values, lambda var1, var2: var1 == var2 - 1, var1=pouchong, var2=red_robe)
+
+# The Pouchong needs 195 degree water.
+m += pouchong == temp195
+
+# The four teas are the Ali Shan, the variety that costs $6, the variety that requires 200 degree water and the tea that requires 190 degree water.
+m += AllDifferent([ali_shan, price6, temp200, temp190])
+
+# The end. You can take it from here.
+```

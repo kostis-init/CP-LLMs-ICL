@@ -1,0 +1,28 @@
+### Plan:
+Each entity will be represented by a decision variable that will take a value from 1 to 4. All decision variables with the same value will correspond to the same pairing. For example, if Kyle == 1, and Age112 == 1, and Pennsylvania == 1, then Kyle is 112 years old and is a native of Pennsylvania.
+
+### Decision variables:
+-   Names of the people: Arlene, Ernesto, Kyle, Willard (all different, 1 to 4)
+-   Ages of the people: Age109, Age110, Age111, Age112 (all different, 1 to 4)
+-   States of origin: Kansas, Louisiana, Pennsylvania, South Dakota (all different, 1 to 4)
+
+### Constraints:
+-   Kyle is 1 year older than Arlene:
+    For this, we will need to add a constraint for each possible assignment of the ages for Kyle and Arlene, such that Kyle's age is 1 year greater than Arlene's age. So, the constraints will be of the form:
+    a1 == Kyle and a2 == Arlene => a1_to_int == a2_to_int + 1, for all a1, a2 in ages.
+
+-   Kyle, the centenarian who is 109 years old, and the person who is 110 years old are all different people:
+    This is a constraint that states that all these entities are different, thus:
+    AllDifferent([Kyle, Age109, Age110]).
+
+-   The Pennsylvania native is older than Ernesto:
+    For this, we will need to add a constraint for each possible assignment of the ages for the Pennsylvania native and Ernesto, such that the Pennsylvania native's age is greater than Ernesto's age. So, the constraints will be of the form:
+    s1 == Pennsylvania and s2 == Ernesto => s1_to_int > s2_to_int, for all s1, s2 in ages.
+
+-   Ernesto is older than the Louisiana native:
+    For this, we will need to add a constraint for each possible assignment of the ages for Ernesto and the Louisiana native, such that Ernesto's age is greater than the Louisiana native's age. So, the constraints will be of the form:
+    s1 == Ernesto and s2 == Louisiana => s1_to_int > s2_to_int, for all s1, s2 in ages.
+
+-   The person who is 111 years old is a native of South Dakota:
+    This is a direct assignment constraint:
+    Age111 == SouthDakota.

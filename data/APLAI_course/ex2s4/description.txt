@@ -1,0 +1,18 @@
+Out of the set of integers 1,...,100 you are given ten different integers ([81 21 79  4 29 70 28 20 14  7]). From this set A of ten integers you can always find two disjoint non-empty subsets, S and T, such that the sum of elements in S equals the sum of elements in T. Note: S union T does not need to be all ten elements of A. Find sets S and T for the given set A.
+
+It is mandatory that the answer should be given according to the following JSON schema:
+```json
+{
+  "in_S": [0 | 1],
+  "in_T": [0 | 1]
+}
+```
+where in_S and in_T are arrays of 10 elements each. The elements of in_S and in_T should be 0 or 1, depending on whether the corresponding element of A is in S or T.
+
+For example, if the answer is S = {81} and T = {21, 79}, the answer should be:
+```json
+{
+  "in_S": [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  "in_T": [0, 1, 1, 0, 0, 0, 0, 0, 0, 0]
+}
+```

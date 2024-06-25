@@ -1,0 +1,5 @@
+Ronda's sandwich and the sandwich with havarti cheese are different sandwiches.
+Ronda's order costs $5.
+Lula's order is either the 3 dollars sandwich or the order that costs 5 dollars.
+The sandwich with cheddar cheese costs less than the order with havarti cheese.
+Yolanda's sandwich costs 2 dollars less than the order with swiss cheese.

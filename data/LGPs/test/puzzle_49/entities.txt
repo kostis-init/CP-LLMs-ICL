@@ -1,0 +1,5 @@
+Streets, managers, months
+
+Ethel Street, Fred Lane, Juniper Lane, Quince Street
+Al Anderson, Cal Craft, Ed Erickson, Hal Hamilton
+April, May, June, July

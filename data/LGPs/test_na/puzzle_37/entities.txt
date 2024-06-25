@@ -1,0 +1,5 @@
+names, points, orders
+
+Bessie, Clara, Lillian, Verna
+181 points, 184 points, 187 points, 190 points
+first, third, seventh, ninth

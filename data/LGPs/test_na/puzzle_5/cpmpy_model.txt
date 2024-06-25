@@ -1,0 +1,42 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+delia, hope, patricia, wayne = names = intvar(1, 4, shape=4)
+_5, _6, _7, _8 = prices = intvar(1, 4, shape=4)
+americano, latte, cappuccino, chai = drinks = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+prices_values = {_5: 5, _6: 6, _7: 7, _8: 8}  # in dollars
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(names)
+m += AllDifferent(prices)
+m += AllDifferent(drinks)
+
+# Hope paid less than Delia.
+m += add_comparable_constraints(prices_values, lambda var1, var2: var1 < var2, var1=hope, var2=delia)
+
+# Patricia had the cappuccino.
+m += patricia == cappuccino
+
+# The one who had the cafe americano paid 1 dollar more than Patricia.
+m += add_comparable_constraints(prices_values, lambda var1, var2: var1 == var2 + 1, var1=americano, var2=patricia)
+
+# Hope paid more than the one who had the cafe americano.
+m += add_comparable_constraints(prices_values, lambda var1, var2: var1 > var2, var1=hope, var2=americano)
+
+# The one who had the chai tea paid 1 dollar more than the one who had the cafe americano.
+m += add_comparable_constraints(prices_values, lambda var1, var2: var1 == var2 + 1, var1=chai, var2=americano)
+
+# The end. You can take it from here.
+```

@@ -1,0 +1,42 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+el_pacifico, emerald_view, grand_echo, regal_park = resorts = intvar(1, 4, shape=4)
+_175, _195, _215, _235 = prices = intvar(1, 4, shape=4)
+anguilla, barbados, martinique, st_barts = islands = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+prices_values = {_175: 175, _195: 195, _215: 215, _235: 235} # in dollars
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(resorts)
+m += AllDifferent(prices)
+m += AllDifferent(islands)
+
+# Regal Park is on Barbados.
+m += regal_park == barbados
+
+# Grand Echo costs 40 dollars more per night than the resort on Barbados.
+m += add_comparable_constraints(prices_values, lambda var1, var2: var1 == var2 + 40, var1=grand_echo, var2=barbados)
+
+# Of El Pacifico and Regal Park, one is on Martinique and the other costs $175 per night.
+m += Xor([(el_pacifico == martinique) & (regal_park == _175), (el_pacifico == _175) & (regal_park == martinique)])
+
+# The hotel that costs $215 per night is either the hotel on St. Barts or Emerald View.
+m += Xor([_215 == st_barts, _215 == emerald_view])
+
+# Grand Echo costs 20 dollars less per night than Emerald View.
+m += add_comparable_constraints(prices_values, lambda var1, var2: var1 == var2 - 20, var1=grand_echo, var2=emerald_view)
+
+# The end. You can take it from here.
+```

@@ -1,0 +1,24 @@
+### Plan:
+Each entity will be represented by a decision variable that will take a value from 1 to 4. All decision variables with the same value will correspond to the same pairing. For example, if Asanish == 1, and 100meters == 1, and Cambrian == 1, then Asanish is the crater with a diameter of 100 meters and was formed during the Cambrian period.
+
+### Decision variables:
+-   Names of the craters: Asanish, Cersay, Garight, Kimeta (all different, 1 to 4)
+-   Diameters of the craters: Diameter100, Diameter125, Diameter150, Diameter175 (all different, 1 to 4)
+-   Geological periods of the craters: Cambrian, Devonian, Jurassic, Ordovician (all different, 1 to 4)
+
+### Constraints:
+-   The Garight crater is 150 meters wide:
+    This is a direct assignment constraint:
+    Garight == Diameter150.
+
+-   The Cersay crater was formed during the Cambrian period:
+    This is a direct assignment constraint:
+    Cersay == Cambrian.
+
+-   The Cersay crater is 50 meters wider than the Jurassic crater:
+    For this, we will need to add a constraint for each possible assignment of the diameters for the Cersay crater and the crater formed during the Jurassic period, such that Cersay's diameter is 50 meters wider than the Jurassic crater's diameter. So, the constraints will be of the form:
+    d1 == Cersay and d2 == Jurassic => d1_to_int == d2_to_int + 50, for all d1, d2 in diameters.
+
+-   The Asanish crater is 25 meters smaller than the Ordovician crater:
+    For this, we will need to add a constraint for each possible assignment of the diameters for the Asanish crater and the crater formed during the Ordovician period, such that Asanish's diameter is 25 meters smaller than the Ordovician crater's diameter. So, the constraints will be of the form:
+    d1 == Asanish and d2 == Ordovician => d1_to_int == d2_to_int - 25, for all d1, d2 in diameters.

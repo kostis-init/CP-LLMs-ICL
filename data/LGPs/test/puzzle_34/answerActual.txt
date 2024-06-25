@@ -1,0 +1,4 @@
+charles, 10, third base
+evan, 9, shortstop
+karl, 8, center field
+vincent, 11, first base

@@ -1,0 +1,42 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+lula, ronda, sue, yolanda = customers = intvar(1, 4, shape=4)
+_2, _3, _4, _5 = prices = intvar(1, 4, shape=4)
+cheddar, havarti, muenster, swiss = cheeses = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+prices_values = {_2: 2, _3: 3, _4: 4, _5: 5} # in dollars
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(customers)
+m += AllDifferent(prices)
+m += AllDifferent(cheeses)
+
+# Ronda's sandwich and the sandwich with havarti cheese are different sandwiches.
+m += ronda != havarti
+
+# Ronda's order costs $5.
+m += ronda == _5
+
+# Lula's order is either the 3 dollars sandwich or the order that costs 5 dollars.
+m += Xor([lula == _3, lula == _5])
+
+# The sandwich with cheddar cheese costs less than the order with havarti cheese.
+m += add_comparable_constraints(prices_values, lambda var1, var2: var1 < var2, var1=cheddar, var2=havarti)
+
+# Yolanda's sandwich costs 2 dollars less than the order with swiss cheese.
+m += add_comparable_constraints(prices_values, lambda var1, var2: var1 == var2 - 2, var1=yolanda, var2=swiss)
+
+# The end. You can take it from here.
+```

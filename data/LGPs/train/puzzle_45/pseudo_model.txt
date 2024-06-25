@@ -1,0 +1,27 @@
+### Plan:
+Each entity will be represented by a decision variable that will take a value from 1 to 4. All decision variables with the same value will correspond to the same pairing. For example, if Cory == 1, and September8 == 1, and HeavensSeal == 1, then Cory took out Heaven's Seal, which is due on September 8.
+
+### Decision variables:
+-   Names of the borrowers: Cory, Rosa, Sherrie, Vicki (all different, 1 to 4)
+-   Due dates of the books: September1, September8, September15, September22 (all different, 1 to 4)
+-   Titles of the books: DancingWell, HeavensSeal, StarsBelow, TimeToBurn (all different, 1 to 4)
+
+### Constraints:
+-   The four books are Rosa's book, the book due on September 22, Dancing Well, and the book due on September 15:
+    This is a constraint that states that all these entities are different, thus:
+    AllDifferent([Rosa, September22, DancingWell, September15]).
+
+-   Heaven's Seal is either Vicki's book or the book due on September 8:
+    This is a constraint that states that Heaven's Seal's borrower is either Vicki or its due date is September 8, but not both. So:
+    Xor([HeavensSeal == Vicki, HeavensSeal == September8]).
+
+-   Of Heaven's Seal and the title due on September 22, one was taken out by Cory and the other was taken out by Vicki:
+    This is a constraint that states that for Heaven's Seal and the book due on September 22, one is associated with Cory and the other with Vicki, but not both. So:
+    Xor([
+        (HeavensSeal == Cory, September22 == Vicki),
+        (HeavensSeal == Vicki, September22 == Cory)
+    ]).
+
+-   Sherrie's book was due 2 weeks before Stars Below:
+    For this, we will need to add a constraint for each possible assignment of the due dates for Sherrie's book and Stars Below, such that Sherrie's book's due date is 2 weeks (or one step in the given due dates) before Stars Below's due date. So, the constraints will be of the form:
+    d1 == Sherrie and d2 == StarsBelow => d1_to_int == d2_to_int - 14, for all d1, d2 in due dates.

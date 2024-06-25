@@ -1,0 +1,24 @@
+### Plan:
+Each entity will be represented by a decision variable that will take a value from 1 to 4. All decision variables with the same value will correspond to the same pairing. For example, if Fitzgerald == 1, and January == 1, and Day2 == 1, then Fitzgerald is the ambassador leaving in January with a 2-day visit.
+
+### Decision variables:
+-   Names of the diplomats: Fitzgerald, Howell, Riggs, Vasquez (all different, 1 to 4)
+-   Months of departure: January, February, March, April (all different, 1 to 4)
+-   Visit durations: Day2, Day6, Day8, Day9 (all different, 1 to 4)
+
+### Constraints:
+-   Howell will leave sometime after Fitzgerald:
+    For this, we will need to add a constraint for each possible assignment of the months of departure for Howell and Fitzgerald, such that Howell's month of departure is greater than Fitzgerald's month of departure. So, the constraints will be of the form:
+    m1 == Howell and m2 == Fitzgerald => m1_to_int > m2_to_int, for all m1, m2 in months of departure.
+
+-   Howell will leave sometime before the ambassador with the 6-day visit:
+    For this, we will need to add a constraint for each possible assignment of the months of departure for Howell and the ambassador with the 6-day visit, such that Howell's month of departure is less than the 6-days month of departure. So, the constraints will be of the form:
+    m1 == Howell and m2 == Day6 => m1_to_int < m2_to_int, for all m1, m2 in months of departure.
+
+-   Vasquez will leave 1 month before the ambassador with the 2-day visit:
+    For this, we will need to add a constraint for each possible assignment of the months of departure for Vasquez and the ambassador with the 2-day visit, such that Vasquez's month of departure is 1 less than the 2-days month of departure. So, the constraints will be of the form:
+    m1 == Vasquez and m2 == Day2 => m1_to_int == m2_to_int - 1, for all m1, m2 in months of departure.
+
+-   The ambassador with the 8-day visit will leave 2 months before Vasquez:
+    For this, we will need to add a constraint for each possible assignment of the months of departure for the ambassador with the 8-day visit and Vasquez, such that the 8-days month of departure is 2 less than Vasquez's month of departure. So, the constraints will be of the form:
+    m1 == Day8 and m2 == Vasquez => m1_to_int == m2_to_int - 2, for all m1, m2 in months of departure.

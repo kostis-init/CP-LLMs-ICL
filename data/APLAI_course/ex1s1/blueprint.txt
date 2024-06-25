@@ -1,0 +1,31 @@
+BLUEPRINT:
+Decision Variables:
+    Define integer variables B, C, F, M, S to represent the floor numbers where Baker, Cooper, Fletcher, Miller, and Smith live respectively.
+
+Domains:
+    Each variable has a domain of [1, 5] as there are five floors in the apartment house.
+
+Constraints:
+    Baker: Baker does not live on the fifth floor. This can be represented as:
+    B != 5
+
+    Cooper: Cooper does not live on the first floor. This can be represented as:
+    C != 1
+
+    Fletcher: Fletcher does not live on either the fifth or the first floor. This can be represented as:
+    F != 5, F != 1
+
+    Miller: Miller lives on a higher floor than does Cooper. This can be represented as:
+    M > C
+
+    Smith: Smith does not live on a floor adjacent to Fletcher. This can be represented as:
+    | S - F | != 1
+
+    Fletcher: Fletcher does not live on a floor adjacent to Cooper. This can be represented as:
+    | F - C | != 1
+
+    Different Floors: All variables must be different as they all live on different floors. This can be represented as:
+    AllDifferent([B, C, F, M, S])
+
+Objective:
+    There is no objective function in this problem as we are not optimizing anything. We are simply finding a feasible solution that satisfies all the constraints.

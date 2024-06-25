@@ -1,0 +1,13 @@
+Decision Variables:
+    Define integer variables for each cow to represent which son the cow is assigned to. The variable 'cow_assignments' is an array of size equal to the number of cows (25 in this case).
+
+Domains:
+    Each variable in 'cow_assignments' has a domain of [0, 4] as there are five sons and each cow needs to be assigned to one of them.
+
+Constraints:
+    Number of Cows per Son: Each son gets a specific number of cows. This can be represented by iterating over the sons and for each son, add a constraint that the sum of the cows assigned to that son is equal to the number of cows that son should get.
+
+    Total Milk Production: The total milk production for each son is equal. This can be represented by iterating over the sons and for each son, add a constraint that the sum of the milk produced by the cows assigned to that son is equal to the total milk each son should get.
+
+Objective:
+    There is no objective function in this problem as we are not asked to optimize anything. We are just looking for a feasible solution that satisfies the constraints.

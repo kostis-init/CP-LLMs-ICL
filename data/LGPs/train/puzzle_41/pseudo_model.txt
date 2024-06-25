@@ -1,0 +1,28 @@
+### Plan:
+Each entity will be represented by a decision variable that will take a value from 1 to 4. All decision variables with the same value will correspond to the same pairing. For example, if Angela == 1, and $6 == 1, and CreamSoda == 1, then Angela paid $6 for the cream soda.
+
+### Decision variables:
+-   Names of the diners: Angela, Edmund, Homer, Irene (all different, 1 to 4)
+-   Prices paid by the diners: Price4, Price5, Price6, Price7 (all different, 1 to 4)
+-   Drinks ordered by the diners: CreamSoda, IcedTea, RootBeer, Water (all different, 1 to 4)
+
+### Constraints:
+-   Edmund paid 1 dollar less than the one who got the water:
+    For this, we will need to add a constraint for each possible assignment of the prices for Edmund and the one who got the water, such that Edmund's price is 1 dollar less than the price for water. So, the constraints will be of the form:
+    p1 == Edmund and p2 == Water => p1_to_int == p2_to_int - 1, for all p1, p2 in prices.
+
+-   The diner who paid $4 had the iced tea:
+    This is a direct assignment constraint:
+    Price4 == IcedTea.
+
+-   Angela paid more than the one who got the cream soda:
+    For this, we will need to add a constraint for each possible assignment of the prices for Angela and the one who got the cream soda, such that Angela's price is greater than the price for cream soda. So, the constraints will be of the form:
+    p1 == Angela and p2 == CreamSoda => p1_to_int > p2_to_int, for all p1, p2 in prices.
+
+-   The diner who paid $5 was either the one who got the cream soda or the one who got the iced tea:
+    This is a constraint that states that the diner who paid $5's drink is either cream soda or iced tea, but not both. So:
+    Xor([Price5 == CreamSoda, Price5 == IcedTea]).
+
+-   The four diners were the diner who paid $5, the one who got the iced tea, the one who got the root beer, and Irene:
+    This is a constraint that states that all these entities are different, thus:
+    AllDifferent([Price5, IcedTea, RootBeer, Irene]).

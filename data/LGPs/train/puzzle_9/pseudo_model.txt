@@ -1,0 +1,24 @@
+### Plan:
+Each entity will be represented by a decision variable that will take a value from 1 to 4. All decision variables with the same value will correspond to the same pairing. For example, if Awick == 1, and 525miles == 1, and Speed62 == 1, then Awick is the car that drove 525 miles at a high speed of 62 MPH.
+
+### Decision variables:
+-   Names of the cars: Awick, Leden, Poltris, Versem (all different, 1 to 4)
+-   Distances driven by the cars: Distance525, Distance550, Distance575, Distance600 (all different, 1 to 4)
+-   High speeds of the cars: Speed62, Speed69, Speed75, Speed81 (all different, 1 to 4)
+
+### Constraints:
+-   The Leden drove 25 miles farther than the automobile with a high speed of 75 MPH:
+    For this, we will need to add a constraint for each possible assignment of the distances for the Leden and the automobile with a high speed of 75 MPH, such that Leden's distance is 25 miles greater. So, the constraints will be of the form:
+    d1 == Leden and d2 == Speed75 => d1_to_int == d2_to_int + 25, for all d1, d2 in distances.
+
+-   The Poltris drove 25 miles farther than the automobile with a high speed of 69 MPH:
+    Similar to the above, we will need to add a constraint for the Poltris and the automobile with a high speed of 69 MPH:
+    d1 == Poltris and d2 == Speed69 => d1_to_int == d2_to_int + 25, for all d1, d2 in distances.
+
+-   The Awick drove somewhat less than the automobile with a high speed of 81 MPH:
+    For this, we will need to add a constraint for each possible assignment of the distances for the Awick and the automobile with a high speed of 81 MPH, such that Awick's distance is less. So, the constraints will be of the form:
+    d1 == Awick and d2 == Speed81 => d1_to_int < d2_to_int, for all d1, d2 in distances.
+
+-   The car with a high speed of 69 MPH drove somewhat farther than the automobile with a high speed of 81 MPH:
+    For this, we will need to add a constraint for each possible assignment of the distances for the automobile with a high speed of 69 MPH and the automobile with a high speed of 81 MPH, such that the distance of the automobile with a high speed of 69 MPH is greater. So, the constraints will be of the form:
+    d1 == Speed69 and d2 == Speed81 => d1_to_int > d2_to_int, for all d1, d2 in distances.

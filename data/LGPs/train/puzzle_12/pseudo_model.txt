@@ -1,0 +1,28 @@
+### Plan:
+Each entity will be represented by a decision variable that will take a value from 1 to 4. All decision variables with the same value will correspond to the same pairing. For example, if FredFletcher == 1, and 11 == 1, and BelleHart == 1, then Fred Fletcher found 11 ounces of gold and worked at the Belle Hart claim.
+
+### Decision variables:
+-   Names of the miners: FredFletcher, GilGonzalez, IvanIngram, JackJacobs (all different, 1 to 4)
+-   Ounces of gold found: Ounces11, Ounces14, Ounces17, Ounces20 (all different, 1 to 4)
+-   Names of the claims: BelleHart, CulverGorge, FullerRise, YorkRiver (all different, 1 to 4)
+
+### Constraints:
+-   The prospector who found 11 ounces of gold was either the prospector working at Fuller Rise or the prospector working at Culver Gorge:
+    This is a constraint that states that the prospector who found 11 ounces of gold's claim is either Fuller Rise or Culver Gorge. So:
+    Xor([Ounces11 == FullerRise, Ounces11 == CulverGorge]).
+
+-   The prospector who found 20 ounces of gold worked at the Fuller Rise claim:
+    This is a direct assignment constraint:
+    Ounces20 == FullerRise.
+
+-   Ivan Ingram found 14 ounces of gold:
+    This is a direct assignment constraint:
+    IvanIngram == Ounces14.
+
+-   The miner working at Belle Hart finished with 6 ounces more gold than Fred Fletcher:
+    For this, we will need to add a constraint for each possible assignment of the ounces of gold for the miner working at Belle Hart and Fred Fletcher, such that the Belle Hart miner's ounces of gold is 6 more than Fred Fletcher's ounces of gold. So, the constraints will be of the form:
+    o1 == BelleHart and o2 == FredFletcher => o1_to_int == o2_to_int + 6, for all o1, o2 in ounces.
+
+-   Jack Jacobs finished with somewhat less gold than Gil Gonzalez:
+    For this, we will need to add a constraint for each possible assignment of the ounces of gold for Jack Jacobs and Gil Gonzalez, such that Jack Jacobs's ounces of gold is less than Gil Gonzalez's ounces of gold. So, the constraints will be of the form:
+    o1 == JackJacobs and o2 == GilGonzalez => o1_to_int < o2_to_int, for all o1, o2 in ounces.

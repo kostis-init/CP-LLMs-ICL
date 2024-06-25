@@ -1,0 +1,5 @@
+names, scholarships, majors
+
+Erma, Hattie, Ora, Tracy
+$25,000, $30,000, $35,000, $40,000
+Archaeology, English, Physics, Theology

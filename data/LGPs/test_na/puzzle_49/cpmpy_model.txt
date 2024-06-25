@@ -1,0 +1,42 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+andy, bill, isabel, yvonne = friends = intvar(1, 4, shape=4)
+_2001, _2002, _2003, _2004 = years = intvar(1, 4, shape=4)
+cycling, hunting, kayaking, skydiving = activities = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+years_values = {_2001: 2001, _2002: 2002, _2003: 2003, _2004: 2004} # in years
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(friends)
+m += AllDifferent(years)
+m += AllDifferent(activities)
+
+# The 2004 holiday is either the skydiving holiday or the holiday with Yvonne.
+m += Xor([_2004 == skydiving, _2004 == yvonne])
+
+# Of the kayaking holiday and the trip with Isabel, one was in 2001 and the other was in 2004.
+m += Xor([(kayaking == _2001) & (isabel == _2004), (kayaking == _2004) & (isabel == _2001)])
+
+# The vacation with Andy was after the trip with Yvonne.
+m += add_comparable_constraints(years_values, lambda var1, var2: var1 > var2, var1=andy, var2=yvonne)
+
+# The holiday with Bill was 1 year after the trip with Andy.
+m += add_comparable_constraints(years_values, lambda var1, var2: var1 == var2 + 1, var1=bill, var2=andy)
+
+# The cycling trip was before the hunting vacation.
+m += add_comparable_constraints(years_values, lambda var1, var2: var1 < var2, var1=cycling, var2=hunting)
+
+# The end. You can take it from here.
+```

@@ -1,0 +1,30 @@
+### Plan:
+Each entity will be represented by a decision variable that will take a value from 1 to 4. All decision variables with the same value will correspond to the same pairing. For example, if EvansFir == 1, and Height144 == 1, and Age79 == 1, then Evan's Fir is 144 feet tall and is 79 years old.
+
+### Decision variables:
+-   Names of the trees: EvansFir, OldJarvis, NolansPine, ZekesSpruce (all different, 1 to 4)
+-   Heights of the trees: Height144, Height147, Height150, Height153 (all different, 1 to 4)
+-   Ages of the trees: Age79, Age80, Age96, Age99 (all different, 1 to 4)
+
+### Constraints:
+-   Of the 147 feet tree and the 80 years old tree, one is Nolan's Pine and the other is Zeke's Spruce:
+    This is a constraint that states that for the 147 feet height and the 80 years age, one is associated with Nolan's Pine and the other with Zeke's Spruce, but not both. So:
+    Xor([
+        (Height147 == NolansPine, Age80 == ZekesSpruce),
+        (Height147 == ZekesSpruce, Age80 == NolansPine)
+    ]).
+
+-   The 96 years old tree is taller than Zeke's Spruce:
+    For this, we will need to add a constraint for each possible assignment of the heights for the 96 years old tree and Zeke's Spruce, such that the 96 years old tree's height is greater than Zeke's Spruce's height. So, the constraints will be of the form:
+    h1 == Age96 and h2 == ZekesSpruce => h1_to_int > h2_to_int, for all h1, h2 in heights.
+
+-   Of Evan's Fir and the 153 feet tree, one is 79 years old and the other is 99 years old:
+    This is a constraint that states that for Evan's Fir and the 153 feet height, one is associated with the 79 years age and the other with the 99 years age, but not both. So:
+    Xor([
+        (EvansFir == Age79, Height153 == Age99),
+        (EvansFir == Age99, Height153 == Age79)
+    ]).
+
+-   The 96 years old tree is 3 feet shorter than the 79 years old tree:
+    For this, we will need to add a constraint for each possible assignment of the heights for the 96 years old tree and the 79 years old tree, such that the 96 years old tree's height is 3 feet shorter than the 79 years old tree's height. So, the constraints will be of the form:
+    h1 == Age96 and h2 == Age79 => h1_to_int == h2_to_int - 3, for all h1, h2 in heights.

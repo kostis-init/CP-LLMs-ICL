@@ -1,0 +1,42 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+erma, hattie, ora, tracy = names = intvar(1, 4, shape=4)
+_25000, _30000, _35000, _40000 = scholarships = intvar(1, 4, shape=4)
+archaeology, english, physics, theology = majors = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+scholarships_values = {_25000: 25000, _30000: 30000, _35000: 35000, _40000: 40000} # in dollars
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(names)
+m += AllDifferent(scholarships)
+m += AllDifferent(majors)
+
+# Hattie and the student who will major in Theology are different students.
+m += (hattie != theology)
+
+# The student who will major in English is either Tracy or the student who received the $25,000 scholarship.
+m += Xor([english == tracy, english == _25000])
+
+# Hattie was awarded $10,000 more than the person who will major in Physics.
+m += add_comparable_constraints(scholarships_values, lambda var1, var2: var1 == var2 + 10000, var1=hattie, var2=physics)
+
+# The student who received the $40,000 scholarship will major in Theology.
+m += (_40000 == theology)
+
+# Ora was awarded some amount less than the student who will major in Archaeology.
+m += add_comparable_constraints(scholarships_values, lambda var1, var2: var1 < var2, var1=ora, var2=archaeology)
+
+# The end. You can take it from here.
+```

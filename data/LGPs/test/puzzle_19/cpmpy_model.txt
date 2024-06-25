@@ -1,0 +1,39 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+_210, _340, _470, _600 = heights = intvar(1, 4, shape=4)
+mt_brewer, mt_gillespie, mt_quinn, mt_york = mountains = intvar(1, 4, shape=4)
+ben_beasley, eddie_english, kermit_kramer, leonard_lara = climbers = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+heights_values = {_210: 210, _340: 340, _470: 470, _600: 600} # in feet
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(heights)
+m += AllDifferent(mountains)
+m += AllDifferent(climbers)
+
+# The mountain that is 210 feet tall was climbed by Leonard Lara.
+m +=  (_210 == leonard_lara)
+
+# Of Mt. Brewer and Mt. Quinn, one was climbed by Ben Beasley and the other is 470 feet tall.
+m += Xor([(mt_brewer == ben_beasley) & (mt_quinn == _470), (mt_brewer == _470) & (mt_quinn == ben_beasley)])
+
+# Mt. Brewer is either the mountain summited by Leonard Lara or the peak that is 600 feet tall.
+m += Xor([mt_brewer == leonard_lara, mt_brewer == _600])
+
+# Mt. York was climbed by Kermit Kramer.
+m += (mt_york == kermit_kramer)
+
+# The end. You can take it from here.
+```

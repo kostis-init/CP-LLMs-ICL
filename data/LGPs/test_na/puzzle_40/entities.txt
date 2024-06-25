@@ -1,0 +1,5 @@
+customers, delivery dates, cake shapes
+
+Danielson, Estrada, Ingram, Nolan
+October 5, October 6, October 7, October 8
+baseball glove, bowling pin, sports car, turtle

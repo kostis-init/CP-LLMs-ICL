@@ -1,0 +1,5 @@
+The 200 page project is either the book published in 2011 or the book published in 2010.
+The book published in 2011 is either Orlando's project or Jan's project.
+The book published in 2007 is 25 pages shorter than the book published in 2002.
+The four projects are the book published in 2007, the 225 page assignment, Suzanne's project and the 175 page assignment.
+Jan's assignment is 175 pages long.

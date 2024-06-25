@@ -1,0 +1,5 @@
+dinosaurs, prices, ages
+
+gigasaurus, mirasaurus, pilodontus, rotosaurus
+$500, $750, $1000, $1250
+72 million, 75 million, 78 million, 90 million

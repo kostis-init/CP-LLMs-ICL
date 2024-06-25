@@ -1,0 +1,4 @@
+beulah, 170, pam
+debra, 160, yvonne
+ginger, 180, vicki
+hannah, 150, lynda

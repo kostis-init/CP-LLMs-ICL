@@ -1,0 +1,4 @@
+jorge, 1985, red
+otis, 1983, yellow
+philip, 1982, pink
+shaun, 1984, lime green

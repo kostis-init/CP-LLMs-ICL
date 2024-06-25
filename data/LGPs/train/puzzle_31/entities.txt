@@ -1,0 +1,5 @@
+names, points, orders
+
+Clara, Fannie, Hannah, Kara
+181 points, 184 points, 187 points, 190 points
+second, fourth, sixth, seventh

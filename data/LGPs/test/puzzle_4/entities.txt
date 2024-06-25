@@ -1,0 +1,5 @@
+wins, boxers, losses
+
+24, 27, 30, 33
+Edna Easton, Irma, Jane, Sonia
+2, 4, 8, 12

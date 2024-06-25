@@ -1,0 +1,4 @@
+becky, 1400, ruby
+hazel, 1200, diamond
+opal, 1300, topaz
+yolanda, 1100, aquamarine

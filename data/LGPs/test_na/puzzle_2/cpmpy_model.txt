@@ -1,0 +1,39 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+bale_hahn_ssc, egert_facility, ison_x42, zynga_complex = names = intvar(1, 4, shape=4)
+dr_farley, dr_golden, dr_owens, dr_weber = scientists = intvar(1, 4, shape=4)
+_2016, _2017, _2018, _2019 = years = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+years_values = {_2016: 2016, _2017: 2017, _2018: 2018, _2019: 2019} # in years
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(names)
+m += AllDifferent(years)
+m += AllDifferent(scientists)
+
+# The project headed by Dr. Golden will go online sometime before the Zynga Complex.
+m += add_comparable_constraints(years_values, lambda var1, var2: var1 < var2, var1=dr_golden, var2=zynga_complex)
+
+# The project headed by Dr. Weber will go online 1 year before the Bale-Hahn SSC.
+m += add_comparable_constraints(years_values, lambda var1, var2: var1 == var2 - 1, var1=dr_weber, var2=bale_hahn_ssc)
+
+# The Egert Facility will go online 1 year after the ISON-X42.
+m += add_comparable_constraints(years_values, lambda var1, var2: var1 == var2 + 1, var1=egert_facility, var2=ison_x42)
+
+# The project headed by Dr. Owens will go online 1 year after the ISON-X42.
+m += add_comparable_constraints(years_values, lambda var1, var2: var1 == var2 + 1, var1=dr_owens, var2=ison_x42)
+
+# The end. You can take it from here.
+```

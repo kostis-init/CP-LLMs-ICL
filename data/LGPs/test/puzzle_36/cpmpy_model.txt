@@ -1,0 +1,42 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+ingram, parrish, quinn, underwood = players = intvar(1, 4, shape=4)
+_6, _7, _8, _9 = goals = intvar(1, 4, shape=4)
+checkers, comets, ice_hogs, monsters = teams = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+goals_values = {_6: 6, _7: 7, _8: 8, _9: 9} # in goals
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(players)
+m += AllDifferent(goals)
+m += AllDifferent(teams)
+
+# Ingram had 7 goals this season.
+m += (ingram == _7)
+
+# The four players are Underwood, the player from the Ice Hogs, the player from the Monsters and the player from the Checkers.
+m += AllDifferent([underwood, ice_hogs, monsters, checkers])
+
+# Parrish scored 1 goal more than Quinn.
+m += add_comparable_constraints(goals_values, lambda var1, var2: var1 == var2 + 1, var1=parrish, var2=quinn)
+
+# The player with 9 goals is from the Ice Hogs.
+m += (ice_hogs == _9)
+
+# Ingram is either the player from the Checkers or the player with 6 goals.
+m += Xor([ingram == checkers, ingram == _6])
+
+# The end. You can take it from here.
+```

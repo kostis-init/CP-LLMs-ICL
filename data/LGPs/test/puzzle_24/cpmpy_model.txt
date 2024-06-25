@@ -1,0 +1,42 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+_2million, _5million, _8million, _11million = earnings = intvar(1, 4, shape=4)
+amerigo, fast_and_dead, let_me_out, what_a_world = movies = intvar(1, 4, shape=4)
+jim_johnson, kenneth_key, linda_lynch, micah_moreno = directors = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+earnings_values = {_2million: 2, _5million: 5, _8million: 8, _11million: 11} # in millions
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(earnings)
+m += AllDifferent(movies)
+m += AllDifferent(directors)
+
+# The movie that grossed 5 million was directed by Kenneth Key.
+m += (kenneth_key == _5million)
+
+# Of What a World and Amerigo, one made 2 million and the other was directed by Jim Johnson.
+m += Xor([(what_a_world == _2million) & (amerigo == jim_johnson), (what_a_world == jim_johnson) & (amerigo == _2million)])
+
+# The film directed by Kenneth Key made 3 million less than Amerigo.
+m += add_comparable_constraints(earnings_values, lambda var1, var2: var1 == var2 - 3, var1=kenneth_key, var2=amerigo)
+
+# Fast and Dead was directed by Kenneth Key.
+m += (fast_and_dead == kenneth_key)
+
+# Let Me Out is either the movie directed by Linda Lynch or the movie that grossed 5 million.
+m += Xor([let_me_out == linda_lynch, let_me_out == _5million])
+
+# The end. You can take it from here.
+```

@@ -1,0 +1,4 @@
+cerbel, 100 ft, brazil
+irskela, 110 ft, canada
+inawatai, 115 ft, new zealand
+oginao, 105 ft, switzerland

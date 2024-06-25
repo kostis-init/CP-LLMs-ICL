@@ -1,0 +1,4 @@
+herbert, 75 riders, pink
+marc, 100 riders, purple
+nathan, 125 riders, red
+victor, 50 riders, green

@@ -1,0 +1,42 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+ann_alexander, edna_erickson, irene_ingram, kathy_koch = customers = intvar(1, 4, shape=4)
+_2days, _3days, _4days, _5days = contract_length = intvar(1, 4, shape=4)
+fiat, kia, nissan, toyota = cars = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+contract_length_values = {_2days: 2, _3days: 3, _4days: 4, _5days: 5} # in days
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(customers)
+m += AllDifferent(contract_length)
+m += AllDifferent(cars)
+
+# The Kia rental is for a period 1 day shorter than the Toyota rental.
+m += add_comparable_constraints(contract_length_values, lambda var1, var2: var1 == var2 - 1, var1=kia, var2=toyota)
+
+# The 4 day rental is for the Fiat.
+m += fiat == _4days
+
+# Kathy Koch's reservation is either the 5 day reservation or the Fiat rental.
+m += Xor([kathy_koch == _5days, kathy_koch == fiat])
+
+# The 3 day rental, Irene Ingram's reservation and Kathy Koch's reservation are all different rentals.
+m += AllDifferent([_3days, irene_ingram, kathy_koch])
+
+# Ann Alexander's rental is for 4 days.
+m += ann_alexander == _4days
+
+# The end. You can take it from here.
+```

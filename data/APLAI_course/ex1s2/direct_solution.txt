@@ -1,0 +1,45 @@
+To solve this problem, we need to find four distinct digits \(a\), \(b\), \(c\), and \(d\) such that:
+1. \(cd = 3 \times ab\)
+2. \(da = 2 \times bc\)
+
+Where \(ab\), \(bc\), \(cd\), and \(da\) are two-digit numbers formed by the digits \(a\), \(b\), \(c\), and \(d\).
+
+Let's analyze the constraints:
+- \(10c + d = 3 \times (10a + b)\)
+- \(10d + a = 2 \times (10b + c)\)
+
+We need to find values for \(a\), \(b\), \(c\), and \(d\) that satisfy these equations and where each digit is unique and between 0 and 9.
+
+Let's start by iterating possible values for \(a\) and \(b\) and calculate \(cd\) using the first equation. We will then check if the digits are distinct and if the second equation holds.
+
+### Step 1: Calculate \(cd\) from \(ab\)
+For \(ab\) ranging from 10 to 33 (since \(3 \times 33 = 99\) is the maximum two-digit number):
+- Calculate \(cd = 3 \times ab\)
+- Check if \(c\) and \(d\) are distinct from \(a\) and \(b\)
+
+### Step 2: Check \(da\) from \(bc\)
+For each valid \(cd\) from Step 1:
+- Calculate \(da = 2 \times bc\)
+- Check if \(d\) and \(a\) are distinct from \(b\) and \(c\), and if \(da\) is a valid two-digit number
+
+### Example Calculation
+Let's try \(a = 1\) and \(b = 2\):
+- \(ab = 12\)
+- \(cd = 3 \times 12 = 36\) (so \(c = 3\), \(d = 6\))
+- Check if \(da = 2 \times bc\):
+  - \(bc = 23\)
+  - \(da = 2 \times 23 = 46\) (so \(d = 4\), \(a = 6\)) - This does not match our \(d\) from \(cd\).
+
+Continue this process for other values of \(a\) and \(b\). After iterating through possible values, we find:
+
+- \(a = 2\), \(b = 1\), \(c = 6\), \(d = 3\)
+- \(ab = 21\), \(cd = 63\), \(bc = 16\), \(da = 32\)
+- \(cd = 3 \times ab = 3 \times 21 = 63\)
+- \(da = 2 \times bc = 2 \times 16 = 32\)
+
+This set of digits satisfies all conditions:
+- All digits are distinct.
+- \(cd\) is three times \(ab\).
+- \(da\) is two times \(bc\).
+
+### FINAL ANSWER: {"a": 2, "b": 1, "c": 6, "d": 3}

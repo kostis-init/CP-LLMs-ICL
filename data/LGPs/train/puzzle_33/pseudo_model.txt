@@ -1,0 +1,28 @@
+### Plan:
+Each entity will be represented by a decision variable that will take a value from 1 to 4. All decision variables with the same value will correspond to the same pairing. For example, if Katie == 1, and January == 1, and Coin == 1, then Katie is the passenger leaving in January with the coin.
+
+### Decision variables:
+-   Names of the fliers: Katie, Neal, Troy, Yolanda (all different, 1 to 4)
+-   Months of departure: January, February, March, April (all different, 1 to 4)
+-   Types of lucky charms: Coin, RabbitsFoot, Talisman, Wishbone (all different, 1 to 4)
+
+### Constraints:
+-   The passenger with the wishbone is either Troy or Neal:
+    This is a constraint that states that the wishbone's owner is either Troy or Neal, but not both. So:
+    Xor([Wishbone == Troy, Wishbone == Neal]).
+
+-   The four fliers are the passenger with the rabbit's foot, the passenger leaving in April, Yolanda, and the passenger leaving in February:
+    This is a constraint that states that all these entities are different, thus:
+    AllDifferent([RabbitsFoot, April, Yolanda, February]).
+
+-   The aerophobe leaving in March is either the aerophobe with the wishbone or the passenger with the talisman:
+    This is a constraint that states that the passenger leaving in March is either the one with the wishbone or the one with the talisman, but not both. So:
+    Xor([March == Wishbone, March == Talisman]).
+
+-   The passenger with the rabbit's foot will leave 1 month before the passenger with the coin:
+    For this, we will need to add a constraint for each possible assignment of the months of departure for the passenger with the rabbit's foot and the passenger with the coin, such that the rabbit's foot's month of departure is 1 less than the coin's month of departure. So, the constraints will be of the form:
+    m1 == RabbitsFoot and m2 == Coin => m1_to_int == m2_to_int - 1, for all m1, m2 in months of departure.
+
+-   Neal will leave in February:
+    This is a direct assignment constraint:
+    Neal == February.

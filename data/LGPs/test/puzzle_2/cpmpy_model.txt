@@ -1,0 +1,43 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+_3pounds, _5pounds, _7pounds, _9pounds = pounds_lost = intvar(1, 4, shape=4)
+dairy_free, gluten_free, low_fat, vegan = diets = intvar(1, 4, shape=4)
+celia, mandy, raymond, tom = names = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+pounds_values = {_3pounds: 3, _5pounds: 5, _7pounds: 7, _9pounds: 9}
+diets_values = {dairy_free: "dairy-free", gluten_free: "gluten-free", low_fat: "low-fat", vegan: "vegan"}
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(pounds_lost)
+m += AllDifferent(diets)
+m += AllDifferent(names)
+
+# Celia used the gluten-free diet.
+m += (celia == gluten_free)
+
+# The friend who lost 3 pounds used the low-fat diet.
+m += (low_fat == _3pounds)
+
+# Mandy lost 2 fewer pounds than Raymond.
+m += add_comparable_constraints(pounds_values, lambda var1, var2: var1 == var2 - 2, var1=mandy, var2=raymond)
+
+# Mandy lost 4 more pounds than Tom.
+m += add_comparable_constraints(pounds_values, lambda var1, var2: var1 == var2 + 4, var1=mandy, var2=tom)
+
+# The dieter who used the vegan diet is either Mandy or the friend who lost 3 pounds.
+m += Xor([vegan == mandy, vegan == _3pounds])
+
+# The end. You can take it from here.
+```

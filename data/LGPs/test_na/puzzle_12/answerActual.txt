@@ -1,0 +1,4 @@
+cersay, 100 meters, jurassic
+moriwa, 150 meters, permian
+ormagh, 175 meters, triassic
+vorckin, 125 meters, ordovician

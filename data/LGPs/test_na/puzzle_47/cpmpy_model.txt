@@ -1,0 +1,42 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+alberta, della, ellen, gladys = names = intvar(1, 4, shape=4)
+january, february, march, april = months = intvar(1, 4, shape=4)
+finch, lovebird, macaw, parakeet = birds = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+months_values = {january: 1, february: 2, march: 3, april: 4} # in months
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(names)
+m += AllDifferent(months)
+m += AllDifferent(birds)
+
+# Of the bird bought in February and the bird bought in January, one is Gladys's and the other is the macaw.
+m += Xor([(february == gladys) & (january == macaw), (february == macaw) & (january == gladys)])
+
+# The macaw was bought 2 months before Ellen's pet.
+m += add_comparable_constraints(months_values, lambda var1, var2: var1 == var2 - 2, var1=macaw, var2=ellen)
+
+# The parakeet was bought 1 month after the finch.
+m += add_comparable_constraints(months_values, lambda var1, var2: var1 == var2 + 1, var1=parakeet, var2=finch)
+
+# Alberta's pet was bought 1 month before Gladys's pet.
+m += add_comparable_constraints(months_values, lambda var1, var2: var1 == var2 - 1, var1=alberta, var2=gladys)
+
+# The finch was bought sometime after the lovebird.
+m += add_comparable_constraints(months_values, lambda var1, var2: var1 > var2, var1=finch, var2=lovebird)
+
+# The end. You can take it from here.
+```

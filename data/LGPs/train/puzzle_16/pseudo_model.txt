@@ -1,0 +1,28 @@
+### Plan:
+Each entity will be represented by a decision variable that will take a value from 1 to 4. All decision variables with the same value will correspond to the same pairing. For example, if Hope == 1, and $6 == 1, and CafeLatte == 1, then Hope paid $6 for a cafe latte.
+
+### Decision variables:
+-   Names of the customers: Delia, Hope, Patricia, Wayne (all different, 1 to 4)
+-   Prices paid by the customers: Price5, Price6, Price7, Price8 (all different, 1 to 4)
+-   Types of the drinks: CafeAmericano, CafeLatte, Cappuccino, ChaiTea (all different, 1 to 4)
+
+### Constraints:
+-   Hope paid less than Delia:
+    For this, we will need to add a constraint for each possible assignment of the prices for Hope and Delia, such that Hope's price is less than Delia's price. So, the constraints will be of the form:
+    p1 == Hope and p2 == Delia => p1_to_int < p2_to_int, for all p1, p2 in prices.
+
+-   Patricia had the cappuccino:
+    This is a direct assignment constraint:
+    Patricia == Cappuccino.
+
+-   The one who had the cafe americano paid 1 dollar more than Patricia:
+    For this, we will need to add a constraint for each possible assignment of the prices for the one who had the cafe americano and Patricia, such that the cafe americano's price is 1 dollar more than Patricia's price. So, the constraints will be of the form:
+    p1 == CafeAmericano and p2 == Patricia => p1_to_int == p2_to_int + 1, for all p1, p2 in prices.
+
+-   Hope paid more than the one who had the cafe americano:
+    For this, we will need to add a constraint for each possible assignment of the prices for Hope and the one who had the cafe americano, such that Hope's price is more than the cafe americano's price. So, the constraints will be of the form:
+    p1 == Hope and p2 == CafeAmericano => p1_to_int > p2_to_int, for all p1, p2 in prices.
+
+-   The one who had the chai tea paid 1 dollar more than the one who had the cafe americano:
+    For this, we will need to add a constraint for each possible assignment of the prices for the one who had the chai tea and the one who had the cafe americano, such that the chai tea's price is 1 dollar more than the cafe americano's price. So, the constraints will be of the form:
+    p1 == ChaiTea and p2 == CafeAmericano => p1_to_int == p2_to_int + 1, for all p1, p2 in prices.

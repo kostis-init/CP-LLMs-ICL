@@ -1,0 +1,5 @@
+customers, contract length, cars
+
+Ann Alexander, Edna Erickson, Irene Ingram, Kathy Koch
+2 days, 3 days, 4 days, 5 days
+Fiat, Kia, Nissan, Toyota

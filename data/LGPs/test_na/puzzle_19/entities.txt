@@ -1,0 +1,5 @@
+animals, months, magazines
+
+giant tortoise, orangutan, polar bear, white rhino
+March, April, May, June
+Animal Science, Earth Aware, Nature Monthly, Wildzone

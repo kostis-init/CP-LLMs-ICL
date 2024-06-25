@@ -1,0 +1,5 @@
+diplomats, months, durations
+
+Bender, Fitzgerald, Owens, Quinn
+January, February, March, April
+2 day, 3 day, 7 day, 9 day

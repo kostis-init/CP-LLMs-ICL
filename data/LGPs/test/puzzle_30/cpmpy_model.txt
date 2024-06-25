@@ -1,0 +1,39 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+florence, margie, suzanne, velma = runners = intvar(1, 4, shape=4)
+_6, _7, _8, _9 = prices = intvar(1, 4, shape=4)
+fettuccine, fusilli, spaghetti, taglioni = pastas = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+prices_values = {_6: 6, _7: 7, _8: 8, _9: 9} # in dollars
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(runners)
+m += AllDifferent(prices)
+m += AllDifferent(pastas)
+
+# Suzanne paid less than Margie.
+m += add_comparable_constraints(prices_values, lambda var1, var2: var1 < var2, var1=suzanne, var2=margie)
+
+# Margie paid $7.
+m += (margie == _7)
+
+# The competitor who ordered spaghetti paid 2 dollars more than the competitor who ordered taglioni.
+m += add_comparable_constraints(prices_values, lambda var1, var2: var1 == var2 + 2, var1=spaghetti, var2=taglioni)
+
+# Of the runner who paid $9 and the contestant who ordered fettuccine, one was Margie and the other was Velma.
+m += Xor([(_9 == margie) & (fettuccine == velma), (_9 == velma) & (fettuccine == margie)])
+
+# The end. You can take it from here.
+```

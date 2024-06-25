@@ -1,0 +1,34 @@
+Following a robbery at Sparkles the Jeweller’s, Inspector Korner of the Yard interviewed six of the usual suspects. He knew that the getaway car had been barely big enough to hold two, so he reckoned that at least four of them were innocent - but which ones? He also supposed that the innocent ones would tell the truth, while the guilty one or ones would lie. What they actually said was:
+- ARTIE: "It wasn't me."
+- BILL: "Crackitt was in it up to his neck."
+- CRACKITT: "No I wasn't."
+- DODGY: "If Crackitt did it, Bill did it with him."
+- EDGY: "Nobody did it alone."
+- FINGERS: "That’s right: it was Artie and Dodgy together."
+If the good inspector’s suppositions were correct, who is guilty?
+
+It is mandatory that the answer should be given according to the following JSON schema:
+```json
+{
+    "artie": 0 | 1,
+    "bill": 0 | 1,
+    "crackitt": 0 | 1,
+    "dodgy": 0 | 1,
+    "edgy": 0 | 1,
+    "fingers": 0 | 1
+}
+```
+
+Where 0 means that the suspect is innocent and 1 means that the suspect is guilty.
+
+For example, if the guilty suspect is Artie, Bill, and Crackitt, the answer should be:
+```json
+{
+    "artie": 1,
+    "bill": 1,
+    "crackitt": 1,
+    "dodgy": 0,
+    "edgy": 0,
+    "fingers": 0
+}
+```

@@ -1,0 +1,4 @@
+brandon, 60, swallowtail
+otis, 90, peacock
+phillip, 75, torturix
+rena, 45, peppered

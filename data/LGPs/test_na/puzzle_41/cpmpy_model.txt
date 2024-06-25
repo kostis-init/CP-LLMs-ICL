@@ -1,0 +1,39 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+frederick, ingram, noble, wilcox = arenas = intvar(1, 4, shape=4)
+_110, _150, _190, _230 = capacities = intvar(1, 4, shape=4)
+basketball, lacrosse, rugby, soccer = sports = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+capacities_values = {_110: 110, _150: 150, _190: 190, _230: 230} # in people
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(arenas)
+m += AllDifferent(capacities)
+m += AllDifferent(sports)
+
+# Of Ingram Arena and Noble Arena, one holds 150 people and the other is set up for rugby games.
+m += Xor([(ingram == _150) & (noble == rugby), (ingram == rugby) & (noble == _150)])
+
+# The lacrosse facility holds 40 more people than Wilcox Arena.
+m += add_comparable_constraints(capacities_values, lambda var1, var2: var1 == var2 + 40, var1=lacrosse, var2=wilcox)
+
+# Ingram Arena holds 230 people.
+m += ingram == _230
+
+# Wilcox Arena holds 80 fewer people than the soccer facility.
+m += add_comparable_constraints(capacities_values, lambda var1, var2: var1 == var2 - 80, var1=wilcox, var2=soccer)
+
+# The end. You can take it from here.
+```

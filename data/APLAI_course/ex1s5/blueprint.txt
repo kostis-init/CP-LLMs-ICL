@@ -1,0 +1,30 @@
+Decision Variables:
+    Define binary variables A, B, C, D, E, F to represent whether Artie, Bill, Crackitt, Dodgy, Edgy, and Fingers are guilty (1) or innocent (0).
+
+Domains:
+    Each of the six variables can take on a value of either 0 (innocent) or 1 (guilty).
+
+Constraints:
+    Number of Guilty: At least four of them are innocent, so at most two of them are guilty. This can be represented as:
+    A + B + C + D + E + F <= 2
+
+    Artie's Statement ("It wasn't me."): If Artie is innocent (A=0), then his statement is true and he is not guilty. If Artie is guilty (A=1), then his statement is false and he is guilty. This can be represented as:
+    A = A
+
+    Bill's Statement ("Crackitt was in it up to his neck."): If Bill is innocent (B=0), then his statement is true and Crackitt is guilty (C=1). If Bill is guilty (B=1), then his statement is false and Crackitt is innocent (C=0). This can be represented as:
+    B = ~C
+
+    Crackitt's Statement ("No I wasn't.") can be represented as:
+    C = C
+
+    Dodgy's statement ("If Crackitt did it, Bill did it with him.") can be represented as:
+    D = C -> B
+
+    Edgy's statement ("Nobody did it alone.") can be represented as:
+    E = (A + B + C + D + E + F) > 1
+
+    Fingers' statement ("That’s right: it was Artie and Dodgy together.") can be represented as:
+    F = A & D
+
+Objective:
+    There is no objective function in this problem as we are not optimizing anything. We are simply finding a feasible solution that satisfies all the constraints.

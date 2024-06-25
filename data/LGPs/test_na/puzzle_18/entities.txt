@@ -1,0 +1,5 @@
+companies, pieces, themes
+
+Astury, Denlend, Garroda, Vesem
+250, 500, 750, 1000
+autumn leaves, city skyline, outer space, postage stamp

@@ -1,0 +1,28 @@
+### Plan:
+Each entity will be represented by a decision variable that will take a value from 1 to 4. All decision variables with the same value will correspond to the same pairing. For example, if Arthur == 1, and Pack25 == 1, and Adironda == 1, then Arthur's pack is the 25 liter pack made by Adironda.
+
+### Decision variables:
+-   Names of the people: Arthur, Eugene, Natasha, Olga (all different, 1 to 4)
+-   Pack sizes: Pack25, Pack30, Pack35, Pack40 (all different, 1 to 4)
+-   Brands of the packs: Adironda, Grennel, Naturba, Travelore (all different, 1 to 4)
+
+### Constraints:
+-   Arthur's pack is either the 25 liter pack or the Adironda pack:
+    This is a constraint that states that Arthur's pack size is either 25 liters or Arthur's pack brand is Adironda, but not both. So:
+    Xor([Arthur == Pack25, Arthur == Adironda]).
+
+-   Eugene's pack is made by Adironda:
+    This is a direct assignment constraint:
+    Eugene == Adironda.
+
+-   Natasha's pack is either the 40 liter pack or the Travelore pack:
+    This is a constraint that states that Natasha's pack size is either 40 liters or Natasha's pack brand is Travelore, but not both. So:
+    Xor([Natasha == Pack40, Natasha == Travelore]).
+
+-   Natasha's pack is 10 liters larger than the Grennel pack:
+    For this, we will need to add a constraint for each possible assignment of the pack sizes for Natasha and the Grennel pack, such that Natasha's pack size is 10 liters larger than the Grennel pack's size. So, the constraints will be of the form:
+    p1 == Natasha and p2 == Grennel => p1_to_int == p2_to_int + 10, for all p1, p2 in pack sizes.
+
+-   The 30 liter pack is made by Grennel:
+    This is a direct assignment constraint:
+    Pack30 == Grennel.

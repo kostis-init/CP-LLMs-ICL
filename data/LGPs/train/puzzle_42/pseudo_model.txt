@@ -1,0 +1,31 @@
+### Plan:
+Each entity will be represented by a decision variable that will take a value from 1 to 4. All decision variables with the same value will correspond to the same pairing. For example, if Dean == 1, and Age22 == 1, and Accountant == 1, then Dean is 22 years old and is an accountant.
+
+### Decision variables:
+-   Names of the dates: Dean, Jesus, Max, Vincent (all different, 1 to 4)
+-   Ages of the dates: Age22, Age23, Age24, Age25 (all different, 1 to 4)
+-   Professions of the dates: Accountant, Boxer, Firefighter, Musician (all different, 1 to 4)
+
+### Constraints:
+-   The 25 years old was the musician:
+    This is a direct assignment constraint:
+    Age25 == Musician.
+
+-   Of the musician and the accountant, one was 22 years old and the other was Max:
+    This is a constraint that states that for the musician and the accountant, one is 22 years old and the other is Max, but not both. So:
+    Xor([
+        (Musician == Age22, Accountant == Max),
+        (Musician == Max, Accountant == Age22)
+    ]).
+
+-   Dean was 1 year younger than Jesus:
+    For this, we will need to add a constraint for each possible assignment of the ages for Dean and Jesus, such that Dean's age is 1 year less than Jesus's age. So, the constraints will be of the form:
+    a1 == Dean and a2 == Jesus => a1_to_int == a2_to_int - 1, for all a1, a2 in ages.
+
+-   The 24 years old was the firefighter:
+    This is a direct assignment constraint:
+    Age24 == Firefighter.
+
+-   The boxer was 1 year older than Dean:
+    For this, we will need to add a constraint for each possible assignment of the ages for the boxer and Dean, such that the boxer's age is 1 year more than Dean's age. So, the constraints will be of the form:
+    a1 == Boxer and a2 == Dean => a1_to_int == a2_to_int + 1, for all a1, a2 in ages.

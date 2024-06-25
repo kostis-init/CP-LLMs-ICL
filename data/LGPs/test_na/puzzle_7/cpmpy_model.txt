@@ -1,0 +1,42 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+benny_baron, edith_estes, hal_harrison, iva_ingram = witnesses = intvar(1, 4, shape=4)
+august_4, august_5, august_6, august_7 = dates = intvar(1, 4, shape=4)
+islesboro, long_barn, tarzana, zearing = towns = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+dates_values = {august_4: 4, august_5: 5, august_6: 6, august_7: 7} # in days
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(witnesses)
+m += AllDifferent(dates)
+m += AllDifferent(towns)
+
+# The report from Zearing was either the August 4 report or Edith Estes's report.
+m += Xor([zearing == august_4, zearing == edith_estes])
+
+# Hal Harrison's report was submitted sometime after Iva Ingram's sighting.
+m += add_comparable_constraints(dates_values, lambda var1, var2: var1 > var2, var1=hal_harrison, var2=iva_ingram)
+
+# The August 5 sighting was from Islesboro.
+m += august_5 == islesboro
+
+# The report from Tarzana was submitted 1 day before the sighting from Islesboro.
+m += add_comparable_constraints(dates_values, lambda var1, var2: var1 == var2 - 1, var1=tarzana, var2=islesboro)
+
+# Benny Baron's report was received on August 7.
+m += benny_baron == august_7
+
+# The end. You can take it from here.
+```

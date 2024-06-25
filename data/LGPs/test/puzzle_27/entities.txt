@@ -1,0 +1,5 @@
+prices, resorts, islands
+
+$175, $195, $215, $235
+El Pacifico, Emerald View, Grand Echo, Regal Park
+Anguilla, Barbados, Martinique, St. Barts

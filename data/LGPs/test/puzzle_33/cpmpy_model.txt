@@ -1,0 +1,42 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+sihat, rhoqua, nyalt, inawatai = waterfalls = intvar(1, 4, shape=4)
+_100ft, _105ft, _110ft, _115ft = heights = intvar(1, 4, shape=4)
+brazil, nigeria, tibet, switzerland = countries = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+heights_values = {_100ft: 100, _105ft: 105, _110ft: 110, _115ft: 115} # in feet
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(waterfalls)
+m += AllDifferent(heights)
+m += AllDifferent(countries)
+
+# The 115 ft tall waterfall is either the waterfall in Nigeria or the waterfall located in Tibet.
+m += Xor([_115ft == nigeria, _115ft == tibet])
+
+# Inawatai is 100 ft tall.
+m += (inawatai == _100ft)
+
+# Nyalt is 10 ft taller than Rhoqua.
+m += add_comparable_constraints(heights_values, lambda var1, var2: var1 == var2 + 10, var1=nyalt, var2=rhoqua)
+
+# The waterfall in Brazil is somewhat shorter than Rhoqua.
+m += add_comparable_constraints(heights_values, lambda var1, var2: var1 < var2, var1=brazil, var2=rhoqua)
+
+# The waterfall in Brazil is 10 ft shorter than the waterfall located in Nigeria.
+m += add_comparable_constraints(heights_values, lambda var1, var2: var1 == var2 - 10, var1=brazil, var2=nigeria)
+
+# The end. You can take it from here.
+```

@@ -1,0 +1,5 @@
+prices, players, years
+
+$125, $175, $225, $275
+Finn Freeman, Mike Morales, Neddy Norris, Opie Oliver
+1974, 1987, 1999, 2012

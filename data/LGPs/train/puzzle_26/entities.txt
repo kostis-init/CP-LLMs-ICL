@@ -1,0 +1,5 @@
+rankings, teams, colors
+
+first, second, third, fourth
+Color Blinds, Splat Squad, Spray Paints, Target Bombs
+blue, orange, white, yellow

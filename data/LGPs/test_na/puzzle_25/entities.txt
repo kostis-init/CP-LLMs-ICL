@@ -1,0 +1,5 @@
+animals, months, magazines
+
+giant tortoise, orangutan, snow leopard, tree kangaroo
+March, April, May, June
+Earth Aware, Science World, The Geographer, Wildzone

@@ -1,0 +1,19 @@
+Decision Variables:
+    Define binary variables in_S and in_T, each of size 10, to represent whether each element of A is in subset S or T respectively.
+
+Domains:
+    Each variable in in_S and in_T has a domain of {0, 1}. The value 1 indicates that the corresponding element of A is in the subset, and 0 indicates that it is not.
+
+Constraints:
+    Equal Sum: The sum of the elements in S must equal the sum of the elements in T. This can be represented by the equation:
+    sum(in_S * A) = sum(in_T * A)
+
+    Disjoint Sets: S and T are disjoint, so there is no element that is in both S and T. This can be represented by the equation:
+    sum(in_S * in_T) = 0
+
+    Non-Empty Sets: S and T are non-empty. This can be represented by the inequalities:
+    sum(in_S) > 0
+    sum(in_T) > 0
+
+Objective:
+    There is no specific objective in this problem as we are not asked to maximize or minimize anything. We are just looking for a feasible solution that satisfies the constraints.

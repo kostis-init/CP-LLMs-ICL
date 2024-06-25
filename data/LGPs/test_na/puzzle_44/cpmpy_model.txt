@@ -1,0 +1,39 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+estelle, lucia, paulette, whitney = customers = intvar(1, 4, shape=4)
+size4, size5, size6, size7 = shoe_sizes = intvar(1, 4, shape=4)
+cormano, manzarita, schtillet, williford = brands = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+shoe_sizes_values = {size4: 4, size5: 5, size6: 6, size7: 7}
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(customers)
+m += AllDifferent(shoe_sizes)
+m += AllDifferent(brands)
+
+# Paulette's pair was a size 7.
+m += (paulette == size7)
+
+# Estelle's pair was by Cormano.
+m += (estelle == cormano)
+
+# The Manzarita footwear was either the size 4 set or Whitney's pair.
+m += Xor([manzarita == size4, manzarita == whitney])
+
+# Of Lucia's pair and the Schtillet footwear, one was a size 7 and the other was a size 6.
+m += Xor([(lucia == size7) & (schtillet == size6), (lucia == size6) & (schtillet == size7)])
+
+# The end. You can take it from here.
+```

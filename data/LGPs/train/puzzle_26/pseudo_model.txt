@@ -1,0 +1,27 @@
+### Plan:
+Each entity will be represented by a decision variable that will take a value from 1 to 4. All decision variables with the same value will correspond to the same pairing. For example, if ColorBlinds == 1, and First == 1, and Blue == 1, then Color Blinds finished first and are the blue team.
+
+### Decision variables:
+-   Names of the teams: ColorBlinds, SplatSquad, SprayPaints, TargetBombs (all different, 1 to 4)
+-   Rankings of the teams: First, Second, Third, Fourth (all different, 1 to 4)
+-   Colors of the teams: Blue, Orange, White, Yellow (all different, 1 to 4)
+
+### Constraints:
+-   The Splat Squad was ranked 1 place behind the blue team:
+    For this, we will need to add a constraint for each possible assignment of the rankings for the Splat Squad and the blue team, such that the Splat Squad's ranking is 1 place behind the blue team's ranking. So, the constraints will be of the form:
+    r1 == SplatSquad and r2 == Blue => r1_to_int == r2_to_int + 1, for all r1, r2 in rankings.
+
+-   Of the Spray Paints and the white team, one finished first and the other finished fourth:
+    This is a constraint that states that for the Spray Paints and the white team, one finished first and the other finished fourth. So:
+    Xor([
+        (SprayPaints == First, White == Fourth),
+        (SprayPaints == Fourth, White == First)
+    ]).
+
+-   The orange team is either the Color Blinds or the Target Bombs:
+    This is a constraint that states that the orange team's identity is either Color Blinds or Target Bombs, but not both. So:
+    Xor([Orange == ColorBlinds, Orange == TargetBombs]).
+
+-   The blue team was ranked 1 place behind the Target Bombs:
+    For this, we will need to add a constraint for each possible assignment of the rankings for the blue team and the Target Bombs, such that the blue team's ranking is 1 place behind the Target Bombs' ranking. So, the constraints will be of the form:
+    r1 == Blue and r2 == TargetBombs => r1_to_int == r2_to_int + 1, for all r1, r2 in rankings.

@@ -1,0 +1,5 @@
+height, trees, ages
+
+144 feet, 147 feet, 150 feet, 153 feet
+Evan's Fir, Old Jarvis, Nolan's Pine, Zeke's Spruce
+79, 80, 96, 99

@@ -1,0 +1,4 @@
+frederick, 190, soccer
+ingram, 230, rugby
+noble, 150, lacrosse
+wilcox, 110, basketball

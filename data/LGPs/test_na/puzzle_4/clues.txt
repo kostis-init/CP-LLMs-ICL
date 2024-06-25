@@ -1,0 +1,5 @@
+The football facility holds more people than Underwood Arena.
+The basketball facility holds 80 more people than Vazquez Arena.
+Young Arena holds 230 people.
+Underwood Arena holds 40 fewer people than Vazquez Arena.
+The facility with seating for 190 people is either the lacrosse facility or Underwood Arena.

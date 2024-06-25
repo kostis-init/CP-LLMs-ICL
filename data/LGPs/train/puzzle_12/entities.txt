@@ -1,0 +1,5 @@
+miners, ounces, claims
+
+Fred Fletcher, Gil Gonzalez, Ivan Ingram, Jack Jacobs
+11, 14, 17, 20
+Belle Hart, Culver Gorge, Fuller Rise, York River

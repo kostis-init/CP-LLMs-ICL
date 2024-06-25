@@ -1,0 +1,4 @@
+asanish, 125 meters, jurassic
+cersay, 175 meters, cambrian
+garight, 150 meters, ordovician
+kimeta, 100 meters, devonian

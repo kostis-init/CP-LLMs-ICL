@@ -1,0 +1,5 @@
+comp(A3, C2, >)
+comp(A2, C0, 20, >)
+comp(A3, C1, 10, <)
+diff(C1, A3, A1)
+either(A3, B3, C0)

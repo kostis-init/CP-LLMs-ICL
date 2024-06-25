@@ -1,0 +1,28 @@
+### Plan:
+Each entity will be represented by a decision variable that will take a value from 1 to 4. All decision variables with the same value will correspond to the same pairing. For example, if Awad == 1, and 1985 == 1, and CenterBack == 1, then Awad began playing in 1985 as a center back.
+
+### Decision variables:
+-   Names of the players: Awad, Daregh, Gardelli, Rothvum (all different, 1 to 4)
+-   Start years of the players: Year1976, Year1979, Year1982, Year1985 (all different, 1 to 4)
+-   Positions of the players: CenterBack, CenterForward, Goalie, Sweeper (all different, 1 to 4)
+
+### Constraints:
+-   Daregh started 6 years before the goalie:
+    For this, we will need to add a constraint for each possible assignment of the start years for Daregh and the goalie, such that Daregh's start year is 6 years before the goalie's start year. So, the constraints will be of the form:
+    y1 == Daregh and y2 == Goalie => y1_to_int == y2_to_int - 6, for all y1, y2 in years.
+
+-   The player who started in 1982 was either the goalie or Daregh:
+    This is a constraint that states that the player who started in 1982's position is either goalie or Daregh, but not both. So:
+    Xor([Year1982 == Goalie, Year1982 == Daregh]).
+
+-   Awad began playing in 1985:
+    This is a direct assignment constraint:
+    Awad == Year1985.
+
+-   The player who started in 1976 was the sweeper:
+    This is a direct assignment constraint:
+    Year1976 == Sweeper.
+
+-   Gardelli was either the center back or the player who started in 1979:
+    This is a constraint that states that Gardelli's position is either center back or Gardelli's start year is 1979, but not both. So:
+    Xor([Gardelli == CenterBack, Gardelli == Year1979]).

@@ -1,0 +1,5 @@
+The four conductors are Roderick, the conductor working on June 10, the person departing from Leland and the person departing from Indio.
+The person working on June 13 will depart from Hardwick.
+The conductor working on June 12 is either the conductor departing from Indio or Roderick.
+Vernon is either the person working on June 11 or the conductor working on June 13.
+Francis will leave sometime before the conductor departing from Leland.

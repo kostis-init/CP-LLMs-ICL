@@ -1,0 +1,36 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+eunice, felix, natasha, stacy = students = intvar(1, 4, shape=4)
+march, april, may, june = months = intvar(1, 4, shape=4)
+escape, liberty, odyssey, osprey = ships = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+months_values = {march: 3, april: 4, may: 5, june: 6} # month values
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(students)
+m += AllDifferent(months)
+m += AllDifferent(ships)
+
+# Natasha's study starts 2 months after the project on the Odyssey.
+m += add_comparable_constraints(months_values, lambda var1, var2: var1 == var2 + 2, var1=natasha, var2=odyssey)
+
+# Of the assignment on the Liberty and the assignment on the Escape, one is Felix's assignment and the other starts in March.
+m += Xor([(liberty == felix) & (escape == march), (liberty == march) & (escape == felix)])
+
+# The study on the Liberty starts 2 months after Eunice's project.
+m += add_comparable_constraints(months_values, lambda var1, var2: var1 == var2 + 2, var1=liberty, var2=eunice)
+
+# The end. You can take it from here.
+```

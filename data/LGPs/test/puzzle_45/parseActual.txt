@@ -1,0 +1,4 @@
+is(B2, A3)
+comp(C3, C2, 30, >)
+pairdiff(C0, A0, B1, B0)
+pairdiff(A3, A1, B3, C3)

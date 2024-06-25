@@ -1,0 +1,42 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+gentry, underwood, vazquez, young = arenas = intvar(1, 4, shape=4)
+_110, _150, _190, _230 = capacities = intvar(1, 4, shape=4)
+basketball, football, lacrosse, soccer = sports = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+capacities_values = {_110: 110, _150: 150, _190: 190, _230: 230} # in people
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(arenas)
+m += AllDifferent(capacities)
+m += AllDifferent(sports)
+
+# The football facility holds more people than Underwood Arena.
+m += add_comparable_constraints(capacities_values, lambda var1, var2: var1 > var2, var1=football, var2=underwood)
+
+# The basketball facility holds 80 more people than Vazquez Arena.
+m += add_comparable_constraints(capacities_values, lambda var1, var2: var1 == var2 + 80, var1=basketball, var2=vazquez)
+
+# Young Arena holds 230 people.
+m += (young == _230)
+
+# Underwood Arena holds 40 fewer people than Vazquez Arena.
+m += add_comparable_constraints(capacities_values, lambda var1, var2: var1 == var2 - 40, var1=underwood, var2=vazquez)
+
+# The facility with seating for 190 people is either the lacrosse facility or Underwood Arena.
+m += Xor([_190 == lacrosse, _190 == underwood])
+
+# The end. You can take it from here.
+```

@@ -1,0 +1,42 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+alton, evan, greg, jeffrey = players = intvar(1, 4, shape=4)
+_41, _48, _55, _62 = scores = intvar(1, 4, shape=4)
+green, red, white, yellow = colors = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+scores_values = {_41: 41, _48: 48, _55: 55, _62: 62} # in points
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(players)
+m += AllDifferent(scores)
+m += AllDifferent(colors)
+
+# Greg threw the red darts.
+m += (greg == red)
+
+# Alton scored 7 points higher than Evan.
+m += add_comparable_constraints(scores_values, lambda var1, var2: var1 == var2 + 7, var1=alton, var2=evan)
+
+# The contestant who threw the yellow darts scored somewhat higher than the player who threw the white darts.
+m += add_comparable_constraints(scores_values, lambda var1, var2: var1 > var2, var1=yellow, var2=white)
+
+# The player who scored 48 points threw the yellow darts.
+m += (_48 == yellow)
+
+# Greg scored 7 points higher than Jeffrey.
+m += add_comparable_constraints(scores_values, lambda var1, var2: var1 == var2 + 7, var1=greg, var2=jeffrey)
+
+# The end. You can take it from here.
+```

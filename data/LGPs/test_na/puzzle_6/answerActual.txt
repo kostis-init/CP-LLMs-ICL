@@ -1,0 +1,4 @@
+awick, 525 miles, 75 mph
+leden, 550 miles, 81 mph
+poltris, 600 miles, 62 mph
+versem, 575 miles, 69 mph

@@ -1,0 +1,17 @@
+A boy wants to give an apple to a girl. To get to her, he has to pass through five gates, each with a guard. He bribes each guard with half of his apples, plus one. The boy does not have a knife, therefore he gives the guard an integer number of apples. After he’s given the apple to the girl, he has no apples left. How many did he have to begin with and in the process?
+
+It is mandatory that the answer should be given according to the following JSON schema:
+```json
+{
+  "apples": [int]
+}
+```
+where "apples" is an array of 6 integers, each representing the number of apples before each gate, plus the last element being the number of apples given to the girl.
+
+For example, a valid JSON (not the answer) would be:
+```json
+{
+    "apples": [1, 2, 3, 4, 5, 6]
+}
+```
+

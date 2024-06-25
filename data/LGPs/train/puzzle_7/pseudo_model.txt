@@ -1,0 +1,31 @@
+### Plan:
+Each entity will be represented by a decision variable that will take a value from 1 to 4. All decision variables with the same value will correspond to the same pairing. For example, if AnnataBranco == 1, and 1992 == 1, and Syrah == 1, then Annata Branco is the 1992 wine and is a syrah.
+
+### Decision variables:
+-   Names of the wines: AnnataBranco, Friambliss, Luzagueil, Zifennwein (all different, 1 to 4)
+-   Vintages of the wines: Vintage1984, Vintage1988, Vintage1992, Vintage1996 (all different, 1 to 4)
+-   Types of the wines: Chardonnay, Merlot, PinotGris, Syrah (all different, 1 to 4)
+
+### Constraints:
+-   The Luzagueil is a chardonnay:
+    This is a direct assignment constraint:
+    Luzagueil == Chardonnay.
+
+-   The Annata Branco is either the 1992 wine or the syrah:
+    This is a constraint that states that the Annata Branco's vintage is either 1992 or its type is syrah, but not both. So:
+    Xor([AnnataBranco == Vintage1992, AnnataBranco == Syrah]).
+
+-   The Friambliss is a syrah:
+    This is a direct assignment constraint:
+    Friambliss == Syrah.
+
+-   Of the pinot gris and the 1984 bottle, one is the Luzagueil and the other is the Zifennwein:
+    This is a constraint that states that for the pinot gris and the 1984 vintage, one is associated with Luzagueil and the other with Zifennwein, but not both. So:
+    Xor([
+        (PinotGris == Luzagueil, Vintage1984 == Zifennwein),
+        (PinotGris == Zifennwein, Vintage1984 == Luzagueil)
+    ]).
+
+-   The pinot gris was bottled 4 years after the merlot:
+    For this, we will need to add a constraint for each possible assignment of the vintages for the pinot gris and the merlot, such that the pinot gris's vintage is 4 years after the merlot's vintage. So, the constraints will be of the form:
+    v1 == PinotGris and v2 == Merlot => v1_to_int == v2_to_int + 4, for all v1, v2 in vintages.

@@ -1,0 +1,24 @@
+### Plan:
+Each entity will be represented by a decision variable that will take a value from 1 to 4. All decision variables with the same value will correspond to the same quartet. For example, if DeepShadow == 1, and 2007 == 1, and ArnoldAshley == 1, then Deep Shadow started in 2007 and is Arnold Ashley.
+
+### Decision variables:
+-   Names of the superheroes: DeepShadow, GreenAvenger, MaxFusion, UltraHex (all different, 1 to 4)
+-   Start years of the superheroes: Year2007, Year2008, Year2009, Year2010 (all different, 1 to 4)
+-   Real names of the superheroes: ArnoldAshley, LyleLucas, OrelOsborne, RedReilly (all different, 1 to 4)
+
+### Constraints:
+-   The four people are the person who started in 2007, Green Avenger, Deep Shadow, and Lyle Lucas:
+    This is a constraint that states that all these entities are different, thus:
+    AllDifferent([Year2007, GreenAvenger, DeepShadow, LyleLucas]).
+
+-   Arnold Ashley began 1 year after Ultra Hex:
+    For this, we will need to add a constraint for each possible assignment of the start years for Arnold Ashley and Ultra Hex, such that Arnold Ashley's start year is 1 year after Ultra Hex's start year. So, the constraints will be of the form:
+    y1 == ArnoldAshley and y2 == UltraHex => y1_to_int == y2_to_int + 1, for all y1, y2 in years.
+
+-   The person who started in 2009 is Arnold Ashley:
+    This is a direct assignment constraint:
+    Year2009 == ArnoldAshley.
+
+-   Green Avenger is Orel Osborne:
+    This is a direct assignment constraint:
+    GreenAvenger == OrelOsborne.

@@ -1,0 +1,4 @@
+is(A2, B3)
+is(A0, C0)
+either(C1, B0, A3)
+pairdiff(A1, C2, B3, B2)

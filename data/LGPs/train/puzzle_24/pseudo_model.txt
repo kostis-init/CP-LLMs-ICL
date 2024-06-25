@@ -1,0 +1,27 @@
+### Plan:
+Each entity will be represented by a decision variable that will take a value from 1 to 4. All decision variables with the same value will correspond to the same pairing. For example, if Florence == 1, and Price6 == 1, and Fettuccine == 1, then Florence paid $6 for fettuccine.
+
+### Decision variables:
+-   Names of the runners: Florence, Margie, Suzanne, Velma (all different, 1 to 4)
+-   Prices paid by the runners: Price6, Price7, Price8, Price9 (all different, 1 to 4)
+-   Types of pasta ordered: Fettuccine, Fusilli, Spaghetti, Taglioni (all different, 1 to 4)
+
+### Constraints:
+-   Suzanne paid less than Margie:
+    For this, we will need to add a constraint for each possible assignment of the prices for Suzanne and Margie, such that Suzanne's price is less than Margie's price. So, the constraints will be of the form:
+    p1 == Suzanne and p2 == Margie => p1_to_int < p2_to_int, for all p1, p2 in prices.
+
+-   Margie paid $7:
+    This is a direct assignment constraint:
+    Margie == Price7.
+
+-   The competitor who ordered spaghetti paid 2 dollars more than the competitor who ordered taglioni:
+    For this, we will need to add a constraint for each possible assignment of the prices for spaghetti and taglioni, such that spaghetti's price is 2 dollars more than taglioni's price. So, the constraints will be of the form:
+    p1 == Spaghetti and p2 == Taglioni => p1_to_int == p2_to_int + 2, for all p1, p2 in prices.
+
+-   Of the runner who paid $9 and the contestant who ordered fettuccine, one was Margie and the other was Velma:
+    This is a constraint that states that for the runner who paid $9 and the contestant who ordered fettuccine, one is Margie and the other is Velma, but not both. So:
+    Xor([
+        (Price9 == Margie, Fettuccine == Velma),
+        (Price9 == Velma, Fettuccine == Margie)
+    ]).

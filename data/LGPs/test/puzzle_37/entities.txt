@@ -1,0 +1,5 @@
+names, years, suit colors
+
+Jorge, Otis, Philip, Shaun
+1982, 1983, 1984, 1985
+lime green, pink, red, yellow

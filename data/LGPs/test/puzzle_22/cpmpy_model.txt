@@ -1,0 +1,42 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+_45, _60, _75, _90 = prices = intvar(1, 4, shape=4)
+alejandro, faye, irma, phillip = winners = intvar(1, 4, shape=4)
+atlas, emperor, grayling, peacock = butterflies = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+prices_values = {_45: 45, _60: 60, _75: 75, _90: 90}  # in dollars
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(prices)
+m += AllDifferent(winners)
+m += AllDifferent(butterflies)
+
+# Alejandro's purchase cost less than Irma's purchase.
+m += add_comparable_constraints(prices_values, lambda var1, var2: var1 < var2, var1=alejandro, var2=irma)
+
+# The insect that sold for $90 was either the atlas butterfly or the emperor butterfly.
+m += Xor([_90 == atlas, _90 == emperor])
+
+# The peacock butterfly cost more than Irma's purchase.
+m += add_comparable_constraints(prices_values, lambda var1, var2: var1 > var2, var1=peacock, var2=irma)
+
+# Of Alejandro's purchase and Irma's purchase, one was the emperor butterfly and the other sold for $45.
+m += Xor([(alejandro == emperor) & (irma == _45), (alejandro == _45) & (irma == emperor)])
+
+# The four butterflies were Phillip's purchase, the insect that sold for $60, the butterfly that sold for $45 and the butterfly that sold for $90.
+m += AllDifferent([phillip, _60, _45, _90])
+
+# The end. You can take it from here.
+```

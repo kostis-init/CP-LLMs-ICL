@@ -1,0 +1,5 @@
+names, lengths, prime ministers
+
+Anita, Colleen, Perry, Theodore
+6 minutes, 8 minutes, 10 minutes, 12 minutes
+Chamberlain, Churchill, Gladstone, Heath

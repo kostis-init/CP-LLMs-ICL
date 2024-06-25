@@ -1,0 +1,5 @@
+waterfalls, heights, countries
+
+Sihat, Rhoqua, Nyalt, Inawatai
+100 ft, 105 ft, 110 ft, 115 ft
+Brazil, Nigeria, Tibet, Switzerland

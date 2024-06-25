@@ -1,0 +1,4 @@
+klein, 9, checkers
+underwood, 6, ice hogs
+walls, 8, comets
+zimmerman, 7, wolverines

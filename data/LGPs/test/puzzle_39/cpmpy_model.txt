@@ -1,0 +1,39 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+doug, eloise, peggy, troy = fliers = intvar(1, 4, shape=4)
+january, february, march, april = months = intvar(1, 4, shape=4)
+coin, horseshoe, rabbits_foot, shamrock = lucky_charms = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+months_values = {january: 1, february: 2, march: 3, april: 4} # in months
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(fliers)
+m += AllDifferent(months)
+m += AllDifferent(lucky_charms)
+
+# The flier leaving in April will bring shamrock.
+m += april == shamrock
+
+# The passenger with the rabbit's foot will leave 1 month after Troy.
+m += add_comparable_constraints(months_values, lambda var1, var2: var1 == var2 + 1, var1=rabbits_foot, var2=troy)
+
+# The flier with the horseshoe will leave 1 month after Doug.
+m += add_comparable_constraints(months_values, lambda var1, var2: var1 == var2 + 1, var1=horseshoe, var2=doug)
+
+# The flier with the horseshoe is either Peggy or the passenger leaving in January.
+m += Xor([horseshoe == peggy, horseshoe == january])
+
+# The end. You can take it from here.
+```

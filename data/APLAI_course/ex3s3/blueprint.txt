@@ -1,0 +1,13 @@
+Decision Variables:
+    Define binary variables for each pair of people to represent whether person i gives a kidney to person j (1) or not (0). The variable 'transplants' is a matrix of size equal to the number of people (8 in this case).
+
+Domains:
+    transplants[i][j] ∈ {0, 1} for each pair of people i, j. The value 1 indicates that person i gives a kidney to person j, and 0 indicates that they do not.
+
+Constraints:
+    Anyone who gives a kidney must receive one. This can be represented by iterating over the people and for each person i, add a constraint that if the sum of the row i in the 'transplants' matrix is greater than or equal to 1, then the sum of the column i in the 'transplants' matrix must also be greater than or equal to 1.
+    Each person can donate to at most one person and receive from at most one person. This can be represented by adding a constraint that the sum of the row i and the sum of the column i in the 'transplants' matrix must both be less than or equal to 1.
+    Compatibility constraint: if person i can't donate to person j, then transplants[i][j] must be 0. This can be represented by iterating over the 'compatible' list and for each person i and their compatible people, add a constraint that if person j is not in the compatible list of person i, then transplants[i][j] must be 0.
+
+Objective:
+    Maximize the number of transplants. This can be represented by adding a maximize objective to the model with the sum of the 'transplants' matrix as the objective.

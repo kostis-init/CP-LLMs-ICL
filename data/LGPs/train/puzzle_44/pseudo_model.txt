@@ -1,0 +1,23 @@
+### Plan:
+Each entity will be represented by a decision variable that will take a value from 1 to 4. All decision variables with the same value will correspond to the same pairing. For example, if Eunice == 1, and March == 1, and Odyssey == 1, then Eunice's project is on the Odyssey and starts in March.
+
+### Decision variables:
+-   Names of the students: Eunice, Felix, Natasha, Stacy (all different, 1 to 4)
+-   Start months of the projects: March, April, May, June (all different, 1 to 4)
+-   Names of the ships: Escape, Liberty, Odyssey, Osprey (all different, 1 to 4)
+
+### Constraints:
+-   Natasha's study starts 2 months after the project on the Odyssey:
+    For this, we will need to add a constraint for each possible assignment of the start months for Natasha's study and the project on the Odyssey, such that Natasha's study's start month is 2 months after the Odyssey's project start month. So, the constraints will be of the form:
+    m1 == Natasha and m2 == Odyssey => m1_to_int == m2_to_int + 2, for all m1, m2 in months.
+
+-   Of the assignment on the Liberty and the assignment on the Escape, one is Felix's assignment and the other starts in March:
+    This is a constraint that states that for the assignments on the Liberty and the Escape, one is Felix's and the other starts in March. So:
+    Xor([
+        (Liberty == Felix, Escape == March),
+        (Liberty == March, Escape == Felix)
+    ]).
+
+-   The study on the Liberty starts 2 months after Eunice's project:
+    For this, we will need to add a constraint for each possible assignment of the start months for the study on the Liberty and Eunice's project, such that the study on the Liberty's start month is 2 months after Eunice's project start month. So, the constraints will be of the form:
+    m1 == Liberty and m2 == Eunice => m1_to_int == m2_to_int + 2, for all m1, m2 in months.

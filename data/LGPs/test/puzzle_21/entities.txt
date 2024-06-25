@@ -1,0 +1,5 @@
+scores, chefs, dishes
+
+42, 49, 56, 63
+Karl, Nelson, Peggy, Rosalie
+cajun chili, cashew tofu, lemon snapper, smoked pork

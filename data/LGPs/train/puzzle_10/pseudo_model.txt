@@ -1,0 +1,28 @@
+### Plan:
+Each entity will be represented by a decision variable that will take a value from 1 to 4. All decision variables with the same value will correspond to the same pairing. For example, if Sihat == 1, and 100ft == 1, and Brazil == 1, then Sihat is the 100 ft tall waterfall located in Brazil.
+
+### Decision variables:
+-   Names of the waterfalls: Sihat, Rhoqua, Nyalt, Inawatai (all different, 1 to 4)
+-   Heights of the waterfalls: Height100, Height105, Height110, Height115 (all different, 1 to 4)
+-   Countries of the waterfalls: Brazil, Nigeria, Tibet, Switzerland (all different, 1 to 4)
+
+### Constraints:
+-   The 115 ft tall waterfall is either the waterfall in Nigeria or the waterfall located in Tibet:
+    This is a constraint that states that the 115 ft tall waterfall's country is either Nigeria or Tibet. So:
+    Xor([Height115 == Nigeria, Height115 == Tibet]).
+
+-   Inawatai is 100 ft tall:
+    This is a direct assignment constraint:
+    Inawatai == Height100.
+
+-   Nyalt is 10 ft taller than Rhoqua:
+    For this, we will need to add a constraint for each possible assignment of the heights for Nyalt and Rhoqua, such that Nyalt's height is 10 ft taller than Rhoqua's height. So, the constraints will be of the form:
+    h1 == Nyalt and h2 == Rhoqua => h1_to_int == h2_to_int + 10, for all h1, h2 in heights.
+
+-   The waterfall in Brazil is somewhat shorter than Rhoqua:
+    For this, we will need to add a constraint for each possible assignment of the heights for the waterfall in Brazil and Rhoqua, such that the waterfall in Brazil's height is less than Rhoqua's height. So, the constraints will be of the form:
+    h1 == Brazil and h2 == Rhoqua => h1_to_int < h2_to_int, for all h1, h2 in heights.
+
+-   The waterfall in Brazil is 10 ft shorter than the waterfall located in Nigeria:
+    For this, we will need to add a constraint for each possible assignment of the heights for the waterfall in Brazil and the waterfall in Nigeria, such that the waterfall in Brazil's height is 10 ft shorter than the waterfall in Nigeria's height. So, the constraints will be of the form:
+    h1 == Brazil and h2 == Nigeria => h1_to_int == h2_to_int - 10, for all h1, h2 in heights.

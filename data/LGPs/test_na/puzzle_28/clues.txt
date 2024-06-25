@@ -1,0 +1,5 @@
+The TrustCo card has an APR of 11%.
+The Southwest Inc card has a limit of $2,000.
+The card with an APR of 11% is either the card with the $4,000 credit limit or the one with the $20,000 credit limit.
+The card with an APR of 10% is either the card with the $4,000 credit limit or the TrustCo card.
+The Credit Korp card has an APR 1 percent lower than the one with the $2,000 credit limit.

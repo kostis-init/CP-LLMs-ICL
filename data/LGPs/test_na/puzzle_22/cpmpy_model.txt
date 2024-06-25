@@ -1,0 +1,42 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+francis, luke, roderick, vernon = names = intvar(1, 4, shape=4)
+june10, june11, june12, june13 = days = intvar(1, 4, shape=4)
+hardwick, indio, kent, leland = departures = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+days_values = {june10: 10, june11: 11, june12: 12, june13: 13} # in days
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(names)
+m += AllDifferent(days)
+m += AllDifferent(departures)
+
+# The four conductors are Roderick, the conductor working on June 10, the person departing from Leland and the person departing from Indio.
+m += AllDifferent([roderick, june10, leland, indio])
+
+# The person working on June 13 will depart from Hardwick.
+m += (june13 == hardwick)
+
+# The conductor working on June 12 is either the conductor departing from Indio or Roderick.
+m += Xor([june12 == indio, june12 == roderick])
+
+# Vernon is either the person working on June 11 or the conductor working on June 13.
+m += Xor([vernon == june11, vernon == june13])
+
+# Francis will leave sometime before the conductor departing from Leland.
+m += add_comparable_constraints(days_values, lambda var1, var2: var1 < var2, var1=francis, var2=leland)
+
+# The end. You can take it from here.
+```

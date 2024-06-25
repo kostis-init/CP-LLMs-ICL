@@ -1,0 +1,28 @@
+### Plan:
+Each entity will be represented by a decision variable that will take a value from 1 to 4. All decision variables with the same value will correspond to the same triplet. For example, if Aimee == 1, and Price150 == 1, and Lynda == 1, then Aimee paid $150 to Lynda.
+
+### Decision variables:
+-   Names of the clients: Aimee, Ginger, Freda, Hannah (all different, 1 to 4)
+-   Prices paid by the clients: Price150, Price160, Price170, Price180 (all different, 1 to 4)
+-   Names of the masseuses: Lynda, Nancy, Teri, Whitney (all different, 1 to 4)
+
+### Constraints:
+-   Hannah paid more than Teri's client:
+    For this, we will need to add a constraint for each possible assignment of prices to Hannah and Teri's client, such that Hannah's price is greater than Teri's client's price. So, the constraints will be of the form:
+    p1 == Hannah and p2 == Teri => p1_to_int > p2_to_int, for all p1, p2 in prices.
+
+-   Freda paid 20 dollars more than Lynda's client:
+    For this, we will need to add a constraint for each possible assignment of prices to Freda and Lynda's client, such that Freda's price is 20 dollars greater than Lynda's client's price. So, the constraints will be of the form:
+    p1 == Freda and p2 == Lynda => p1_to_int == p2_to_int + 20, for all p1, p2 in prices.
+
+-   Hannah paid 10 dollars less than Nancy's client:
+    For this, we will need to add a constraint for each possible assignment of prices to Hannah and Nancy's client, such that Hannah's price is 10 dollars less than Nancy's client's price. So, the constraints will be of the form:
+    p1 == Hannah and p2 == Nancy => p1_to_int == p2_to_int - 10, for all p1, p2 in prices.
+
+-   Nancy's client, Hannah and Ginger were all different clients:
+    This is a constraint that states that all these entities are different, thus:
+    AllDifferent([Nancy, Hannah, Ginger]).
+
+-   Hannah was either the person who paid $180 or Lynda's client:
+    This is a constraint that states that Hannah is either the person who paid $180 or Lynda's client, but not both. Thus:
+    Xor([Hannah == Price180, Hannah == Lynda]).

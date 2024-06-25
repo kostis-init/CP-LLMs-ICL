@@ -1,0 +1,5 @@
+customers, fares, pickup points
+
+Della, Neil, Rosa, Sara
+$6, $9, $12, $15
+Arctic Building, Fremont Library, Neptune Theatre, Smith Tower

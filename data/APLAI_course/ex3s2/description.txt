@@ -1,0 +1,16 @@
+There are 13 people. 4 of them are male. They randomly enter a room one at a time. Find a way that the males and females enter so that the ratio of females to males in the room at any one time is no greater than 7/3?
+
+It is mandatory that the answer should be given according to the following JSON schema:
+```json
+{
+  "sequence": [0 | 1]
+}
+```
+where 0 means a male enters the room, and 1 means a female enters the room.
+
+For example a valid JSON (but not a valid answer) would be:
+```json
+{
+  "sequence": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+}
+```

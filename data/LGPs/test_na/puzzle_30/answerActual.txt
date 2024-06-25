@@ -1,0 +1,4 @@
+armor-stop, 115 decibels, 2000
+rip tide, 100 decibels, 1996
+soundarm, 110 decibels, 1997
+viking 5, 105 decibels, 2009

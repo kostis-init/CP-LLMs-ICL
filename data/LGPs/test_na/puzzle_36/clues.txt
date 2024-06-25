@@ -1,0 +1,6 @@
+The facility scheduled to go online in 2019 is either the Egert Facility or the project headed by Dr. Alvarez.
+The project headed by Dr. Morgan is either the Zynga Complex or the facility scheduled to go online in 2019.
+The project headed by Dr. Salinas will go online 1 year before the Egert Facility.
+The project headed by Dr. Alvarez will go online sometime after the project headed by Dr. Noble.
+The project headed by Dr. Salinas will go online sometime before the project headed by Dr. Noble.
+The project headed by Dr. Morgan will go online sometime after the Bale-Hahn SSC.

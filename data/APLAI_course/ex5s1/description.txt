@@ -1,0 +1,16 @@
+A kid goes into a grocery store and buys four items. The cashier charges $7.11, the kid pays and is about to leave when the cashier calls the kid back, and says "Hold on, I multiplied the four items instead of adding them; I’ll try again; Hah, with adding them the price still comes to $7.11". What were the prices of the four items?
+
+It is mandatory that the answer should be given according to the following JSON schema:
+```json
+{
+  "prices": [int]
+}
+```
+where `prices` is a list of four integers representing the prices of the four items in cents.
+
+For example, a valid JSON (but not the answer for the example above) would be:
+```json
+{
+  "prices": [120, 210, 100, 123]
+}
+```

@@ -1,0 +1,5 @@
+days, boat types, sailors
+
+270, 274, 278, 282
+catamaran, ketch, schooner, trimaran
+Debra Decker, Gil Baxter, Vicky Estes, Wendell Orr

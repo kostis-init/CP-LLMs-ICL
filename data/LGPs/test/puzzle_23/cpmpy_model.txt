@@ -1,0 +1,39 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+_184days, _195days, _206days, _217days = durations = intvar(1, 4, shape=4)
+antonio, dana, hilda, walter = rowers = intvar(1, 4, shape=4)
+bodega_bay, cayucos, pescadero, pismo_beach = start_points = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+durations_values = {_184days: 184, _195days: 195, _206days: 206, _217days: 217} # in days
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(durations)
+m += AllDifferent(rowers)
+m += AllDifferent(start_points)
+
+# The athlete who traveled for 195 days started from Pescadero.
+m += _195days == pescadero
+
+# Of Dana and the athlete who traveled for 184 days, one started from Cayucos and the other from Bodega Bay.
+m += Xor([(dana == cayucos) & (_184days == bodega_bay), (dana == bodega_bay) & (_184days == cayucos)])
+
+# Hilda finished in 217 days.
+m += hilda == _217days
+
+# Walter finished 11 days before the athlete who started from Cayucos.
+m += add_comparable_constraints(durations_values, lambda var1, var2: var1 == var2 - 11, var1=walter, var2=cayucos)
+
+# The end. You can take it from here.
+```

@@ -1,0 +1,5 @@
+players, scores, colors
+
+Evan, Ira, Rudy, Zachary
+41, 48, 55, 62
+gray, orange, violet, white

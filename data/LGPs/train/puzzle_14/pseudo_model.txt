@@ -1,0 +1,28 @@
+### Plan:
+Each entity will be represented by a decision variable that will take a value from 1 to 4. All decision variables with the same value will correspond to the same pairing. For example, if Anita == 1, and Length10 == 1, and Gladstone == 1, then Anita is the presenter who spoke for 10 minutes and gave the presentation on Gladstone.
+
+### Decision variables:
+-   Names of the students: Anita, Colleen, Perry, Theodore (all different, 1 to 4)
+-   Lengths of the presentations: Length6, Length8, Length10, Length12 (all different, 1 to 4)
+-   Topics of the presentations (prime ministers): Chamberlain, Churchill, Gladstone, Heath (all different, 1 to 4)
+
+### Constraints:
+-   The student who spoke for 12 minutes talked about Churchill:
+    This is a direct assignment constraint:
+    Length12 == Churchill.
+
+-   Anita was either the presenter who spoke for 10 minutes or the presenter who gave the presentation on Gladstone:
+    This is a constraint that states that Anita's presentation length is either 10 minutes or her topic is Gladstone, but not both. So:
+    Xor([Anita == Length10, Anita == Gladstone]).
+
+-   Perry spoke 4 minutes more than the presenter who gave the presentation on Gladstone:
+    For this, we will need to add a constraint for each possible assignment of the lengths for Perry and the presenter on Gladstone, such that Perry's presentation length is 4 minutes more than the Gladstone presenter's length. So, the constraints will be of the form:
+    l1 == Perry and l2 == Gladstone => l1_to_int == l2_to_int + 4, for all l1, l2 in lengths.
+
+-   Colleen was either the presenter who spoke for 10 minutes or the student who gave the presentation on Gladstone:
+    This is a constraint that states that Colleen's presentation length is either 10 minutes or her topic is Gladstone, but not both. So:
+    Xor([Colleen == Length10, Colleen == Gladstone]).
+
+-   The presenter who gave the presentation on Chamberlain spoke 2 minutes less than Colleen:
+    For this, we will need to add a constraint for each possible assignment of the lengths for the Chamberlain presenter and Colleen, such that the Chamberlain presenter's length is 2 minutes less than Colleen's length. So, the constraints will be of the form:
+    l1 == Chamberlain and l2 == Colleen => l1_to_int == l2_to_int - 2, for all l1, l2 in lengths.

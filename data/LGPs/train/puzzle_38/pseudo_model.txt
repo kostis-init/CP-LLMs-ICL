@@ -1,0 +1,31 @@
+### Plan:
+Each entity will be represented by a decision variable that will take a value from 1 to 4. All decision variables with the same value will correspond to the same pairing. For example, if Chewie == 1, and Age32 == 1, and BlackNeck == 1, then Chewie is 32 years old and is a black neck tortoise.
+
+### Decision variables:
+-   Names of the tortoises: Chewie, Snappy, Speedy, Toredo (all different, 1 to 4)
+-   Ages of the tortoises: Age14, Age32, Age50, Age68 (all different, 1 to 4)
+-   Species of the tortoises: BlackNeck, Horned, PitchBelly, Swoopbacked (all different, 1 to 4)
+
+### Constraints:
+-   Snappy is 18 years younger than the swoopbacked tortoise:
+    For this, we will need to add a constraint for each possible assignment of the ages for Snappy and the swoopbacked tortoise, such that Snappy's age is 18 years less than the swoopbacked tortoise's age. So, the constraints will be of the form:
+    a1 == Snappy and a2 == Swoopbacked => a1_to_int == a2_to_int - 18, for all a1, a2 in ages.
+
+-   The 68 year old animal is the horned tortoise:
+    This is a direct assignment constraint:
+    Age68 == Horned.
+
+-   Chewie is 32 years old:
+    This is a direct assignment constraint:
+    Chewie == Age32.
+
+-   Of Snappy and Toredo, one is 14 years old and the other is the horned tortoise:
+    This is a constraint that states that for Snappy and Toredo, one is 14 years old and the other is the horned tortoise, but not both. So:
+    Xor([
+        (Snappy == Age14, Toredo == Horned),
+        (Snappy == Horned, Toredo == Age14)
+    ]).
+
+-   The pitch belly tortoise is younger than Chewie:
+    For this, we will need to add a constraint for each possible assignment of the ages for the pitch belly tortoise and Chewie, such that the pitch belly tortoise's age is less than Chewie's age. So, the constraints will be of the form:
+    a1 == PitchBelly and a2 == Chewie => a1_to_int < a2_to_int, for all a1, a2 in ages.

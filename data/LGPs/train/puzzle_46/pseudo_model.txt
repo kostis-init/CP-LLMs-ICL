@@ -1,0 +1,28 @@
+### Plan:
+Each entity will be represented by a decision variable that will take a value from 1 to 4. All decision variables with the same value will correspond to the same quartet. For example, if Buralde == 1, and 1000 == 1, and OuterSpace == 1, then the puzzle made by Buralde has 1000 pieces and the outer space theme.
+
+### Decision variables:
+-   Names of the companies: Buralde, Denlend, Irycia, Kimsight (all different, 1 to 4)
+-   Number of pieces in the puzzles: Pieces250, Pieces500, Pieces750, Pieces1000 (all different, 1 to 4)
+-   Themes of the puzzles: AutumnLeaves, CoralReef, OuterSpace, RusticVillage (all different, 1 to 4)
+
+### Constraints:
+-   The puzzle with the autumn leaves theme has somewhat more pieces than the jigsaw puzzle with the rustic village theme:
+    For this, we will need to add a constraint for each possible assignment of the number of pieces for the autumn leaves theme and the rustic village theme, such that the autumn leaves theme's puzzle has more pieces than the rustic village theme's puzzle. So, the constraints will be of the form:
+    p1 == AutumnLeaves and p2 == RusticVillage => p1_to_int > p2_to_int, for all p1, p2 in pieces.
+
+-   The four puzzles are the puzzle made by Buralde, the jigsaw puzzle with the rustic village theme, the puzzle with the autumn leaves theme, and the puzzle with 1000 pieces:
+    This is a constraint that states that all these entities are different, thus:
+    AllDifferent([Buralde, RusticVillage, AutumnLeaves, Pieces1000]).
+
+-   The jigsaw puzzle made by Buralde has the outer space theme:
+    This is a direct assignment constraint:
+    Buralde == OuterSpace.
+
+-   The jigsaw puzzle made by Denlend has somewhat fewer pieces than the jigsaw puzzle with the outer space theme:
+    For this, we will need to add a constraint for each possible assignment of the number of pieces for Denlend and the outer space theme, such that Denlend's puzzle has fewer pieces than the outer space theme's puzzle. So, the constraints will be of the form:
+    p1 == Denlend and p2 == OuterSpace => p1_to_int < p2_to_int, for all p1, p2 in pieces.
+
+-   The jigsaw puzzle made by Kimsight has 250 more pieces than the puzzle made by Denlend:
+    For this, we will need to add a constraint for each possible assignment of the number of pieces for Kimsight and Denlend, such that Kimsight's puzzle has 250 more pieces than Denlend's puzzle. So, the constraints will be of the form:
+    p1 == Kimsight and p2 == Denlend => p1_to_int == p2_to_int + 250, for all p1, p2 in pieces.

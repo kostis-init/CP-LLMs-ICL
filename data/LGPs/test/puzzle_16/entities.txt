@@ -1,0 +1,5 @@
+months, names, types
+
+January, February, March, April
+Essita CBT, Haramarui LV, Kuchiwa W10, Rodim-Rexit
+direct drive, fusor, tokamak, z-pinch

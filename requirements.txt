@@ -1,0 +1,12 @@
+anthropic==0.20.0
+cpmpy @ git+https://github.com/CPMpy/cpmpy.git@reel_to_int
+fuzzywuzzy==0.18.0
+jsonlines==4.0.0
+langchain==0.1.12
+langchain_community==0.0.28
+langchain_openai==0.0.8
+numpy==1.26.4
+openai==1.14.2
+together==0.2.11
+python-Levenshtein==0.25.0
+chromadb==0.4.24

@@ -1,0 +1,39 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+_50, _75, _100, _125 = people = intvar(1, 4, shape=4)
+herbert, joel, susan, teresa = planners = intvar(1, 4, shape=4)
+anniversary, birthday, graduation, wedding = events = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+people_values = {_50: 50, _75: 75, _100: 100, _125: 125} # in number of attendees
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(people)
+m += AllDifferent(planners)
+m += AllDifferent(events)
+
+# Of the anniversary event and the event with 100 attendees, one will be handled by Joel and the other will be handled by Susan.
+m += Xor([((anniversary == joel) & (_100 == susan)), ((anniversary == susan) & (_100 == joel))])
+
+# Herbert's assignment will involve 25 fewer people than Susan's assignment.
+m += add_comparable_constraints(people_values, lambda var1, var2: var1 == var2 - 25, var1=herbert, var2=susan)
+
+# Of the assignment with 75 attendees and the assignment with 100 attendees, one will be handled by Susan and the other is the birthday.
+m += Xor([((_75 == susan) & (_100 == birthday)), ((_75 == birthday) & (_100 == susan))])
+
+# Herbert's event is either the event with 50 attendees or the graduation job.
+m += Xor([herbert == _50, herbert == graduation])
+
+# The end. You can take it from here.
+```

@@ -1,0 +1,39 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+francis, greg, ira, oscar = names = intvar(1, 4, shape=4)
+june_10, june_11, june_12, june_13 = days = intvar(1, 4, shape=4)
+buttonwillow, coulterville, indio, manson = departures = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+days_values = {june_10: 10, june_11: 11, june_12: 12, june_13: 13} # in days
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(names)
+m += AllDifferent(days)
+m += AllDifferent(departures)
+
+# Francis will depart from Manson.
+m += francis == manson
+
+# The conductor working on June 12 is either the conductor departing from Buttonwillow or Greg.
+m += Xor([june_12 == buttonwillow, june_12 == greg])
+
+# Ira will leave 1 day before the conductor departing from Manson.
+m += add_comparable_constraints(days_values, lambda var1, var2: var1 == var2 - 1, var1=ira, var2=manson)
+
+# The person departing from Buttonwillow will leave 1 day before the conductor departing from Indio.
+m += add_comparable_constraints(days_values, lambda var1, var2: var1 == var2 - 1, var1=buttonwillow, var2=indio)
+
+# The end. You can take it from here.
+```

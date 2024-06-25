@@ -1,0 +1,15 @@
+Alice has to give Bob change of 199 euros. She has 6 different types of coins of different value ([1, 2, 5, 10, 25, 50]) and she has a certain number of coins of each value available ([20, 10, 15, 8, 4, 2]). How can the change be composed with the available coins minimizing the number of coins used?
+
+It is mandatory that the answer should be given according to the following JSON schema:
+```json
+{
+    "coin_counts": [int]
+}
+```
+
+For example, if she gives to Bob 1 coin of value 1 and 3 coins of value 25, then the answer should be:
+```json
+{
+    "coin_counts": [1, 0, 0, 0, 3, 0]
+}
+```

@@ -1,0 +1,5 @@
+packsize, brands, names
+
+25 liter, 30 liter, 35 liter, 40 liter
+Adironda, Grennel, Naturba, Travelore
+Arthur, Eugene, Natasha, Olga

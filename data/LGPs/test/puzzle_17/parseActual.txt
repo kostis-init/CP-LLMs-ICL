@@ -1,0 +1,4 @@
+pairdiff(C0, A2, B1, B2)
+comp(B0, B2, 25, <)
+pairdiff(A1, A2, B2, C1)
+either(B0, A0, C2)

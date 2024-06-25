@@ -1,0 +1,39 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+ira, luther, vera, yvette = names = intvar(1, 4, shape=4)
+january, february, march, april = months = intvar(1, 4, shape=4)
+cheer, garyk, haleyito, xozix = cultures = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+months_values = {january: 1, february: 2, march: 3, april: 4} # in months
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(names)
+m += AllDifferent(months)
+m += AllDifferent(cultures)
+
+# The person who will publish in January is either the person who has been studying the Cheer culture or Ira.
+m += Xor([january == cheer, january == ira])
+
+# The person who has been studying the Xozix culture will publish 1 month before the person who has been studying the Haleyito culture.
+m += add_comparable_constraints(months_values, lambda var1, var2: var1 == var2 - 1, var1=xozix, var2=haleyito)
+
+# Of the student who will publish in March and the person who has been studying the Xozix culture, one is Luther and the other is Yvette.
+m += Xor([(march == luther) & (xozix == yvette), (march == yvette) & (xozix == luther)])
+
+# Vera will publish 1 month before Luther.
+m += add_comparable_constraints(months_values, lambda var1, var2: var1 == var2 - 1, var1=vera, var2=luther)
+
+# The end. You can take it from here.
+```

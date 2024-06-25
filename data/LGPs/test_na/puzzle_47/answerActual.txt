@@ -1,0 +1,4 @@
+alberta, january, macaw
+della, april, parakeet
+ellen, march, finch
+gladys, february, lovebird

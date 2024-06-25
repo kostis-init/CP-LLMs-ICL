@@ -1,0 +1,28 @@
+### Plan:
+Each entity will be represented by a decision variable that will take a value from 1 to 4. All decision variables with the same value will correspond to the same pairing. For example, if Jorge == 1, and 1982 == 1, and Red == 1, then Jorge is the skydiver who started in 1982 and wears the red suit.
+
+### Decision variables:
+-   Names of the skydivers: Jorge, Otis, Philip, Shaun (all different, 1 to 4)
+-   Start years of skydiving: Year1982, Year1983, Year1984, Year1985 (all different, 1 to 4)
+-   Suit colors of the skydivers: LimeGreen, Pink, Red, Yellow (all different, 1 to 4)
+
+### Constraints:
+-   Jorge is either the skydiver who wears the red suit or the jumper who started in 1982:
+    This is a constraint that states that Jorge's suit color is either red or Jorge's start year is 1982, but not both. So:
+    Xor([Jorge == Red, Jorge == Year1982]).
+
+-   The skydiver who wears the pink suit started skydiving 1 year before Otis:
+    For this, we will need to add a constraint for each possible assignment of the start years for the skydiver who wears the pink suit and Otis, such that the pink suit's start year is 1 year before Otis's start year. So, the constraints will be of the form:
+    y1 == Pink and y2 == Otis => y1_to_int == y2_to_int - 1, for all y1, y2 in start years.
+
+-   The jumper who wears the yellow suit started skydiving sometime after Philip:
+    For this, we will need to add a constraint for each possible assignment of the start years for the jumper who wears the yellow suit and Philip, such that the yellow suit's start year is after Philip's start year. So, the constraints will be of the form:
+    y1 == Yellow and y2 == Philip => y1_to_int > y2_to_int, for all y1, y2 in start years.
+
+-   The jumper who wears the lime green suit started skydiving sometime after the jumper who wears the yellow suit:
+    For this, we will need to add a constraint for each possible assignment of the start years for the jumper who wears the lime green suit and the jumper who wears the yellow suit, such that the lime green suit's start year is after the yellow suit's start year. So, the constraints will be of the form:
+    y1 == LimeGreen and y2 == Yellow => y1_to_int > y2_to_int, for all y1, y2 in start years.
+
+-   The jumper who wears the pink suit started skydiving 2 years before Shaun:
+    For this, we will need to add a constraint for each possible assignment of the start years for the jumper who wears the pink suit and Shaun, such that the pink suit's start year is 2 years before Shaun's start year. So, the constraints will be of the form:
+    y1 == Pink and y2 == Shaun => y1_to_int == y2_to_int - 2, for all y1, y2 in start years.

@@ -1,0 +1,5 @@
+clients, prices, masseuses
+
+Beulah, Debra, Ginger, Hannah
+$150, $160, $170, $180
+Lynda, Pam, Vicki, Yvonne

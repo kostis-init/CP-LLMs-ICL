@@ -1,0 +1,5 @@
+wingspans, names, ages
+
+102 inches, 106 inches, 110 inches, 114 inches
+Merlin, Pepper, Spike, Sunshine
+4, 5, 8, 9

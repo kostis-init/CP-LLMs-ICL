@@ -1,0 +1,40 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+price125, price175, price225, price275 = prices = intvar(1, 4, shape=4)
+finn_freeman, mike_morales, neddy_norris, opie_oliver = players = intvar(1, 4, shape=4)
+_1974, _1987, _1999, _2012 = years = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+prices_values = {price125: 125, price175: 175, price225: 225, price275: 275} # in dollars
+years_values = {_1974: 1974, _1987: 1987, _1999: 1999, _2012: 2012} # in years
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(prices)
+m += AllDifferent(players)
+m += AllDifferent(years)
+
+# Opie Oliver's card came out in 2012.
+m += (opie_oliver == _2012)
+
+# The piece that sold for $175 came out in 1999.
+m += (price175 == _1999)
+
+# Of the 2012 card and the 1987 item, one featured Mike Morales and the other sold for $275.
+m += Xor([(_2012 == mike_morales) & (_1987 == price275), (_2012 == price275) & (_1987 == mike_morales)])
+
+# Neddy Norris's item sold for 50 dollars more than the 1987 card.
+m += add_comparable_constraints(prices_values, lambda var1, var2: var1 == var2 + 50, var1=neddy_norris, var2=_1987)
+
+# The end. You can take it from here.
+```

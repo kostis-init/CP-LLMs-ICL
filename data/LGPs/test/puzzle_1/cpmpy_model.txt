@@ -1,0 +1,39 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+chianti, port, riesling, shiraz = wines = intvar(1, 4, shape=4)
+_24, _25, _26, _27 = prices = intvar(1, 4, shape=4)
+isabel, kurt, priscilla, robin = names = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+prices_values = {_24: 24, _25: 25, _26: 26, _27: 27} # in dollars
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(wines)
+m += AllDifferent(prices)
+m += AllDifferent(names)
+
+# The person who had the port paid 1 dollar more than Kurt.
+m += add_comparable_constraints(prices_values, lambda var1, var2: var1 == var2 + 1, var1=port, var2=kurt)
+
+# Of the person who paid $25 and the person who paid $24, one was Priscilla and the other had the shiraz.
+m += Xor([(priscilla == _25) & (shiraz == _24), (priscilla == _24) & (shiraz == _25)])
+
+# Of the person who paid $27 and Priscilla, one had the chianti and the other had the port.
+m += Xor([(priscilla == chianti) & (_27 == port), (priscilla == port) & (_27 == chianti)])
+
+# Isabel paid $25.
+m += (isabel == _25)
+
+# The end. You can take it from here.
+```

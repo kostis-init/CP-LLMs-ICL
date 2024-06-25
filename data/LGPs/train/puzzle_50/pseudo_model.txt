@@ -1,0 +1,28 @@
+### Plan:
+Each entity will be represented by a decision variable that will take a value from 1 to 4. All decision variables with the same value will correspond to the same pairing. For example, if Charles == 1, and Games9 == 1, and ThirdBase == 1, then Charles played 9 games and played third base.
+
+### Decision variables:
+-   Names of the players: Charles, Evan, Karl, Vincent (all different, 1 to 4)
+-   Number of games played: Games8, Games9, Games10, Games11 (all different, 1 to 4)
+-   Positions played: CenterField, FirstBase, Shortstop, ThirdBase (all different, 1 to 4)
+
+### Constraints:
+-   Evan played 9 games:
+    This is a direct assignment constraint:
+    Evan == Games9.
+
+-   Vincent played first base:
+    This is a direct assignment constraint:
+    Vincent == FirstBase.
+
+-   The player who played third base played 2 more games than the person who played center field:
+    For this, we will need to add a constraint for each possible assignment of the number of games for the player who played third base and the player who played center field, such that the third base player's games are 2 more than the center field player's games. So, the constraints will be of the form:
+    g1 == ThirdBase and g2 == CenterField => g1_to_int == g2_to_int + 2, for all g1, g2 in games.
+
+-   Charles played 2 more games than the player who played center field:
+    For this, we will need to add a constraint for each possible assignment of the number of games for Charles and the player who played center field, such that Charles's games are 2 more than the center field player's games. So, the constraints will be of the form:
+    g1 == Charles and g2 == CenterField => g1_to_int == g2_to_int + 2, for all g1, g2 in games.
+
+-   Charles was either the boy who played 9 games or the person who played 10 games:
+    This is a constraint that states that Charles's number of games is either 9 or 10, but not both. So:
+    Xor([Charles == Games9, Charles == Games10]).

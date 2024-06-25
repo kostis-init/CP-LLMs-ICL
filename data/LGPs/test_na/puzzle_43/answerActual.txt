@@ -1,0 +1,4 @@
+ewing, 125 sq ft, 32250
+kirby, 110 sq ft, 35000
+nielsen, 140 sq ft, 27500
+whitehead, 95 sq ft, 29000

@@ -1,0 +1,4 @@
+anna, 25000, physics
+delores, 30000, biology
+wilma, 35000, mathematics
+yvonne, 40000, theology

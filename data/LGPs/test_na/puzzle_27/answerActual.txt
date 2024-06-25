@@ -1,0 +1,4 @@
+angel, 106 inches, 8 years
+charlie, 110 inches, 9 years
+gracie, 114 inches, 10 years
+merlin, 102 inches, 11 years

@@ -1,0 +1,4 @@
+ingram, 7, checkers
+parrish, 9, ice hogs
+quinn, 8, monsters
+underwood, 6, comets

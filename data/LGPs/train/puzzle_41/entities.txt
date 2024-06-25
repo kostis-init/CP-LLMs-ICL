@@ -1,0 +1,5 @@
+names, prices, drinks
+
+Angela, Edmund, Homer, Irene
+$4, $5, $6, $7
+cream soda, iced tea, root beer, water

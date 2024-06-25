@@ -1,0 +1,5 @@
+breads, times, customers
+
+flatbread, pumpernickel, rye bread, wheat bread
+7:00am, 7:30am, 8:00am, 8:30am
+Felicia, Isabel, Ora, Tricia

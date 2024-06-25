@@ -1,0 +1,40 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+awick, leden, poltris, versem = cars = intvar(1, 4, shape=4)
+_525miles, _550miles, _575miles, _600miles = distances = intvar(1, 4, shape=4)
+_62mph, _69mph, _75mph, _81mph = speeds = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+distances_values = {_525miles: 525, _550miles: 550, _575miles: 575, _600miles: 600} # in miles
+speeds_values = {_62mph: 62, _69mph: 69, _75mph: 75, _81mph: 81} # in MPH
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(cars)
+m += AllDifferent(distances)
+m += AllDifferent(speeds)
+
+# The Leden drove 25 miles farther than the automobile with a high speed of 75 MPH.
+m += add_comparable_constraints(distances_values, lambda var1, var2: var1 == var2 + 25, var1=leden, var2=_75mph)
+
+# The Poltris drove 25 miles farther than the automobile with a high speed of 69 MPH.
+m += add_comparable_constraints(distances_values, lambda var1, var2: var1 == var2 + 25, var1=poltris, var2=_69mph)
+
+# The Awick drove somewhat less than the automobile with a high speed of 81 MPH.
+m += add_comparable_constraints(distances_values, lambda var1, var2: var1 < var2, var1=awick, var2=_81mph)
+
+# The car with a high speed of 69 MPH drove somewhat farther than the automobile with a high speed of 81 MPH.
+m += add_comparable_constraints(distances_values, lambda var1, var2: var1 > var2, var1=_69mph, var2=_81mph)
+
+# The end. You can take it from here.
+```

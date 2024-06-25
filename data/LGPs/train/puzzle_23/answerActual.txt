@@ -1,0 +1,4 @@
+daniel, $270, 4th
+gabriel, $260, 8th
+roland, $280, 3rd
+vincent, $250, 7th

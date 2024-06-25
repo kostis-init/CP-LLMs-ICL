@@ -1,0 +1,21 @@
+Let's solve this step by step.
+
+1. "The report from Zearing was either the August 4 report or Edith Estes's report." - Edith Estes's report was not on August 4.
+
+2. "Hal Harrison's report was submitted sometime after Iva Ingram's sighting."
+
+3. "The August 5 sighting was from Islesboro." - Islesboro was on August 5.
+
+4. "The report from Tarzana was submitted 1 day before the sighting from Islesboro." - Tarzana was submitted on August 4 (because Islesboro was on August 5, see above)
+
+5. "Benny Baron's report was received on August 7." - Benny Baron's was on August 7.
+
+Some deductions:
+
+Firstly, Zearing has to be Edith Estes's report, because August 4 was Tarzana. Also, it has to be either 6 or 7 August, because 4 and 5 are on another cities. But, 7 was Benny Baron's, so we have the first mapping: Edith Estes, August 6, Zearing.
+
+Then, the only date remaining for Long Barn is August 7. So we have another mapping: Benny Baron, August 7, Long Barn.
+
+Finally, Hal was after Iva's, so we have the final mappings: Iva Ingram, August 4, Tarzana, and Hal Harrison, August 5, Islesboro.
+
+### FINAL ANSWER: {"mappings": [{"Iva Ingram", "August 4", "Tarzana"}, {"Hal Harrison", "August 5", "Islesboro"}, {"Edith Estes", "August 6", "Zearing"}, {"Benny Baron", "August 7", "Long Barn"}]}

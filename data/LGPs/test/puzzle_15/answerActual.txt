@@ -1,0 +1,4 @@
+790, aquamarine, osborne
+800, blue topaz, collins
+820, rhodolite, underwood
+810, tourmaline, knox

@@ -1,0 +1,5 @@
+arenas, capacities, sports
+
+Gentry, Underwood, Vazquez, Young
+110, 150, 190, 230
+basketball, football, lacrosse, soccer

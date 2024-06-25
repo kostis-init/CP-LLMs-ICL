@@ -1,0 +1,5 @@
+Arthur's pack is either the 25 liter pack or the Adironda pack.
+Eugene's pack is made by Adironda.
+Natasha's pack is either the 40 liter pack or the Travelore pack.
+Natasha's pack is 10 liters larger than the Grennel pack.
+The 30 liter pack is made by Grennel.

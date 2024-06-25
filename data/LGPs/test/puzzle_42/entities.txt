@@ -1,0 +1,5 @@
+names, scholarships, majors
+
+Anna, Delores, Wilma, Yvonne
+$25000, $30000, $35000, $40000
+Biology, Mathematics, Physics, Theology

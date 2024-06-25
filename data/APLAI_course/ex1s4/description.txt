@@ -1,0 +1,15 @@
+A magic square is an n x n grid (n != 2) such that each cell contains a different integer from 1 to n^2 and the sum of the integers in each row, column and diagonal is equal. Find a magic square for size 4, knowing that the sum of integers of each row, column and diagonal has to be equal to n(n^2+ 1)/2 (integer).
+
+It is mandatory that the answer should be given according to the following JSON schema:
+```json
+{
+    "square": [[int]]
+}
+
+For example, a 3x3 magic square should be given as:
+```json
+{
+    "square": [[2, 7, 6], [9, 5, 1], [4, 3, 8]]
+}
+```
+This means that the first row of the square is [2, 7, 6], the second row is [9, 5, 1] and the third row is [4, 3, 8].

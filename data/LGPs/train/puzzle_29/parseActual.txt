@@ -1,0 +1,4 @@
+comp(C2, A1, 4, >)
+comp(A2, C3, 4, >)
+is(A1, C1)
+comp(A1, A3, 2, <)

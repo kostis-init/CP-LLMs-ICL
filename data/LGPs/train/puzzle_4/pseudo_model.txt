@@ -1,0 +1,28 @@
+### Plan:
+Each entity will be represented by a decision variable that will take a value from 1 to 4. All decision variables with the same value will correspond to the same triplet. For example, if BennyBaron == 1, and August7 == 1, and Islesboro == 1, then Benny Baron's report was received on August 7 from Islesboro.
+
+### Decision variables:
+-   Names of the witnesses: BennyBaron, EdithEstes, HalHarrison, IvaIngram (all different, 1 to 4)
+-   Dates of the reports: August4, August5, August6, August7 (all different, 1 to 4)
+-   Names of the towns: Islesboro, LongBarn, Tarzana, Zearing (all different, 1 to 4)
+
+### Constraints:
+-   The report from Zearing was either the August 4 report or Edith Estes's report:
+    This is a constraint that states that the report from Zearing's date is either August 4 or the date of Edith Estes's report, but not both. So:
+    Xor([Zearing == August4, Zearing == EdithEstes]).
+
+-   Hal Harrison's report was submitted sometime after Iva Ingram's sighting:
+    For this, we will need to add a constraint for each possible assignment of the dates for Hal Harrison and Iva Ingram, such that Hal Harrison's report date is greater than Iva Ingram's report date. So, the constraints will be of the form:
+    d1 == HalHarrison and d2 == IvaIngram => d1_to_int > d2_to_int, for all d1, d2 in dates.
+
+-   The August 5 sighting was from Islesboro:
+    This is a direct assignment constraint:
+    August5 == Islesboro.
+
+-   The report from Tarzana was submitted 1 day before the sighting from Islesboro:
+    For this, we will need to add a constraint for each possible assignment of the dates for Tarzana and Islesboro, such that Tarzana's report date is 1 less than Islesboro's report date. So, the constraints will be of the form:
+    d1 == Tarzana and d2 == Islesboro => d1_to_int == d2_to_int - 1, for all d1, d2 in dates.
+
+-   Benny Baron's report was received on August 7:
+    This is a direct assignment constraint:
+    BennyBaron == August7.

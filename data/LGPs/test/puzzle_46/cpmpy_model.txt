@@ -1,0 +1,43 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+archadon, mirasaurus, pilodontus, senosaurus = dinosaurs = intvar(1, 4, shape=4)
+_500, _750, _1000, _1250 = price = intvar(1, 4, shape=4)
+_69million, _75million, _78million, _85million = ages = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+price_values = {_500: 500, _750: 750, _1000: 1000, _1250: 1250} # in dollars
+ages_values = {_69million: 69, _75million: 75, _78million: 78, _85million: 85} # in million years
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(dinosaurs)
+m += AllDifferent(price)
+m += AllDifferent(ages)
+
+# The 75 million year old fossil costs 500 dollars less than the pilodontus.
+m += add_comparable_constraints(price_values, lambda var1, var2: var1 == var2 - 500, var1=_75million, var2=pilodontus)
+
+# The senosaurus is 85 million years old.
+m += (senosaurus == _85million)
+
+# The 75 million year old fossil costs 500 dollars less than the 78 million year old fossil.
+m += add_comparable_constraints(price_values, lambda var1, var2: var1 == var2 - 500, var1=_75million, var2=_78million)
+
+# The 75 million year old fossil costs less than the archadon.
+m += add_comparable_constraints(price_values, lambda var1, var2: var1 < var2, var1=_75million, var2=archadon)
+
+# The 69 million year old fossil costs 250 dollars more than the 78 million year old fossil.
+m += add_comparable_constraints(price_values, lambda var1, var2: var1 == var2 + 250, var1=_69million, var2=_78million)
+
+# The end. You can take it from here.
+```

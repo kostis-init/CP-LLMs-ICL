@@ -1,0 +1,24 @@
+### Plan:
+Each entity will be represented by a decision variable that will take a value from 1 to 4. All decision variables with the same value will correspond to the same pairing. For example, if Dominica == 1, and Gold1 == 1, and Silver2 == 1, then Dominica won 1 gold medal and 2 silver medals.
+
+### Decision variables:
+-   Names of the countries: Dominica, Jordan, Venezuela, Zimbabwe (all different, 1 to 4)
+-   Number of gold medals won: Gold1, Gold2, Gold3, Gold4 (all different, 1 to 4)
+-   Number of silver medals won: Silver2, Silver5, Silver6, Silver8 (all different, 1 to 4)
+
+### Constraints:
+-   The team from Venezuela finished with 4 gold medals:
+    This is a direct assignment constraint:
+    Venezuela == Gold4.
+
+-   The squad that won 2 gold medals ended with 6 silver medals:
+    This is a direct assignment constraint linking gold medals to silver medals:
+    Gold2 == Silver6.
+
+-   The four teams were the squad from Zimbabwe, the team that won 3 gold medals, the squad that won 6 silver medals, and the squad that won 8 silver medals:
+    This is a constraint that states that all these entities are different, thus:
+    AllDifferent([Zimbabwe, Gold3, Silver6, Silver8]).
+
+-   The team from Dominica ended the games with 1 fewer gold medal than the squad that won 5 silver medals:
+    For this, we will need to add a constraint for each possible assignment of the number of gold medals for Dominica and the squad that won 5 silver medals, such that Dominica's gold medals are 1 less than the squad's gold medals that won 5 silver medals. So, the constraints will be of the form:
+    g1 == Dominica and g2 == Silver5 => g1 == g2 - 1, for all g1, g2 in gold medals.

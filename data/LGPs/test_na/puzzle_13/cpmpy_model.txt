@@ -1,0 +1,36 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+daniel, gabriel, roland, vincent = winners = intvar(1, 4, shape=4)
+_250, _260, _270, _280 = prices = intvar(1, 4, shape=4)
+_3rd, _4th, _7th, _8th = orders = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+prices_values = {_250: 250, _260: 260, _270: 270, _280: 280} # in dollars
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(winners)
+m += AllDifferent(prices)
+m += AllDifferent(orders)
+
+# The butterfly that was auctioned 7th sold for 20 dollars less than the insect won by Daniel.
+m += add_comparable_constraints(prices_values, lambda var1, var2: var1 == var2 - 20, var1=_7th, var2=daniel)
+
+# The four butterflies were the insect that sold for $260, the butterfly that was auctioned 4th, the butterfly that was auctioned 7th and the butterfly won by Roland.
+m += AllDifferent([_260, _4th, _7th, roland])
+
+# The butterfly won by Gabriel was the 8th lot.
+m += (gabriel == _8th)
+
+# The end. You can take it from here.
+```

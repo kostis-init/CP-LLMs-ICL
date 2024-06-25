@@ -1,0 +1,42 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+aimee, ebony, jimmy, rosa = borrowers = intvar(1, 4, shape=4)
+sept1, sept8, sept15, sept22 = due_dates = intvar(1, 4, shape=4)
+dancing_well, frogs_of_iowa, heavens_seal, time_to_burn = titles = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+due_dates_values = {sept1: 1, sept8: 2, sept15: 3, sept22: 4} # in weeks of September
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(borrowers)
+m += AllDifferent(due_dates)
+m += AllDifferent(titles)
+
+# The title due on September 22 is either Rosa's book or "Dancing Well".
+m += Xor([sept22 == rosa, sept22 == dancing_well])
+
+# Ebony's book was due 1 week after Rosa's book.
+m += add_comparable_constraints(due_dates_values, lambda var1, var2: var1 == var2 + 1, var1=ebony, var2=rosa)
+
+# Aimee's book was due on September 15.
+m += (aimee == sept15)
+
+# Ebony's book was "Heaven's Seal".
+m += (ebony == heavens_seal)
+
+# "Heaven's Seal" was due 1 week after "Frogs of Iowa".
+m += add_comparable_constraints(due_dates_values, lambda var1, var2: var1 == var2 + 1, var1=heavens_seal, var2=frogs_of_iowa)
+
+# The end. You can take it from here.
+```

@@ -1,0 +1,4 @@
+della, 6, fremont library
+neil, 15, neptune theatre
+rosa, 12, arctic building
+sara, 9, smith tower

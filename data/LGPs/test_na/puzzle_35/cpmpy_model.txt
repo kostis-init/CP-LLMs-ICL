@@ -1,0 +1,42 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+della, neil, rosa, sara = customers = intvar(1, 4, shape=4)
+_6, _9, _12, _15 = fares = intvar(1, 4, shape=4)
+arctic_building, fremont_library, neptune_theatre, smith_tower = pickup_points = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+fares_values = {_6: 6, _9: 9, _12: 12, _15: 15} # in dollars
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(customers)
+m += AllDifferent(fares)
+m += AllDifferent(pickup_points)
+
+# Rosa paid somewhat more than the customer who got picked up at the Smith Tower.
+m += add_comparable_constraints(fares_values, lambda var1, var2: var1 > var2, var1=rosa, var2=smith_tower)
+
+# The client with the $9 fare was picked up at the Smith Tower.
+m += _9 == smith_tower
+
+# Neil paid 3 dollars more than Rosa.
+m += add_comparable_constraints(fares_values, lambda var1, var2: var1 == var2 + 3, var1=neil, var2=rosa)
+
+# The customer who got picked up at the Fremont Library was either the client with the $9 fare or Della.
+m += Xor([fremont_library == _9, fremont_library == della])
+
+# The person with the $15 fare was picked up at the Neptune Theatre.
+m += _15 == neptune_theatre
+
+# The end. You can take it from here.
+```

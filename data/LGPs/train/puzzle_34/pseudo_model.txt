@@ -1,0 +1,28 @@
+### Plan:
+Each entity will be represented by a decision variable that will take a value from 1 to 4. All decision variables with the same value will correspond to the same pairing. For example, if Fushil == 1, and 1754 == 1, and Hakili == 1, then Fushil was discovered in 1754 and is the island where the Hakili people lived.
+
+### Decision variables:
+-   Names of the islands: Fushil, Jujihm, Nuhirk, Verinya (all different, 1 to 4)
+-   Years of discovery: Year1754, Year1761, Year1768, Year1775 (all different, 1 to 4)
+-   Cultures of the islands: Hakili, Manikai, Kukani, Wainani (all different, 1 to 4)
+
+### Constraints:
+-   Jujihm was discovered in 1768:
+    This is a direct assignment constraint:
+    Jujihm == Year1768.
+
+-   Verinya was discovered in 1761:
+    This is a direct assignment constraint:
+    Verinya == Year1761.
+
+-   Jujihm was discovered 14 years after the island on which the Wainani people lived:
+    For this, we will need to add a constraint for each possible assignment of the years of discovery for Jujihm and the island where the Wainani people lived, such that Jujihm's year of discovery is 14 years after the Wainani's island year of discovery. So, the constraints will be of the form:
+    y1 == Jujihm and y2 == Wainani => y1_to_int == y2_to_int + 14, for all y1, y2 in years of discovery.
+
+-   The island on which the Kukani people lived was discovered 7 years after Fushil:
+    For this, we will need to add a constraint for each possible assignment of the years of discovery for the island where the Kukani people lived and Fushil, such that the Kukani's island year of discovery is 7 years after Fushil's year of discovery. So, the constraints will be of the form:
+    y1 == Kukani and y2 == Fushil => y1_to_int == y2_to_int + 7, for all y1, y2 in years of discovery.
+
+-   The island discovered in 1768 was either the island on which the Hakili people lived or Fushil:
+    This is a constraint that states that the island discovered in 1768 is either the island where the Hakili people lived or Fushil, but not both. So:
+    Xor([Year1768 == Hakili, Year1768 == Fushil]).

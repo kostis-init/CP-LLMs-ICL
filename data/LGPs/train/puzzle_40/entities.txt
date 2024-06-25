@@ -1,0 +1,5 @@
+craters, diameters, periods
+
+Asanish, Cersay, Garight, Kimeta
+100 meters, 125 meters, 150 meters, 175 meters
+Cambrian, Devonian, Jurassic, Ordovician

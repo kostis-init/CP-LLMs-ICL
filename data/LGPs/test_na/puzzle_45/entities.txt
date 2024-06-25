@@ -1,0 +1,5 @@
+students, months, ships
+
+Darryl, Gene, Lauren, Stacy
+March, April, May, June
+Liberty, Osprey, Pegasus, Serenity

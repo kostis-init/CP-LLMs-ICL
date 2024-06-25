@@ -1,0 +1,42 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+april, may, june, july = months = intvar(1, 4, shape=4)
+aspen_court, norway_court, oak_road, quince_street = streets = intvar(1, 4, shape=4)
+bill_bonner, dawn_daniels, freda_fisher, irma_ingram = managers = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+months_values = {april: 1, may: 2, june: 3, july: 4} # in months order
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(months)
+m += AllDifferent(streets)
+m += AllDifferent(managers)
+
+# The Quince Street project will be headed by Freda Fisher.
+m += (quince_street == freda_fisher)
+
+# Of the job starting in May and the Oak Road project, one will be headed by Dawn Daniels and the other will be headed by Irma Ingram.
+m += Xor([(may == dawn_daniels) & (oak_road == irma_ingram), (may == irma_ingram) & (oak_road == dawn_daniels)])
+
+# Of the job starting in July and the job starting in April, one will focus on Oak Road and the other will be headed by Freda Fisher.
+m += Xor([(july == oak_road) & (april == freda_fisher), (july == freda_fisher) & (april == oak_road)])
+
+# The Aspen Court project starts in May.
+m += (aspen_court == may)
+
+# The Aspen Court project begins sometime after Dawn Daniels's project.
+m += add_comparable_constraints(months_values, lambda var1, var2: var1 > var2, var1=aspen_court, var2=dawn_daniels)
+
+# The end. You can take it from here.
+```

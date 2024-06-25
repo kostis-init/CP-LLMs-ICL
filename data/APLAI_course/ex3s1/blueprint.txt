@@ -1,0 +1,16 @@
+Decision Variables:
+    Define integer variables for each child, age, country, and story to represent the mapping of the children to the ages, countries, and stories. The variable 'ages', 'children', 'countries', and 'stories' are arrays of size 5.
+
+Domains:
+    Each variable in 'ages', 'children', 'countries', and 'stories' has a domain of [1, 5] as there are five children, five ages, five countries, and five stories.
+
+Constraints:
+    All entities are different per category: This can be represented by adding AllDifferent constraints for each category (ages, children, countries, and stories).
+    Debby’s family is from Lithuania: This can be represented by setting the variable debby equal to lithuania.
+    The child who told the story of the Passover is two years older than Bernice: This can be represented by iterating over all possible pairs of ages and adding a constraint that if a1 is the age of the child who told the story of the Passover and a2 is the age of Bernice, then the integer value of a1 is two more than the integer value of a2.
+    The child whose family is from Yemen is younger than the child from the Ethiopian family: This can be represented by iterating over all possible pairs of ages and adding a constraint that if a1 is the age of the child whose family is from Yemen and a2 is the age of the child from the Ethiopian family, then the integer value of a1 is less than the integer value of a2.
+    The child from the Moroccan family is three years older than Ted: This can be represented by iterating over all possible pairs of ages and adding a constraint that if a1 is the age of the child from the Moroccan family and a2 is the age of Ted, then the integer value of a1 is three more than the integer value of a2.
+    Sammy is three years older than the child who told the story of Moses’s youth in the house of the Pharaoh: This can be represented by iterating over all possible pairs of ages and adding a constraint that if a1 is the age of Sammy and a2 is the age of the child who told the story of Moses’s youth, then the integer value of a1 is three more than the integer value of a2.
+
+Objective:
+    There is no objective function in this problem as it is a feasibility problem. We are looking for any solution that satisfies the constraints.

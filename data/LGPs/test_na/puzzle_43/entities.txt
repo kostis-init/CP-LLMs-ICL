@@ -1,0 +1,5 @@
+customers, sq footage, prices
+
+Ewing, Kirby, Nielsen, Whitehead
+95 sq ft, 110 sq ft, 125 sq ft, 140 sq ft
+$27,500, $29,000, $32,250, $35,000

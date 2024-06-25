@@ -1,0 +1,27 @@
+### Plan:
+Each entity will be represented by a decision variable that will take a value from 1 to 4. All decision variables with the same value will correspond to the same pairing. For example, if BennyBaron == 1, and August7 == 1, and CrescentCity == 1, then Benny Baron's sighting was submitted on August 7 from Crescent City.
+
+### Decision variables:
+-   Names of the witnesses: BennyBaron, DanDelgado, EdithEstes, GilGates (all different, 1 to 4)
+-   Dates of the sightings: August4, August5, August6, August7 (all different, 1 to 4)
+-   Names of the towns: CrescentCity, Embden, Islesboro, WalnutCreek (all different, 1 to 4)
+
+### Constraints:
+-   Benny Baron's sighting was submitted 2 days after Dan Delgado's report:
+    For this, we will need to add a constraint for each possible assignment of the dates for Benny Baron and Dan Delgado, such that Benny Baron's sighting date is 2 days after Dan Delgado's report date. So, the constraints will be of the form:
+    d1 == BennyBaron and d2 == DanDelgado => d1_to_int == d2_to_int + 2, for all d1, d2 in dates.
+
+-   Of the August 7 report and the August 5 sighting, one was reported by Gil Gates and the other was from Walnut Creek:
+    This is a constraint that states that for the August 7 report and the August 5 sighting, one is associated with Gil Gates and the other with Walnut Creek, but not both. So:
+    Xor([
+        (August7 == GilGates, August5 == WalnutCreek),
+        (August7 == WalnutCreek, August5 == GilGates)
+    ]).
+
+-   The report from Crescent City was submitted 1 day after the sighting from Islesboro:
+    For this, we will need to add a constraint for each possible assignment of the towns and dates for Crescent City and Islesboro, such that Crescent City's report date is 1 day after Islesboro's sighting date. So, the constraints will be of the form:
+    t1 == CrescentCity and t2 == Islesboro => t1_to_int == t2_to_int + 1, for all t1, t2 in dates.
+
+-   The sighting from Walnut Creek was either the August 7 report or Edith Estes's sighting:
+    This is a constraint that states that the sighting from Walnut Creek's date is either August 7 or the date of Edith Estes's sighting, but not both. So:
+    Xor([WalnutCreek == August7, WalnutCreek == EdithEstes]).

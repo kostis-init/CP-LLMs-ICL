@@ -1,0 +1,5 @@
+The worker who works in the green section served more riders than Brett.
+Peter served 25 fewer riders than Willis.
+Brett served more riders than Peter.
+The person who works in the yellow section served 25 more riders than the worker who works in the orange section.
+Peter is either the person who served 125 riders or the person who works in the blue section.

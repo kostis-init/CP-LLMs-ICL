@@ -1,0 +1,28 @@
+### Plan:
+Each entity will be represented by a decision variable that will take a value from 1 to 4. All decision variables with the same value will correspond to the same triplet. For example, if Merlin == 1, and 102inches == 1, and Age4 == 1, then Merlin is the condor with a wingspan of 102 inches and is 4 years old.
+
+### Decision variables:
+-   Names of the condors: Merlin, Pepper, Spike, Sunshine (all different, 1 to 4)
+-   Wingspans of the condors: Wingspan102, Wingspan106, Wingspan110, Wingspan114 (all different, 1 to 4)
+-   Ages of the condors: Age4, Age5, Age8, Age9 (all different, 1 to 4)
+
+### Constraints:
+-   Sunshine is either the condor with a wingspan of 102 inches or the 5-year-old bird:
+    This is a constraint that states that Sunshine's wingspan is either 102 inches or Sunshine is the 5-year-old bird, but not both. So:
+    Xor([Sunshine == Wingspan102, Sunshine == Age5]).
+
+-   The condor with a wingspan of 114 inches is 5 years old:
+    This is a direct assignment constraint:
+    Wingspan114 == Age5.
+
+-   Pepper has a wingspan of 114 inches:
+    This is a direct assignment constraint:
+    Pepper == Wingspan114.
+
+-   The four condors are the 9-year-old bird, Pepper, Merlin, and the condor with a wingspan of 106 inches:
+    This is a constraint that states that all these entities are different, thus:
+    AllDifferent([Age9, Pepper, Merlin, Wingspan106]).
+
+-   The 9-year-old bird has a wingspan 4 inches shorter than the 4-year-old bird:
+    For this, we will need to add a constraint for each possible assignment of the wingspans for the 9-year-old bird and the 4-year-old bird, such that the 9-year-old bird's wingspan is 4 inches shorter than the 4-year-old bird's wingspan. So, the constraints will be of the form:
+    w1 == Age9 and w2 == Age4 => w1_to_int == w2_to_int - 4, for all w1, w2 in wingspans.

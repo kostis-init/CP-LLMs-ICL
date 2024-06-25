@@ -1,0 +1,24 @@
+### Plan:
+Each entity will be represented by a decision variable that will take a value from 1 to 4. All decision variables with the same value will correspond to the same triplet. For example, if Cornick == 1, and January == 1, and Permias == 1, then Cornick is the rocket that will launch in January and is made by Permias.
+
+### Decision variables:
+-   Names of the rockets: Cornick, Dreadco, Foltron, Worul (all different, 1 to 4)
+-   Months of launch: January, February, March, April (all different, 1 to 4)
+-   Companies that made the rockets: Permias, Rubicorp, Techtrin, Ubersplore (all different, 1 to 4)
+
+### Constraints:
+-   The Worul, the rocket that will launch in February, and the rocket that will launch in January are all different rockets:
+    This is a constraint that states that all these entities are different, thus:
+    AllDifferent([Worul, February, January]).
+
+-   The Dreadco is made by Ubersplore:
+    This is a direct assignment constraint:
+    Dreadco == Ubersplore.
+
+-   The rocket developed by Permias will launch 1 month before the Foltron:
+    For this, we will need to add a constraint for each possible assignment of the months of launch for the rocket developed by Permias and the Foltron, such that Permias's rocket's month of launch is 1 less than Foltron's month of launch. So, the constraints will be of the form:
+    m1 == Permias and m2 == Foltron => m1_to_int == m2_to_int - 1, for all m1, m2 in months of launch.
+
+-   The rocket that will launch in January is made by Techtrin:
+    This is a direct assignment constraint:
+    January == Techtrin.

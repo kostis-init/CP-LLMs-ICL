@@ -1,0 +1,39 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+_109, _110, _111, _112 = ages = intvar(1, 4, shape=4)
+arlene, doris, floyd, herbert = names = intvar(1, 4, shape=4)
+connecticut, missouri, new_mexico, texas = states = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+ages_values = {_109: 109, _110: 110, _111: 111, _112: 112} # in years
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(ages)
+m += AllDifferent(names)
+m += AllDifferent(states)
+
+# The person who is 110 years old is a native of Connecticut.
+m += _110 == connecticut
+
+# Of Arlene and the Texas native, one is 110 years old and the other is 109 years old.
+m += Xor([(arlene == _110) & (texas == _109), (arlene == _109) & (texas == _110)])
+
+# Herbert is 1 year younger than Doris.
+m += add_comparable_constraints(ages_values, lambda var1, var2: var1 == var2 - 1, var1=herbert, var2=doris)
+
+# The person who is 112 years old is either Herbert or the New Mexico native.
+m += Xor([(_112 == herbert), (_112 == new_mexico)])
+
+# The end. You can take it from here.
+```

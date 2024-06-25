@@ -1,0 +1,27 @@
+### Plan:
+Each entity will be represented by a decision variable that will take a value from 1 to 4. All decision variables with the same value will correspond to the same pairing. For example, if Beritron == 1, and January == 1, and Omnipax == 1, then Beritron is the rocket that will launch in January and is developed by Omnipax.
+
+### Decision variables:
+-   Names of the rockets: Beritron, Exatris, Foltron, Worul (all different, 1 to 4)
+-   Months of launch: January, February, March, April (all different, 1 to 4)
+-   Companies that developed the rockets: Omnipax, Rubicorp, SpaceZen, Ubersplore (all different, 1 to 4)
+
+### Constraints:
+-   The Exatris will launch 1 month after the Worul:
+    For this, we will need to add a constraint for each possible assignment of the months of launch for the Exatris and the Worul, such that Exatris's month of launch is 1 month after Worul's month of launch. So, the constraints will be of the form:
+    m1 == Exatris and m2 == Worul => m1_to_int == m2_to_int + 1, for all m1, m2 in months of launch.
+
+-   Of the Foltron and the rocket that will launch in January, one is made by Ubersplore and the other is made by Rubicorp:
+    This is a constraint that states that for the Foltron and the rocket that will launch in January, one is associated with Ubersplore and the other with Rubicorp, but not both. So:
+    Xor([
+        (Foltron == Ubersplore, January == Rubicorp),
+        (Foltron == Rubicorp, January == Ubersplore)
+    ]).
+
+-   The rocket developed by SpaceZen will launch 2 months after the rocket developed by Ubersplore:
+    For this, we will need to add a constraint for each possible assignment of the months of launch for the rocket developed by SpaceZen and the rocket developed by Ubersplore, such that SpaceZen's rocket's month of launch is 2 months after Ubersplore's rocket's month of launch. So, the constraints will be of the form:
+    m1 == SpaceZen and m2 == Ubersplore => m1_to_int == m2_to_int + 2, for all m1, m2 in months of launch.
+
+-   The rocket that will launch in February is either the Worul or the rocket developed by Omnipax:
+    This is a constraint that states that the rocket that will launch in February's name is either Worul or the rocket developed by Omnipax, but not both. So:
+    Xor([February == Worul, February == Omnipax]).

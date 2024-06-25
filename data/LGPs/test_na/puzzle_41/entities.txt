@@ -1,0 +1,5 @@
+arenas, capacities, sports
+
+Frederick, Ingram, Noble, Wilcox
+110, 150, 190, 230
+basketball, lacrosse, rugby, soccer

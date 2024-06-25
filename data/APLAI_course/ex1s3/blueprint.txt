@@ -1,0 +1,14 @@
+Decision Variables:
+    Define integer variables for each gate to represent the number of apples the boy has before passing through that gate. The variable 'apples' is an array of size equal to the number of gates plus one (6 in this case).
+
+Constraints:
+    No Apples Left: The boy has no apples left after giving the apple to the girl. This can be represented as:
+    apples[-1] == 1
+
+    Half Apples Plus One: At each gate, the boy gives half of his apples, plus one. This can be represented by iterating over the gates and for each gate, add a constraint that the number of apples before the gate is equal to twice the number of apples after the gate plus one.
+
+Objective:
+    There is no objective function in this problem as we are not optimizing anything. We are simply finding a feasible solution that satisfies all the constraints.
+
+Solution:
+    Solve the model and if a solution is found, print the solution in the specified format. The solution is a JSON object with a single key 'apples' whose value is a list of integers representing the number of apples the boy has before each gate, plus the last element being the number of apples given to the girl.

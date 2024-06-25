@@ -1,0 +1,4 @@
+franklin, 21 minutes, maroon
+salvador, 22 minutes, cyan
+ted, 23 minutes, black
+zachary, 24 minutes, aquamarine

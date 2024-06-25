@@ -1,0 +1,42 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+armor_stop, rip_tide, soundarm, viking_5 = sirens = intvar(1, 4, shape=4)
+_100db, _105db, _110db, _115db = decibels = intvar(1, 4, shape=4)
+_1996, _1997, _2000, _2009 = years = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+decibels_values = {_100db: 100, _105db: 105, _110db: 110, _115db: 115} # in decibels
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(sirens)
+m += AllDifferent(decibels)
+m += AllDifferent(years)
+
+# The siren released in 1997 is 10 decibels louder than the siren released in 1996.
+m += add_comparable_constraints(decibels_values, lambda var1, var2: var1 == var2 + 10, var1=_1997, var2=_1996)
+
+# The siren released in 2009 is either the Armor-Stop or the Viking 5.
+m += Xor([_2009 == armor_stop, _2009 == viking_5])
+
+# The siren released in 1997 is either the Soundarm or the Viking 5.
+m += Xor([_1997 == soundarm, _1997 == viking_5])
+
+# The Armor-Stop is louder than the siren released in 2009.
+m += add_comparable_constraints(decibels_values, lambda var1, var2: var1 > var2, var1=armor_stop, var2=_2009)
+
+# The Soundarm is 110 decibels loud.
+m += (soundarm == _110db)
+
+# The end. You can take it from here.
+```

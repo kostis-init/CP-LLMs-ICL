@@ -1,0 +1,42 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+glenn, henrietta, olivia, willie = children = intvar(1, 4, shape=4)
+_8am, _9am, _10am, _11am = times = intvar(1, 4, shape=4)
+dining_room, laundry_room, living_room, mud_room = rooms = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+times_values = {_8am: 8, _9am: 9, _10am: 10, _11am: 11} # in hours
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(children)
+m += AllDifferent(times)
+m += AllDifferent(rooms)
+
+# Henrietta's task starts 2 hours after Glenn's job.
+m += add_comparable_constraints(times_values, lambda var1, var2: var1 == var2 + 2, var1=henrietta, var2=glenn)
+
+# Glenn's task is the dining room.
+m += (glenn == dining_room)
+
+# Glenn's chore starts 1 hour after the mud room assignment.
+m += add_comparable_constraints(times_values, lambda var1, var2: var1 == var2 + 1, var1=glenn, var2=mud_room)
+
+# Henrietta's task is the living room.
+m += (henrietta == living_room)
+
+# The mud room assignment starts sometime before Willie's assignment.
+m += add_comparable_constraints(times_values, lambda var1, var2: var1 < var2, var1=mud_room, var2=willie)
+
+# The end. You can take it from here.
+```

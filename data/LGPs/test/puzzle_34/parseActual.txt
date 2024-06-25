@@ -1,0 +1,5 @@
+is(A1, B1)
+is(A3, C1)
+comp(C3, C0, 2, >)
+comp(A0, C0, 2, >)
+either(A0, B1, B2)

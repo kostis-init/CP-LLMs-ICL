@@ -1,0 +1,5 @@
+prices, winners, butterflies
+
+$45, $60, $75, $90
+Alejandro, Faye, Irma, Phillip
+atlas, emperor, grayling, peacock

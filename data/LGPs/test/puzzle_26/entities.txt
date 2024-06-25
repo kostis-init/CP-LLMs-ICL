@@ -1,0 +1,5 @@
+prices, names, wines
+
+$24, $25, $26, $27
+Frances, Hannah, Kurt, Olga
+merlot, port, riesling, shiraz

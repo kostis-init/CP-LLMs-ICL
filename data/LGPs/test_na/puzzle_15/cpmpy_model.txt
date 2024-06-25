@@ -1,0 +1,43 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+gilbert, macdonald, pickett, vasquez = diplomats = intvar(1, 4, shape=4)
+january, february, march, april = months = intvar(1, 4, shape=4)
+_4day, _5day, _9day, _10day = durations = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+months_values = {january: 1, february: 2, march: 3, april: 4} # in months
+durations_values = {_4day: 4, _5day: 5, _9day: 9, _10day: 10} # in days
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(diplomats)
+m += AllDifferent(months)
+m += AllDifferent(durations)
+
+# Vasquez will leave sometime after Macdonald.
+m += add_comparable_constraints(months_values, lambda var1, var2: var1 > var2, var1=vasquez, var2=macdonald)
+
+# Vasquez will leave 1 month before the ambassador with the 5-day visit.
+m += add_comparable_constraints(months_values, lambda var1, var2: var1 == var2 - 1, var1=vasquez, var2=_5day)
+
+# Gilbert is either the person leaving in January or the ambassador with the 4 day visit.
+m += Xor([gilbert == january, gilbert == _4day])
+
+# Macdonald will leave 1 month before the ambassador with the 4 day visit.
+m += add_comparable_constraints(months_values, lambda var1, var2: var1 == var2 - 1, var1=macdonald, var2=_4day)
+
+# The ambassador with the 4 day visit will leave sometime before the ambassador with the 9 day visit.
+m += add_comparable_constraints(durations_values, lambda var1, var2: var1 < var2, var1=_4day, var2=_9day)
+
+# The end. You can take it from here.
+```

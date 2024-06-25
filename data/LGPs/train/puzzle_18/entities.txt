@@ -1,0 +1,5 @@
+craters, diameters, periods
+
+Cersay, Moriwa, Ormagh, Vorckin
+100 meters, 125 meters, 150 meters, 175 meters
+Jurassic, Ordovician, Permian, Triassic

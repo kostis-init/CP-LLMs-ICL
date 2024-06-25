@@ -1,0 +1,40 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+angel, charlie, gracie, merlin = names = intvar(1, 4, shape=4)
+_102inches, _106inches, _110inches, _114inches = wingspans = intvar(1, 4, shape=4)
+_8years, _9years, _10years, _11years = ages = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+wingspans_values = {_102inches: 102, _106inches: 106, _110inches: 110, _114inches: 114}  # in inches
+ages_values = {_8years: 8, _9years: 9, _10years: 10, _11years: 11}
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(names)
+m += AllDifferent(wingspans)
+m += AllDifferent(ages)
+
+# Charlie is 9 years old.
+m += (charlie == _9years)
+
+# Gracie has a wingspan of 114 inches.
+m += (gracie == _114inches)
+
+# The 11-year-old bird has a wingspan 8 inches shorter than Charlie.
+m += add_comparable_constraints(wingspans_values, lambda var1, var2: var1 == var2 - 8, var1=_11years, var2=charlie)
+
+# Angel is either the 8-year-old bird or the bird with a wingspan of 114 inches.
+m += Xor([angel == _8years, angel == _114inches])
+
+# The end. You can take it from here.
+```

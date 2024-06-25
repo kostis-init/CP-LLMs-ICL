@@ -1,0 +1,4 @@
+astury, 1000, autumn leaves
+denlend, 750, postage stamp
+garroda, 250, city skyline
+vesem, 500, outer space

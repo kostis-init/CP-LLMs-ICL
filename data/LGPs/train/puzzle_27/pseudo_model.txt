@@ -1,0 +1,24 @@
+### Plan:
+Each entity will be represented by a decision variable that will take a value from 1 to 4. All decision variables with the same value will correspond to the same pairing. For example, if BaleHahnSSC == 1, and 2016 == 1, and DrFarley == 1, then the Bale-Hahn SSC project, headed by Dr. Farley, went online in 2016.
+
+### Decision variables:
+-   Names of the projects: BaleHahnSSC, EgertFacility, ISONX42, ZyngaComplex (all different, 1 to 4)
+-   Years the projects go online: Year2016, Year2017, Year2018, Year2019 (all different, 1 to 4)
+-   Names of the scientists: DrFarley, DrGolden, DrOwens, DrWeber (all different, 1 to 4)
+
+### Constraints:
+-   The project headed by Dr. Golden will go online sometime before the Zynga Complex:
+    For this, we will need to add a constraint for each possible assignment of the years for Dr. Golden's project and the Zynga Complex, such that Dr. Golden's project's year is less than the Zynga Complex's year. So, the constraints will be of the form:
+    y1 == DrGolden and y2 == ZyngaComplex => y1_to_int < y2_to_int, for all y1, y2 in years.
+
+-   The project headed by Dr. Weber will go online 1 year before the Bale-Hahn SSC:
+    For this, we will need to add a constraint for each possible assignment of the years for Dr. Weber's project and the Bale-Hahn SSC, such that Dr. Weber's project's year is 1 less than the Bale-Hahn SSC's year. So, the constraints will be of the form:
+    y1 == DrWeber and y2 == BaleHahnSSC => y1_to_int == y2_to_int - 1, for all y1, y2 in years.
+
+-   The Egert Facility will go online 1 year after the ISON-X42:
+    For this, we will need to add a constraint for each possible assignment of the years for the Egert Facility and the ISON-X42, such that the Egert Facility's year is 1 more than the ISON-X42's year. So, the constraints will be of the form:
+    y1 == EgertFacility and y2 == ISONX42 => y1_to_int == y2_to_int + 1, for all y1, y2 in years.
+
+-   The project headed by Dr. Owens will go online 1 year after the ISON-X42:
+    For this, we will need to add a constraint for each possible assignment of the years for Dr. Owens's project and the ISON-X42, such that Dr. Owens's project's year is 1 more than the ISON-X42's year. So, the constraints will be of the form:
+    y1 == DrOwens and y2 == ISONX42 => y1_to_int == y2_to_int + 1, for all y1, y2 in years.

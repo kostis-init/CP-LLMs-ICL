@@ -1,0 +1,31 @@
+In graph theory, an independent set is a set of vertices in a graph, no two of which are adjacent. A maximal independent set is an independent set that is not a subset of any other independent set. A graph may have many maximal independent sets of widely varying sizes: find the maximal independent sets for the data provided. The data provides an array containing for each node of the graph the set of adjacent nodes.
+
+Here is the data:
+{
+    "n": 8,
+    "adjacency_list": [  // indexing is 1-based
+        [2, 3, 7],
+        [1, 4, 8],
+        [1, 4, 5],
+        [2, 3, 6],
+        [3, 6, 7],
+        [4, 5, 8],
+        [1, 5, 8],
+        [2, 6, 7]
+    ]
+}
+
+It is mandatory that the answer should be given according to the following JSON schema:
+```json
+{
+    "nodes": [0 | 1]
+}
+```
+where `nodes` is an array of 0s and 1s, where 1 indicates that the node is part of the maximal independent set and 0 indicates that it is not.
+
+For example, a valid JSON (but not the answer for the example above) would be:
+```json
+{
+    "nodes": [0, 0, 0, 0, 0, 0, 0, 1]
+}
+```

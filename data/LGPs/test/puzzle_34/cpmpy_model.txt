@@ -1,0 +1,42 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+charles, evan, karl, vincent = players = intvar(1, 4, shape=4)
+_8, _9, _10, _11 = games = intvar(1, 4, shape=4)
+center_field, first_base, shortstop, third_base = positions = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+games_values = {_8: 8, _9: 9, _10: 10, _11: 11} # in games
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(players)
+m += AllDifferent(games)
+m += AllDifferent(positions)
+
+# Evan played 9 games.
+m += (evan == _9)
+
+# Vincent played first base.
+m += (vincent == first_base)
+
+# The player who played third base played 2 more games than the person who played center field.
+m += add_comparable_constraints(games_values, lambda var1, var2: var1 == var2 + 2, var1=third_base, var2=center_field)
+
+# Charles played 2 more games than the player who played center field.
+m += add_comparable_constraints(games_values, lambda var1, var2: var1 == var2 + 2, var1=charles, var2=center_field)
+
+# Charles was either the boy who played 9 games or the person who played 10 games.
+m += Xor([charles == _9, charles == _10])
+
+# The end. You can take it from here.
+```

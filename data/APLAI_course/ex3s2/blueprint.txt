@@ -1,0 +1,17 @@
+Decision Variables:
+    Define binary variables for each person to represent whether the person is male (0) or female (1). The variable 'sequence' is an array of size equal to the total number of people (13 in this case).
+
+Domains:
+    sequence[i] ∈ {0, 1} for each person i. The value 0 indicates that the person is male, and 1 indicates that the person is female.
+
+Constraints:
+    The total number of males should be equal to the given number of males (4). This can be represented by the equation:
+    sum(sequence) = total_people - num_males
+
+    The ratio of females to males in the room at any one time is no greater than 7/3. This can be represented by iterating over the sequence and for each point in the sequence, adding a constraint that 3 times the total number of females so far is less than or equal to 7 times the total number of males so far.
+
+    The first person must be male (because if it is female then the ratio is already violated). This can be represented by the equation:
+    sequence[0] = 0
+
+Objective:
+    There is no objective function in this problem as we are not asked to optimize anything. We are only asked to find a feasible solution that satisfies the constraints.

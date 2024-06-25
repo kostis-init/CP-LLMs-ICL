@@ -1,0 +1,5 @@
+earnings, movies, directors
+
+2 million, 5 million, 8 million, 11 million
+Amerigo, Fast and Dead, Let Me Out, What a World
+Jim Johnson, Kenneth Key, Linda Lynch, Micah Moreno

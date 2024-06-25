@@ -1,0 +1,42 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+cersay, moriwa, ormagh, vorckin = craters = intvar(1, 4, shape=4)
+_100m, _125m, _150m, _175m = diameters = intvar(1, 4, shape=4)
+jurassic, ordovician, permian, triassic = periods = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+diameters_values = {_100m: 100, _125m: 125, _150m: 150, _175m: 175} # in meters
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(craters)
+m += AllDifferent(diameters)
+m += AllDifferent(periods)
+
+# The Vorckin impact crater is 125 meters wide.
+m += (vorckin == _125m)
+
+# The 150 meters wide one is either the Ordovician impact crater or the Permian impact crater.
+m += Xor([_150m == ordovician, _150m == permian])
+
+# The Ordovician impact crater is 25 meters wider than the Jurassic impact crater.
+m += add_comparable_constraints(diameters_values, lambda var1, var2: var1 == var2 + 25, var1=ordovician, var2=jurassic)
+
+# The Triassic impact crater is either the Ormagh impact crater or the 150 meters wide one.
+m += Xor([triassic == ormagh, triassic == _150m])
+
+# The Cersay impact crater was formed during the Jurassic period.
+m += (cersay == jurassic)
+
+# The end. You can take it from here.
+```

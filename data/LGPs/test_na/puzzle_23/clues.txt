@@ -1,0 +1,5 @@
+The Kia rental is for a period 1 day shorter than the Toyota rental.
+The 4 day rental is for the Fiat.
+Kathy Koch's reservation is either the 5 day reservation or the Fiat rental.
+The 3 day rental, Irene Ingram's reservation and Kathy Koch's reservation are all different rentals.
+Ann Alexander's rental is for 4 days.

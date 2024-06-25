@@ -1,0 +1,26 @@
+My bank card has a 4 digit pin, abcd. I use the following facts to help me
+remember it:
+• no two digits are the same
+• the 2-digit number cd is 3 times the 2-digit number ab
+• the 2-digit number da is 2 times the 2-digit number bc
+What is my pin?
+
+It is mandatory that the answer should be given according to the following JSON schema:
+```json
+{
+    "a": int,
+    "b": int,
+    "c": int,
+    "d": int
+}
+```
+
+For example, if the pin is 1234, the answer should be:
+```json
+{
+    "a": 1,
+    "b": 2,
+    "c": 3,
+    "d": 4
+}
+```

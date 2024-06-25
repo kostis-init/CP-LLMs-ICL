@@ -1,0 +1,5 @@
+pounds lost, diets, names
+
+3, 5, 7, 9
+dairy-free, gluten-free, low-fat, vegan
+Celia, Mandy, Raymond, Tom

@@ -1,0 +1,42 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+january, february, march, april = months = intvar(1, 4, shape=4)
+essita_cbt, haramarui_lv, kuchiwa_w10, rodim_rexit = names = intvar(1, 4, shape=4)
+direct_drive, fusor, tokamak, z_pinch = types = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+months_values = {january: 1, february: 2, march: 3, april: 4} # in months
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(months)
+m += AllDifferent(names)
+m += AllDifferent(types)
+
+# The facility launching in March is the tokamak reactor.
+m += (tokamak == march)
+
+# The reactor launching in April is either the direct drive facility or the z-pinch facility.
+m += Xor([direct_drive == april, z_pinch == april])
+
+# Of the fusor reactor and the z-pinch facility, one will launch in February and the other is the Kuchiwa W10.
+m += Xor([(fusor == february) & (z_pinch == kuchiwa_w10), (fusor == kuchiwa_w10) & (z_pinch == february)])
+
+# The Essita CBT will launch in February.
+m += (essita_cbt == february)
+
+# The Haramarui LV will launch 1 month before the fusor reactor.
+m += add_comparable_constraints(months_values, lambda var1, var2: var1 == var2 - 1, var1=haramarui_lv, var2=fusor)
+
+# The end. You can take it from here.
+```

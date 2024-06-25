@@ -1,0 +1,28 @@
+### Plan:
+Each entity will be represented by a decision variable that will take a value from 1 to 4. All decision variables with the same value will correspond to the same triplet. For example, if Gilbert == 1, and January == 1, and Day4 == 1, then Gilbert is the ambassador leaving in January with a 4-day visit.
+
+### Decision variables:
+-   Names of the diplomats: Gilbert, Macdonald, Pickett, Vasquez (all different, 1 to 4)
+-   Months of departure: January, February, March, April (all different, 1 to 4)
+-   Visit durations: Day4, Day5, Day9, Day10 (all different, 1 to 4)
+
+### Constraints:
+-   Vasquez will leave sometime after Macdonald:
+    For this, we will need to add a constraint for each possible assignment of the months of departure for Vasquez and Macdonald, such that Vasquez's month of departure is greater than Macdonald's month of departure. So, the constraints will be of the form:
+    m1 == Vasquez and m2 == Macdonald => m1_to_int > m2_to_int, for all m1, m2 in months of departure.
+
+-   Vasquez will leave 1 month before the ambassador with the 5-day visit:
+    For this, we will need to add a constraint for each possible assignment of the months of departure for Vasquez and the ambassador with the 5-day visit, such that Vasquez's month of departure is 1 less than the ambassador's month of departure. So, the constraints will be of the form:
+    m1 == Vasquez and m2 == Day5 => m1_to_int == m2_to_int - 1, for all m1, m2 in months of departure.
+
+-   Gilbert is either the person leaving in January or the ambassador with the 4-day visit:
+    This is a constraint that states that Gilbert's month of departure is either January or the month of departure of the ambassador with the 4-day visit, but not both. So:
+    Xor([Gilbert == January, Gilbert == Day4]).
+
+-   Macdonald will leave 1 month before the ambassador with the 4-day visit:
+    For this, we will need to add a constraint for each possible assignment of the months of departure for Macdonald and the ambassador with the 4-day visit, such that Macdonald's month of departure is 1 less than the 4-days month of departure. So, the constraints will be of the form:
+    m1 == Macdonald and m2 == Day4 => m1_to_int == m2_to_int - 1, for all m1, m2 in months of departure.
+
+-   The ambassador with the 4-day visit will leave sometime before the ambassador with the 9-day visit:
+    For this, we will need to add a constraint for each possible assignment of the months of departure for the ambassador with the 4-day visit and the ambassador with the 9-day visit, such that the 4-days month of departure is less than the 9-days month of departure. So, the constraints will be of the form:
+    m1 == Day4 and m2 == Day9 => m1_to_int < m2_to_int, for all m1, m2 in months of departure.

@@ -1,0 +1,24 @@
+### Plan:
+Each entity will be represented by a decision variable that will take a value from 1 to 4. All decision variables with the same value will correspond to the same pairing. For example, if Ginger == 1, and 2007 == 1, and Bulldog == 1, then Ginger's dog, which is a bulldog, won in 2007.
+
+### Decision variables:
+-   Names of the owners: Anita, Elsie, Fernando, Ginger (all different, 1 to 4)
+-   Years of winning: Year2006, Year2007, Year2008, Year2009 (all different, 1 to 4)
+-   Breeds of the dogs: Bulldog, Dalmatian, IrishSetter, Maltese (all different, 1 to 4)
+
+### Constraints:
+-   The dalmatian won 1 year after Fernando's canine:
+    For this, we will need to add a constraint for each possible assignment of the years for the dalmatian and Fernando's dog, such that the dalmatian's winning year is 1 year after Fernando's dog's winning year. So, the constraints will be of the form:
+    y1 == Dalmatian and y2 == Fernando => y1_to_int == y2_to_int + 1, for all y1, y2 in years.
+
+-   Ginger's dog won 1 year before the irish setter:
+    For this, we will need to add a constraint for each possible assignment of the years for Ginger's dog and the irish setter, such that Ginger's dog's winning year is 1 year before the irish setter's winning year. So, the constraints will be of the form:
+    y1 == Ginger and y2 == IrishSetter => y1_to_int == y2_to_int - 1, for all y1, y2 in years.
+
+-   Ginger's canine is the bulldog:
+    This is a direct assignment constraint:
+    Ginger == Bulldog.
+
+-   The four dogs are the dog that won in 2006, the dalmatian, the bulldog, and Elsie's dog:
+    This is a constraint that states that all these entities are different, thus:
+    AllDifferent([Year2006, Dalmatian, Bulldog, Elsie]).

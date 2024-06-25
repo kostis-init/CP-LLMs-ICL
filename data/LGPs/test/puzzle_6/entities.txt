@@ -1,0 +1,5 @@
+days, names, departures
+
+June 10, June 11, June 12, June 13
+Francis, Greg, Ira, Oscar
+Buttonwillow, Coulterville, Indio, Manson

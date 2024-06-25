@@ -1,0 +1,42 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+egert_facility, falston_lcs, tevatron_lhc, zynga_complex = names = intvar(1, 4, shape=4)
+_2016, _2017, _2018, _2019 = years = intvar(1, 4, shape=4)
+dr_baldwin, dr_ewing, dr_kirk, dr_quinn = scientists = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+years_values = {_2016: 2016, _2017: 2017, _2018: 2018, _2019: 2019} # in years
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(names)
+m += AllDifferent(years)
+m += AllDifferent(scientists)
+
+# The Tevatron LHC is either the facility scheduled to go online in 2019 or the accelerator scheduled to go online in 2016.
+m += Xor([tevatron_lhc == _2019, tevatron_lhc == _2016])
+
+# Of the project headed by Dr. Baldwin and the project headed by Dr. Quinn, one is the Falston LCS and the other will go online in 2017.
+m += Xor([(dr_baldwin == falston_lcs) & (dr_quinn == _2017), (dr_baldwin == _2017) & (dr_quinn == falston_lcs)])
+
+# The project headed by Dr. Ewing will go online sometime before the Zynga Complex.
+m += add_comparable_constraints(years_values, lambda var1, var2: var1 < var2, var1=dr_ewing, var2=zynga_complex)
+
+# Of the project headed by Dr. Ewing and the facility scheduled to go online in 2018, one is the Egert Facility and the other is the Tevatron LHC.
+m += Xor([(dr_ewing == egert_facility) & (_2018 == tevatron_lhc), (dr_ewing == tevatron_lhc) & (_2018 == egert_facility)])
+
+# The Zynga Complex is headed by Dr. Baldwin.
+m += (zynga_complex == dr_baldwin)
+
+# The end. You can take it from here.
+```

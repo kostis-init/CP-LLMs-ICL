@@ -1,0 +1,43 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+credit_korp, mid_atlantic, southwest_inc, trustco = credit_cards = intvar(1, 4, shape=4)
+_8percent, _9percent, _10percent, _11percent = apr = intvar(1, 4, shape=4)
+_2000, _4000, _5000, _20000 = credit_limits = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+apr_values = {_8percent: 8, _9percent: 9, _10percent: 10, _11percent: 11} # in percent
+credit_limits_values = {_2000: 2000, _4000: 4000, _5000: 5000, _20000: 20000} # in dollars
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(credit_cards)
+m += AllDifferent(apr)
+m += AllDifferent(credit_limits)
+
+# The TrustCo card has an APR of 11%.
+m += trustco == _11percent
+
+# The Southwest Inc card has a limit of $2,000.
+m += southwest_inc == _2000
+
+# The card with an APR of 11% is either the card with the $4,000 credit limit or the one with the $20,000 credit limit.
+m += Xor([_11percent == _4000, _11percent == _20000])
+
+# The card with an APR of 10% is either the card with the $4,000 credit limit or the TrustCo card.
+m += Xor([_10percent == _4000, _10percent == trustco])
+
+# The Credit Korp card has an APR 1 percent lower than the one with the $2,000 credit limit.
+m += add_comparable_constraints(apr_values, lambda var1, var2: var1 == var2 - 1, var1=credit_korp, var2=_2000)
+
+# The end. You can take it from here.
+```

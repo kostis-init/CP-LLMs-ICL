@@ -1,0 +1,4 @@
+andy, 50 riders, red
+brett, 100 riders, blue
+victor, 125 riders, yellow
+zachary, 75 riders, green

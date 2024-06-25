@@ -1,0 +1,5 @@
+names, prices, drinks
+
+Delia, Hope, Patricia, Wayne
+$5, $6, $7, $8
+cafe americano, cafe latte, cappuccino, chai tea

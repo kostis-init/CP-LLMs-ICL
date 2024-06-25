@@ -1,0 +1,40 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+dominica, jordan, venezuela, zimbabwe = countries = intvar(1, 4, shape=4)
+_1gold, _2gold, _3gold, _4gold = gold_medals = intvar(1, 4, shape=4)
+_2silver, _5silver, _6silver, _8silver = silver_medals = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+gold_values = {_1gold: 1, _2gold: 2, _3gold: 3, _4gold: 4}
+silver_values = {_2silver: 2, _5silver: 5, _6silver: 6, _8silver: 8}
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(countries)
+m += AllDifferent(gold_medals)
+m += AllDifferent(silver_medals)
+
+# The team from Venezuela finished with 4 gold medals.
+m += venezuela == _4gold
+
+# The squad that won 2 gold medals ended with 6 silver medals.
+m += _2gold == _6silver
+
+# The four teams were the squad from Zimbabwe, the team that won 3 gold medals, the squad that won 6 silver medals and the squad that won 8 silver medals.
+m += AllDifferent([zimbabwe, _3gold, _6silver, _8silver])
+
+# The team from Dominica ended the games with 1 fewer gold medal than the squad that won 5 silver medals.
+m += add_comparable_constraints(gold_values, lambda var1, var2: var1 == var2 - 1, var1=dominica, var2=_5silver)
+
+# The end. You can take it from here.
+```

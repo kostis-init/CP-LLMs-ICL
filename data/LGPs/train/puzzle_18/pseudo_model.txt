@@ -1,0 +1,28 @@
+### Plan:
+Each entity will be represented by a decision variable that will take a value from 1 to 4. All decision variables with the same value will correspond to the same pairing. For example, if Cersay == 1, and 100meters == 1, and Jurassic == 1, then Cersay is the crater with a diameter of 100 meters and was formed during the Jurassic period.
+
+### Decision variables:
+-   Names of the craters: Cersay, Moriwa, Ormagh, Vorckin (all different, 1 to 4)
+-   Diameters of the craters: Diameter100, Diameter125, Diameter150, Diameter175 (all different, 1 to 4)
+-   Geological periods of the craters: Jurassic, Ordovician, Permian, Triassic (all different, 1 to 4)
+
+### Constraints:
+-   The Vorckin impact crater is 125 meters wide:
+    This is a direct assignment constraint:
+    Vorckin == Diameter125.
+
+-   The 150 meters wide one is either the Ordovician impact crater or the Permian impact crater:
+    This is a constraint that states that the crater with a diameter of 150 meters is either associated with the Ordovician period or the Permian period, but not both. So:
+    Xor([Diameter150 == Ordovician, Diameter150 == Permian]).
+
+-   The Ordovician impact crater is 25 meters wider than the Jurassic impact crater:
+    For this, we will need to add a constraint for each possible assignment of the diameters for the Ordovician and Jurassic craters, such that the Ordovician crater's diameter is 25 meters wider than the Jurassic crater's diameter. So, the constraints will be of the form:
+    d1 == Ordovician and d2 == Jurassic => d1_to_int == d2_to_int + 25, for all d1, d2 in diameters.
+
+-   The Triassic impact crater is either the Ormagh impact crater or the 150 meters wide one:
+    This is a constraint that states that the Triassic crater is either Ormagh or has a diameter of 150 meters, but not both. So:
+    Xor([Triassic == Ormagh, Triassic == Diameter150]).
+
+-   The Cersay impact crater was formed during the Jurassic period:
+    This is a direct assignment constraint:
+    Cersay == Jurassic.

@@ -1,0 +1,5 @@
+presenters, days, topics
+
+Alexander, Gerard, Inez, Mable
+May 10th, May 11th, May 12th, May 13th
+global warming, nitrogen usage, sulfur oxide, wind power

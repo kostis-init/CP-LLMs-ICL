@@ -1,0 +1,5 @@
+The siren released in 1997 is 10 decibels louder than the siren released in 1996.
+The siren released in 2009 is either the Armor-Stop or the Viking 5.
+The siren released in 1997 is either the Soundarm or the Viking 5.
+The Armor-Stop is louder than the siren released in 2009.
+The Soundarm is 110 decibels loud.

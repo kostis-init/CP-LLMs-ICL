@@ -1,0 +1,5 @@
+comp(C1, A2, 500, <)
+is(A3, C3)
+comp(C1, C2, 500, <)
+comp(C1, A0, <)
+comp(C0, C2, 250, >)

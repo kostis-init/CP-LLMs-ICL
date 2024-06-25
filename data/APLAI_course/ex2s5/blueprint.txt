@@ -1,0 +1,13 @@
+Decision Variables:
+    Define binary variables for each node to represent whether the node is included in the independent set (1) or not (0). The variable 'nodes' is an array of size equal to the number of nodes (8 in this case).
+
+Domains:
+    nodes[i] ∈ {0, 1} for each node i. The value 1 indicates that the node is included in the independent set, and 0 indicates that it is not included.
+
+Constraints:
+    No two adjacent nodes can both be in the independent set. This can be represented by iterating over the adjacency list and for each node and its neighbours, add a constraint that the node and its neighbour cannot both be in the independent set. This can be represented as:
+    For each node i and its neighbour j:
+    nodes[i] AND nodes[j] = 0.
+
+Objective:
+    Maximize the number of nodes in the independent set. This can be represented by adding a maximize objective to the model with the sum of the 'nodes' array as the objective.

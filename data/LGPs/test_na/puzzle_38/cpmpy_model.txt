@@ -1,0 +1,39 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+evan, ira, rudy, zachary = players = intvar(1, 4, shape=4)
+_41, _48, _55, _62 = scores = intvar(1, 4, shape=4)
+gray, orange, violet, white = colors = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+scores_values = {_41: 41, _48: 48, _55: 55, _62: 62} # in points
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(players)
+m += AllDifferent(scores)
+m += AllDifferent(colors)
+
+# Evan threw the orange darts.
+m += (evan == orange)
+
+# The player who threw the violet darts scored 7 points higher than Ira.
+m += add_comparable_constraints(scores_values, lambda var1, var2: var1 == var2 + 7, var1=violet, var2=ira)
+
+# Ira finished with 41 points.
+m += (ira == _41)
+
+# The player who threw the white darts finished 14 points lower than Rudy.
+m += add_comparable_constraints(scores_values, lambda var1, var2: var1 == var2 - 14, var1=white, var2=rudy)
+
+# The end. You can take it from here.
+```

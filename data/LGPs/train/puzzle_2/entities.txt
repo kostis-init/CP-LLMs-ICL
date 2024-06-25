@@ -1,0 +1,5 @@
+diplomats, months, durations
+
+Gilbert, Macdonald, Pickett, Vasquez
+January, February, March, April
+4 day, 5 day, 9 day, 10 day

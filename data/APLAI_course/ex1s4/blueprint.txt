@@ -1,0 +1,22 @@
+Decision Variables:
+    Define a 4x4 matrix of integer variables X[i][j] to represent the value in the i-th row and j-th column of the magic square.
+
+Domains:
+    Each variable X[i][j] has a domain of [1, 16] as they represent integers from 1 to 4^2.
+
+Constraints:
+    Different Values: All variables must be different as each cell contains a different integer. This can be represented as:
+    AllDifferent(X)
+
+    Row Sums: The sum of the integers in each row must be equal to 4*(4^2+1)/2 = 34. This can be represented as:
+    Sum(X[i]) = 34 for all i in [0, 3]
+
+    Column Sums: The sum of the integers in each column must be equal to 34. This can be represented as:
+    Sum(X[j]) = 34 for all j in [0, 3]
+
+    Diagonal Sums: The sum of the integers in each diagonal must be equal to 34. This can be represented as:
+    Sum(X[i][i]) = 34 for i in [0, 3]
+    Sum(X[i][3-i]) = 34 for i in [0, 3]
+
+Objective:
+    There is no objective function in this problem as we are not optimizing anything. We are simply finding a feasible solution that satisfies all the constraints.

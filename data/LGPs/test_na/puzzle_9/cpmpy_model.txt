@@ -1,0 +1,42 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+buralde, denlend, irycia, kimsight = companies = intvar(1, 4, shape=4)
+_250, _500, _750, _1000 = pieces = intvar(1, 4, shape=4)
+autumn_leaves, coral_reef, outer_space, rustic_village = themes = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+pieces_values = {_250: 250, _500: 500, _750: 750, _1000: 1000} # in pieces
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(companies)
+m += AllDifferent(pieces)
+m += AllDifferent(themes)
+
+# The puzzle with the autumn leaves theme has somewhat more than the jigsaw puzzle with the rustic village theme.
+m += add_comparable_constraints(pieces_values, lambda var1, var2: var1 > var2, var1=autumn_leaves, var2=rustic_village)
+
+# The four puzzles are the puzzle made by Buralde, the jigsaw puzzle with the rustic village theme, the puzzle with the autumn leaves theme and the puzzle with 1000 pieces.
+m += AllDifferent([buralde, rustic_village, autumn_leaves, _1000])
+
+# The jigsaw puzzle made by Buralde has the outer space theme.
+m += buralde == outer_space
+
+# The jigsaw puzzle made by Denlend has somewhat fewer than the jigsaw puzzle with the outer space theme.
+m += add_comparable_constraints(pieces_values, lambda var1, var2: var1 < var2, var1=denlend, var2=outer_space)
+
+# The jigsaw puzzle made by Kimsight has 250 more pieces than the puzzle made by Denlend.
+m += add_comparable_constraints(pieces_values, lambda var1, var2: var1 == var2 + 250, var1=kimsight, var2=denlend)
+
+# The end. You can take it from here.
+```

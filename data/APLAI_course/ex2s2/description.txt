@@ -1,0 +1,35 @@
+Please schedule non-overlapping movie showings at a cinema to maximize the number of shows one can watch.
+
+Here is the data:
+{
+    "num_movies": 9,
+    "movies": [
+        {"title": "Tarjan of the Jungle", "interval": [4, 13]},
+        {"title": "The Four Volume Problem", "interval": [17, 27]},
+        {"title": "The President's Algorist", "interval": [1, 10]},
+        {"title": "Steiner's Tree", "interval": [12, 18]},
+        {"title": "Process Terminated", "interval": [23, 30]},
+        {"title": "Halting State", "interval": [9, 16]},
+        {"title": "Programming Challenges", "interval": [19, 25]},
+        {"title": "Discrete Mathematics", "interval": [2, 7]},
+        {"title": "Calculated Bets", "interval": [26, 31]}
+    ]
+}
+
+It is mandatory that the answer should be given according to the following JSON schema:
+```json
+{
+    "selected_movies": [0 | 1]
+}
+```
+
+where 0 or 1 is the binary value indicating whether the movie is selected or not, in the same order as the input.
+
+For example, a valid JSON (but not the correct answer) would be:
+```json
+{
+    "selected_movies": [1, 0, 1, 1, 0, 0, 0, 0, 0]
+}
+```
+
+where the selected movies are Tarjan of the Jungle, The President's Algorist and Steiner's Tree.

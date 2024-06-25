@@ -1,0 +1,12 @@
+Decision Variables:
+    Define an array of integer variables named bags to represent the number of bags stolen for each type of coin bag [16, 17, 23, 24, 39, 40].
+
+Domains:
+    Each bag count variable has a domain of [0, 100] as the maximum number of coins stolen is 100.
+
+Constraints:
+    Total Coins: The sum of the products of each bag count and its corresponding coin number must equal the total coins lost, which is 100. This is captured by the equation:
+    16*bags[0] + 17*bags[1] + 23*bags[2] + 24*bags[3] + 39*bags[4] + 40*bags[5] = 100
+
+Objective:
+    There is no specific objective in this problem as we are not asked to maximize or minimize anything. We are just looking for a feasible solution that satisfies the constraint.

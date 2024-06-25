@@ -1,0 +1,4 @@
+wins 30, edna easton, losses 8
+wins 24, irma, losses 4
+wins 27, jane, losses 12
+wins 33, sonia, losses 2

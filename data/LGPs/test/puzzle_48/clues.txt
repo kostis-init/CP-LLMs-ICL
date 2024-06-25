@@ -1,0 +1,5 @@
+Mr. Ayers will dive on July 14.
+Mr. Drake will dive 1 day after the diver going out with Hilda.
+The customer going out on July 14 will go out with Hilda.
+The customer going out with Vicki is either Mr. Gallegos or the customer going out on July 14.
+The customer going out with Nadine will dive 1 day before Mr. Ayers.

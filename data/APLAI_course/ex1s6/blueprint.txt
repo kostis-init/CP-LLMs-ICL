@@ -1,0 +1,19 @@
+Decision Variables:
+    Coin Counts: Define integer variables c1, c2, c3, c4, c5, c6 to represent the number of coins of each denomination [1, 2, 5, 10, 25, 50] euros Alice uses to give Bob the change.
+
+Domains:
+    Each coin count variable has a domain determined by the maximum available coins of that denomination:
+    c1 in [0, 20]
+    c2 in [0, 10]
+    c3 in [0, 15]
+    c4 in [0, 8]
+    c5 in [0, 4]
+    c6 in [0, 2]
+
+Constraints:
+    Total Value: The sum of the products of each coin count and its corresponding value must equal the total change to be given, which is 199 euros. This is captured by the equation:
+    1 * c1 + 2 * c2 + 5 * c3 + 10 * c4 + 25 * c5 + 50 * c6 = 199
+
+Objective:
+    Minimize Total Coins: Aim to minimize the sum of all coin counts to use the fewest coins possible:
+    Minimize c1 + c2 + c3 + c4 + c5 + c6

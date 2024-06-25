@@ -1,0 +1,42 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+brett, peter, victor, willis = employees = intvar(1, 4, shape=4)
+_50riders, _75riders, _100riders, _125riders = rides = intvar(1, 4, shape=4)
+blue, green, orange, yellow = sections = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+rides_values = {_50riders: 50, _75riders: 75, _100riders: 100, _125riders: 125} # in number of riders
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(employees)
+m += AllDifferent(rides)
+m += AllDifferent(sections)
+
+# The worker who works in the green section served more riders than Brett.
+m += add_comparable_constraints(rides_values, lambda var1, var2: var1 > var2, var1=green, var2=brett)
+
+# Peter served 25 fewer riders than Willis.
+m += add_comparable_constraints(rides_values, lambda var1, var2: var1 == var2 - 25, var1=peter, var2=willis)
+
+# Brett served more riders than Peter.
+m += add_comparable_constraints(rides_values, lambda var1, var2: var1 > var2, var1=brett, var2=peter)
+
+# The person who works in the yellow section served 25 more riders than the worker who works in the orange section.
+m += add_comparable_constraints(rides_values, lambda var1, var2: var1 == var2 + 25, var1=yellow, var2=orange)
+
+# Peter is either the person who served 125 riders or the person who works in the blue section.
+m += Xor([peter == _125riders, peter == blue])
+
+# The end. You can take it from here.
+```

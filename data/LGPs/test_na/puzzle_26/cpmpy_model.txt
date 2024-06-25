@@ -1,0 +1,45 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+henrietta, jack, kay, zachary = children = intvar(1, 4, shape=4)
+_8am, _9am, _10am, _11am = times = intvar(1, 4, shape=4)
+dining_room, laundry_room, living_room, mud_room = rooms = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+times_values = {_8am: 8, _9am: 9, _10am: 10, _11am: 11}  # in hours
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(children)
+m += AllDifferent(times)
+m += AllDifferent(rooms)
+
+# Henrietta's job is either the chore that starts at 9:00am or the chore that starts at 8:00am.
+m += Xor([henrietta == _9am, henrietta == _8am])
+
+# Jack's task is either the job that starts at 8:00am or the living room assignment.
+m += Xor([jack == _8am, jack == living_room])
+
+# Jack's job starts at 10:00am.
+m += (jack == _10am)
+
+# Kay's chore starts at 8:00am.
+m += (kay == _8am)
+
+# Jack's assignment starts 2 hours after the mud room assignment.
+m += add_comparable_constraints(times_values, lambda var1, var2: var1 == var2 + 2, var1=jack, var2=mud_room)
+
+# The laundry room assignment, the chore that starts at 8:00am and the chore that starts at 11:00am are all different jobs.
+m += AllDifferent([laundry_room, _8am, _11am])
+
+# The end. You can take it from here.
+```

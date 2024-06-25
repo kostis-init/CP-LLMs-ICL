@@ -1,0 +1,9 @@
+We want to climb a stair of n steps with [m1, m2] steps at a time. For example a stair of 4 steps with m1 = 1, and m2 = 2 can be climbed with a sequence of four one-step moves or with two two-steps moves. Find a way to climb a stair of 20 steps with m1 = 3 and m2 = 5, i.e. you can take only 3 or 4 or 5 steps at a time.
+
+It is mandatory that the answer should be given according to the following JSON schema:
+```json
+{
+  "steps": [int]
+}
+```
+where `steps` is a list of integers representing the sequence of steps.

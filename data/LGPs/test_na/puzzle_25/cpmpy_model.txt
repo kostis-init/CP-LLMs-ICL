@@ -1,0 +1,39 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+giant_tortoise, orangutan, snow_leopard, tree_kangaroo = animals = intvar(1, 4, shape=4)
+march, april, may, june = months = intvar(1, 4, shape=4)
+earth_aware, science_world, the_geographer, wildzone = magazines = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+months_values = {march: 1, april: 2, may: 3, june: 4} # in months
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(animals)
+m += AllDifferent(months)
+m += AllDifferent(magazines)
+
+# The photo taken in April was published by Wildzone.
+m += april == wildzone
+
+# The shot of the giant tortoise was taken 1 month before the photo published by Science World.
+m += add_comparable_constraints(months_values, lambda var1, var2: var1 == var2 - 1, var1=giant_tortoise, var2=science_world)
+
+# The photo of the orangutan was published by The Geographer.
+m += orangutan == the_geographer
+
+# The photo of the snow leopard was taken 2 months after the photo published by The Geographer.
+m += add_comparable_constraints(months_values, lambda var1, var2: var1 == var2 + 2, var1=snow_leopard, var2=the_geographer)
+
+# The end. You can take it from here.
+```

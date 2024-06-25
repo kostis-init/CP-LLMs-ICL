@@ -1,0 +1,24 @@
+### Plan:
+Each entity will be represented by a decision variable that will take a value from 1 to 4. All decision variables with the same value will correspond to the same pairing. For example, if Alexander == 1, and May10th == 1, and WindPower == 1, then Alexander is presenting on wind power on May 10th.
+
+### Decision variables:
+-   Names of the presenters: Alexander, Gerard, Inez, Mable (all different, 1 to 4)
+-   Dates of the presentations: May10th, May11th, May12th, May13th (all different, 1 to 4)
+-   Topics of the presentations: GlobalWarming, NitrogenUsage, SulfurOxide, WindPower (all different, 1 to 4)
+
+### Constraints:
+-   The sulfur oxide expert is scheduled 1 day after Gerard:
+    For this, we will need to add a constraint for each possible assignment of the dates for Gerard and the sulfur oxide expert, such that the sulfur oxide expert's date is 1 day after Gerard's date. So, the constraints will be of the form:
+    d1 == SulfurOxide and d2 == Gerard => d1_to_int == d2_to_int + 1, for all d1, d2 in days.
+
+-   The nitrogen usage expert is scheduled 1 day before Alexander:
+    For this, we will need to add a constraint for each possible assignment of the dates for Alexander and the nitrogen usage expert, such that the nitrogen usage expert's date is 1 day before Alexander's date. So, the constraints will be of the form:
+    d1 == NitrogenUsage and d2 == Alexander => d1_to_int == d2_to_int - 1, for all d1, d2 in days.
+
+-   Inez will discuss global warming:
+    This is a direct assignment constraint:
+    Inez == GlobalWarming.
+
+-   Mable is scheduled 2 days after the sulfur oxide expert:
+    For this, we will need to add a constraint for each possible assignment of the dates for Mable and the sulfur oxide expert, such that Mable's date is 2 days after the sulfur oxide expert's date. So, the constraints will be of the form:
+    d1 == Mable and d2 == SulfurOxide => d1_to_int == d2_to_int + 2, for all d1, d2 in days.

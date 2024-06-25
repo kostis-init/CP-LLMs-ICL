@@ -1,0 +1,5 @@
+months, names, cultures
+
+January, February, March, April
+Ira, Luther, Vera, Yvette
+Cheer, Garyk, Haleyito, Xozix

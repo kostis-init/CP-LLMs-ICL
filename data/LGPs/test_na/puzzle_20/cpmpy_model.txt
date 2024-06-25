@@ -1,0 +1,42 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+cerbel, irskela, inawatai, oginao = names = intvar(1, 4, shape=4)
+_100ft, _105ft, _110ft, _115ft = heights = intvar(1, 4, shape=4)
+canada, brazil, new_zealand, switzerland = countries = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+heights_values = {_100ft: 100, _105ft: 105, _110ft: 110, _115ft: 115} # in feet
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(names)
+m += AllDifferent(heights)
+m += AllDifferent(countries)
+
+# Oginao is either the 105 ft tall fall or the 115 ft tall waterfall.
+m += Xor([oginao == _105ft, oginao == _115ft])
+
+# Oginao is 5 ft shorter than Irskela.
+m += add_comparable_constraints(heights_values, lambda var1, var2: var1 == var2 - 5, var1=oginao, var2=irskela)
+
+# The fall in Brazil is either Cerbel or Inawatai.
+m += Xor([brazil == cerbel, brazil == inawatai])
+
+# Inawatai is in New Zealand.
+m += inawatai == new_zealand
+
+# Cerbel is 10 ft shorter than the fall in Canada.
+m += add_comparable_constraints(heights_values, lambda var1, var2: var1 == var2 - 10, var1=cerbel, var2=canada)
+
+# The end. You can take it from here.
+```

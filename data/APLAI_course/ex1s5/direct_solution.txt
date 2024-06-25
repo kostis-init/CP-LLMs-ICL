@@ -1,0 +1,38 @@
+To solve this, we need to analyze the statements made by each suspect under the assumption that the innocent ones tell the truth and the guilty ones lie.
+
+Let's analyze each statement and see which scenarios fit:
+
+1. **Artie**: "It wasn't me."
+   - If Artie is innocent, this statement is true.
+   - If Artie is guilty, this statement is false.
+
+2. **Bill**: "Crackitt was in it up to his neck."
+   - If Bill is innocent, Crackitt is guilty.
+   - If Bill is guilty, his statement is a lie, implying Crackitt is innocent.
+
+3. **Crackitt**: "No I wasn't."
+   - If Crackitt is innocent, his denial is true, and Bill's accusation is false (Bill is guilty).
+   - If Crackitt is guilty, he is lying in his denial.
+
+4. **Dodgy**: "If Crackitt did it, Bill did it with him."
+   - This statement is only informative if we establish the truth about Crackitt.
+
+5. **Edgy**: "Nobody did it alone."
+   - If Edgy is innocent, then the crime was indeed committed by at least two people.
+   - If Edgy is guilty, then this statement is false, implying the crime could have been committed by one person.
+
+6. **Fingers**: "That’s right: it was Artie and Dodgy together."
+   - If Fingers is innocent, then Artie and Dodgy are guilty.
+   - If Fingers is guilty, then his statement is a lie, implying either neither or only one of Artie and Dodgy is guilty.
+
+Based on these statements:
+- If we assume **Artie is innocent** (truthful in saying "It wasn't me"), then Fingers (who accuses Artie) must be lying, hence guilty.
+- If Fingers is guilty (and lying), then his statement about Artie and Dodgy is false. This doesn't necessarily clear Dodgy but clears Artie.
+- If Bill is telling the truth (and thus innocent) about Crackitt, then Crackitt is guilty. However, if Bill is lying (and thus guilty), Crackitt is innocent.
+- Crackitt’s statement being a denial doesn't help directly unless we know his truthfulness.
+- Dodgy’s conditional statement doesn’t help without knowing the truth about Crackitt and Bill.
+- Edgy’s statement that "Nobody did it alone" suggests a team effort, which aligns more with the innocence of those accused singly (like Artie by Fingers).
+
+**Conclusion**: One plausible scenario is that Fingers is lying (guilty) because his direct accusation contradicts Artie's statement combined with Artie being cleared by the logic of Fingers lying. If we look at Bill accusing Crackitt and Crackitt's denial, if we decide Bill is lying (thus guilty), it clears Crackitt.
+
+### FINAL ANSWER: {"guilty": ["Bill", "Fingers"]}

@@ -1,0 +1,5 @@
+names, months, birds
+
+Alberta, Della, Ellen, Gladys
+January, February, March, April
+finch, lovebird, macaw, parakeet

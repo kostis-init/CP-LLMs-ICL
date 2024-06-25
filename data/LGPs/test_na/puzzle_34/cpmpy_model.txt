@@ -1,0 +1,42 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+neal, omar, vickie, winifred = names = intvar(1, 4, shape=4)
+_6min, _8min, _10min, _12min = lengths = intvar(1, 4, shape=4)
+diocletian, galerius, licinius, nero = emperors = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+lengths_values = {_6min: 6, _8min: 8, _10min: 10, _12min: 12} # in minutes
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(names)
+m += AllDifferent(lengths)
+m += AllDifferent(emperors)
+
+# Winifred spoke for a somewhat shorter time than Omar.
+m += add_comparable_constraints(lengths_values, lambda var1, var2: var1 < var2, var1=winifred, var2=omar)
+
+# Neal talked about Diocletian.
+m += (neal == diocletian)
+
+# The four students were the presenter who spoke for 8 minutes, the student who gave the presentation on Galerius, Neal and Vickie.
+m += AllDifferent([_8min, galerius, neal, vickie])
+
+# The student who gave the presentation on Nero spoke 2 minutes more than Vickie.
+m += add_comparable_constraints(lengths_values, lambda var1, var2: var1 == var2 + 2, var1=nero, var2=vickie)
+
+# Omar was either the presenter who gave the presentation on Nero or the presenter who spoke for 10 minutes.
+m += Xor([omar == nero, omar == _10min])
+
+# The end. You can take it from here.
+```

@@ -1,0 +1,4 @@
+glenn, 9:00am, dining room
+henrietta, 11:00am, living room
+olivia, 8:00am, mud room
+willie, 10:00am, laundry room

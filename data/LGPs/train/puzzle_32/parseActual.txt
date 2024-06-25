@@ -1,0 +1,4 @@
+is(B0, A0)
+comp(B0, C0, 1, >)
+is(B3, C3)
+pairdiff(B2, C1, A2, A1)

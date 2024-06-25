@@ -1,0 +1,43 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+ewing, kirby, nielsen, whitehead = customers = intvar(1, 4, shape=4)
+_95sqft, _110sqft, _125sqft, _140sqft = sq_footage = intvar(1, 4, shape=4)
+_27500, _29000, _32250, _35000 = prices = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+sq_footage_values = {_95sqft: 95, _110sqft: 110, _125sqft: 125, _140sqft: 140} # in square feet
+prices_values = {_27500: 27500, _29000: 29000, _32250: 32250, _35000: 35000} # in dollars
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(customers)
+m += AllDifferent(sq_footage)
+m += AllDifferent(prices)
+
+# The Nielsen's house is 30 sq ft larger than the $35,000 structure.
+m += add_comparable_constraints(sq_footage_values, lambda var1, var2: var1 == var2 + 30, var1=nielsen, var2=_35000)
+
+# The 125 sq ft home is either the Whitehead's home or the $32,250 home.
+m += Xor([_125sqft == whitehead, _125sqft == _32250])
+
+# The Whitehead's house sold for $29,000.
+m += whitehead == _29000
+
+# The Ewing's home sold for $32,250.
+m += ewing == _32250
+
+# The $29,000 house is somewhat smaller than the $32,250 structure.
+m += add_comparable_constraints(prices_values, lambda var1, var2: var1 < var2, var1=_29000, var2=_32250)
+
+# The end. You can take it from here.
+```

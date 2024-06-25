@@ -1,0 +1,5 @@
+runners, times, colors
+
+Franklin, Salvador, Ted, Zachary
+21 minutes, 22 minutes, 23 minutes, 24 minutes
+aquamarine, black, cyan, maroon

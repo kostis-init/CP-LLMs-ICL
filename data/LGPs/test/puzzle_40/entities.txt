@@ -1,0 +1,5 @@
+customers, prices, cheeses
+
+Lula, Ronda, Sue, Yolanda
+$2, $3, $4, $5
+cheddar, havarti, muenster, swiss

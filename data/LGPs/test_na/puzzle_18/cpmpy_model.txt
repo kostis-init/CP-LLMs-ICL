@@ -1,0 +1,42 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+astury, denlend, garroda, vesem = companies = intvar(1, 4, shape=4)
+_250, _500, _750, _1000 = pieces = intvar(1, 4, shape=4)
+autumn_leaves, city_skyline, outer_space, postage_stamp = themes = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+pieces_values = {_250: 250, _500: 500, _750: 750, _1000: 1000} # in pieces
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(companies)
+m += AllDifferent(pieces)
+m += AllDifferent(themes)
+
+# The puzzle with the postage stamp theme has somewhat fewer than the puzzle made by Astury.
+m += add_comparable_constraints(pieces_values, lambda var1, var2: var1 < var2, var1=postage_stamp, var2=astury)
+
+# The jigsaw puzzle with the outer space theme has 250 more pieces than the puzzle made by Garroda.
+m += add_comparable_constraints(pieces_values, lambda var1, var2: var1 == var2 + 250, var1=outer_space, var2=garroda)
+
+# The jigsaw puzzle made by Garroda has somewhat fewer than the puzzle made by Vesem.
+m += add_comparable_constraints(pieces_values, lambda var1, var2: var1 < var2, var1=garroda, var2=vesem)
+
+# The jigsaw puzzle with the postage stamp theme has somewhat more than the puzzle with the city skyline theme.
+m += add_comparable_constraints(pieces_values, lambda var1, var2: var1 > var2, var1=postage_stamp, var2=city_skyline)
+
+# The jigsaw puzzle made by Vesem has 500 pieces.
+m += (vesem == _500)
+
+# The end. You can take it from here.
+```

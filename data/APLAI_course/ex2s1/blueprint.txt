@@ -1,0 +1,11 @@
+Decision Variables:
+    Define integer variables for each country to represent the colour assigned to that country. The variable 'colors' is an array of size equal to the number of countries (6 in this case).
+
+Domains:
+    Each variable in 'colors' has a domain of [1, 6] as there are six countries and each country needs a different colour.
+
+Constraints:
+    Neighbouring Countries: Two neighbouring countries cannot have the same colour. This can be represented by iterating over the graph and for each pair of neighbouring countries (i, j), add a constraint that the colour of country i is not equal to the colour of country j.
+
+Objective:
+   Minimize the number of colours used, which is equivalent to minimizing the maximum value in the `colors` array.

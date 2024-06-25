@@ -1,0 +1,5 @@
+durations, rowers, start points
+
+184 days, 195 days, 206 days, 217 days
+Antonio, Dana, Hilda, Walter
+Bodega Bay, Cayucos, Pescadero, Pismo Beach

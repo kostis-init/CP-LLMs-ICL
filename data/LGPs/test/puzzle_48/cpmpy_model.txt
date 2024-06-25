@@ -1,0 +1,42 @@
+```python
+# 0. Preliminaries
+from cpmpy import *
+
+def add_comparable_constraints(comparable_category_values, comparing_function, var1, var2):
+    comparable_category_vars = list(comparable_category_values.keys())
+    return [((e1 == var1) & (e2 == var2))
+          .implies(comparing_function(comparable_category_values[e1], comparable_category_values[e2]))
+          for e1 in comparable_category_vars for e2 in comparable_category_vars]
+
+m = Model()
+
+# 1. Variables (all variables that have the same integer value correspond to the same object)
+mr_ayers, mr_drake, mr_erickson, mr_gallegos = customers = intvar(1, 4, shape=4)
+july_13, july_14, july_15, july_16 = dates = intvar(1, 4, shape=4)
+hilda, jorge, nadine, vicki = guides = intvar(1, 4, shape=4)
+
+# 2. Comparable values (helper dictionaries for comparisons)
+dates_values = {july_13: 13, july_14: 14, july_15: 15, july_16: 16} # in July dates
+
+# 3. Constraints (all different per category and problem constraints)
+m += AllDifferent(customers)
+m += AllDifferent(dates)
+m += AllDifferent(guides)
+
+# Mr. Ayers will dive on July 14.
+m += (mr_ayers == july_14)
+
+# Mr. Drake will dive 1 day after the diver going out with Hilda.
+m += add_comparable_constraints(dates_values, lambda var1, var2: var1 == var2 + 1, var1=mr_drake, var2=hilda)
+
+# The customer going out on July 14 will go out with Hilda.
+m += (july_14 == hilda)
+
+# The customer going out with Vicki is either Mr. Gallegos or the customer going out on July 14.
+m += Xor([vicki == mr_gallegos, vicki == july_14])
+
+# The customer going out with Nadine will dive 1 day before Mr. Ayers.
+m += add_comparable_constraints(dates_values, lambda var1, var2: var1 == var2 - 1, var1=nadine, var2=mr_ayers)
+
+# The end. You can take it from here.
+```

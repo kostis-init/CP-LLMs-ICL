@@ -1,0 +1,4 @@
+jordan, 3, 5
+venezuela, 4, 8
+zimbabwe, 1, 2
+dominica, 2, 6

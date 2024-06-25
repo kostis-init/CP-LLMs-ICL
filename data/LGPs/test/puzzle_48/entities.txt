@@ -1,0 +1,5 @@
+customers, dates, guides
+
+Mr. Ayers, Mr. Drake, Mr. Erickson, Mr. Gallegos
+July 13, July 14, July 15, July 16
+Hilda, Jorge, Nadine, Vicki

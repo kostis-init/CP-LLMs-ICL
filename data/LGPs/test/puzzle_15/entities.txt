@@ -1,0 +1,5 @@
+prices, gems, claims
+
+$790, $800, $810, $820
+aquamarine, blue topaz, rhodolite, tourmaline
+Collins, Knox, Osborne, Underwood

@@ -1,0 +1,30 @@
+Let's solve this step by step.
+
+1. "The Worul, the rocket that will launch in February and the rocket that will launch in January are all different rockets." - Worul did not launch in January or February.
+
+2. "The Dreadco is made by Ubersplore." - This is a direct mapping.
+
+3. "The rocket developed by Permias will launch 1 month before the Foltron." - Foltron did not launch in January and the rocket developed by Permias did not launch in April. Also, Foltron is not developed by Permias.
+
+4. "The rocket that will launch in January is made by Techtrin." - This is a direct mapping.
+
+From these constraints, we can deduce:
+
+- From constraint 1, since Worul did not launch in January or February, it must launch in either March or April. But since the rocket developed by Permias will launch 1 month before the Foltron (constraint 3), and Foltron cannot launch in January (constraint 3), Foltron must launch in April. Therefore, Worul must launch in March.
+
+- From constraint 3, since Foltron is launching in April, the rocket developed by Permias must launch in March. Since Worul is launching in March, Worul must be developed by Permias.
+
+- From constraint 4, since the rocket that will launch in January is made by Techtrin, and Dreadco is made by Ubersplore (constraint 2), Cornick, the only rocket left, must launch in January and be made by Techtrin.
+
+- The rocket developed by Rubicorp is the only one left, so it must be Dreadco. Therefore, Dreadco must launch in February.
+
+- The only month left for Foltron is April, so Foltron is made by Ubersplore.
+
+The final assignment is:
+
+- Cornick launches in January and is made by Techtrin.
+- Dreadco launches in February and is made by Ubersplore.
+- Worul launches in March and is made by Permias.
+- Foltron launches in April and is made by Rubicorp.
+
+### FINAL ANSWER: {"mappings": [{"Cornick", "January", "Techtrin"}, {"Dreadco", "February", "Ubersplore"}, {"Worul", "March", "Permias"}, {"Foltron", "April", "Rubicorp"}]}

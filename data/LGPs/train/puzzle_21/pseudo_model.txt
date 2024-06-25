@@ -1,0 +1,28 @@
+### Plan:
+Each entity will be represented by a decision variable that will take a value from 1 to 4. All decision variables with the same value will correspond to the same pairing. For example, if Greg == 1, and 55 == 1, and Red == 1, then Greg threw the red darts and scored 55 points.
+
+### Decision variables:
+-   Names of the players: Alton, Evan, Greg, Jeffrey (all different, 1 to 4)
+-   Scores of the players: Score41, Score48, Score55, Score62 (all different, 1 to 4)
+-   Colors of the darts: Green, Red, White, Yellow (all different, 1 to 4)
+
+### Constraints:
+-   Greg threw the red darts:
+    This is a direct assignment constraint:
+    Greg == Red.
+
+-   Alton scored 7 points higher than Evan:
+    For this, we will need to add a constraint for each possible assignment of the scores for Alton and Evan, such that Alton's score is 7 points higher than Evan's score. So, the constraints will be of the form:
+    s1 == Alton and s2 == Evan => s1_to_int == s2_to_int + 7, for all s1, s2 in scores.
+
+-   The contestant who threw the yellow darts scored somewhat higher than the player who threw the white darts:
+    For this, we will need to add a constraint for each possible assignment of the scores for the yellow and white darts, such that the score of the yellow darts is higher than the score of the white darts. So, the constraints will be of the form:
+    s1 == Yellow and s2 == White => s1_to_int > s2_to_int, for all s1, s2 in scores.
+
+-   The player who scored 48 points threw the yellow darts:
+    This is a direct assignment constraint:
+    Score48 == Yellow.
+
+-   Greg scored 7 points higher than Jeffrey:
+    For this, we will need to add a constraint for each possible assignment of the scores for Greg and Jeffrey, such that Greg's score is 7 points higher than Jeffrey's score. So, the constraints will be of the form:
+    s1 == Greg and s2 == Jeffrey => s1_to_int == s2_to_int + 7, for all s1, s2 in scores.

@@ -1,0 +1,18 @@
+Decision Variables:
+    Define integer variables a, b, c, d to represent the digits of the pin.
+
+Domains:
+    Each variable has a domain of [0, 9] as they represent digits.
+
+Constraints:
+    Different Digits: All variables must be different as no two digits are the same. This can be represented as:
+    AllDifferent([a, b, c, d])
+
+    cd is 3 times ab: The 2-digit number formed by c and d is three times the 2-digit number formed by a and b. This can be represented as:
+    10 * c + d = 3 * (10 * a + b)
+
+    da is 2 times bc: The 2-digit number formed by d and a is two times the 2-digit number formed by b and c. This can be represented as:
+    10 * d + a = 2 * (10 * b + c)
+
+Objective:
+    There is no objective function in this problem as we are not optimizing anything. We are simply finding a feasible solution that satisfies all the constraints.

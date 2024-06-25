@@ -1,0 +1,5 @@
+months, streets, managers
+
+April, May, June, July
+Aspen Court, Norway Court, Oak Road, Quince Street
+Bill Bonner, Dawn Daniels, Freda Fisher, Irma Ingram

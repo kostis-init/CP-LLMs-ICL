@@ -1,0 +1,5 @@
+players, scores, colors
+
+Alton, Evan, Greg, Jeffrey
+41, 48, 55, 62
+green, red, white, yellow
