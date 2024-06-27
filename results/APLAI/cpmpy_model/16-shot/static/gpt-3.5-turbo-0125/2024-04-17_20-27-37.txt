@@ -1,0 +1,1193 @@
+Solution accuracy: 38.888888888888886%
+Solution 2 accuracy: 50.0%
+Final solution accuracy: 50.0%
+Constraint accuracy: 50.0%
+Model accuracy: 44.44444444444444%
+
+Wrong solutions: 11, total: 18
+Wrong solution 2: 0, total: 18
+Correct final solutions: 9, total: 18
+Wrong constraints: 10, total: 88
+Wrong models: 10, total: 18
+Errors: solution-level: 0, constraint-level: 34, model-level: 0
+---------------------------------------------------------------------------------------------
+
+Question: Baker, Cooper, Fletcher, Miller, and Smith live on the first five floors of an apartment house. Baker does not live on the fifth floor. Cooper does not live on the first floor. Fletcher does not live on either the fifth or the first floor. Miller lives on a higher floor than does Cooper. Smith does not live on a floor adjacent to Fletcherâ€™. Fletcher does not live on a floor adjacent to Cooperâ€™s. They all live on different floors. Find the floors where these people live.
+
+It is mandatory that the answer should be given according to the following JSON schema:
+
+```json
+{
+    "B": int,
+    "C": int,
+    "F": int,
+    "M": int,
+    "S": int
+}
+```
+
+For example, if Baker lives on the 2nd floor, Cooper on the 1st, Fletcher on the 5th, Miller on the 3rd, and Smith on the 4th, then the answer should be:
+```json
+{
+    "B": 2,
+    "C": 1,
+    "F": 5,
+    "M": 3,
+    "S": 4
+}
+```
+
+PREDICTED Pseudo model: N/A
+PREDICTED CPMPy model: ```python
+from cpmpy import *
+import json
+
+# Decision variables
+B, C, F, M, S = intvar(1, 5, shape=5)
+
+# Constraints
+m = Model()
+
+# Baker does not live on the fifth floor
+m += B != 5
+
+# Cooper does not live on the first floor
+m += C != 1
+
+# Fletcher does not live on either the fifth or the first floor
+m += F != 5
+m += F != 1
+
+# Miller lives on a higher floor than does Cooper
+m += M > C
+
+# Smith does not live on a floor adjacent to Fletcher
+m += abs(S - F) != 1
+
+# Fletcher does not live on a floor adjacent to Cooper's
+m += abs(F - C) != 1
+
+# All live on different floors
+m += AllDifferent([B, C, F, M, S])
+
+# Solve the model and print the results in the required format
+if m.solve():
+    solution = {
+        "B": B.value(),
+        "C": C.value(),
+        "F": F.value(),
+        "M": M.value(),
+        "S": S.value()
+    }
+    print(json.dumps(solution))
+
+```
+Solution from predicted model: {"B": 3, "C": 2, "F": 4, "M": 5, "S": 1}
+
+Actual solution: {"B": 3, "C": 2, "F": 4, "M": 5, "S": 1}
+
+Solution log: True
+Solution 2 log: True
+Model log: True
+Constraint log: Wrong: 2, Total: 7
+---------------------------------------------------------------------------------------------
+
+Question: My bank card has a 4 digit pin, abcd. I use the following facts to help me
+remember it:
+â€¢ no two digits are the same
+â€¢ the 2-digit number cd is 3 times the 2-digit number ab
+â€¢ the 2-digit number da is 2 times the 2-digit number bc
+What is my pin?
+
+It is mandatory that the answer should be given according to the following JSON schema:
+```json
+{
+    "a": int,
+    "b": int,
+    "c": int,
+    "d": int
+}
+```
+
+For example, if the pin is 1234, the answer should be:
+```json
+{
+    "a": 1,
+    "b": 2,
+    "c": 3,
+    "d": 4
+}
+```
+
+PREDICTED Pseudo model: N/A
+PREDICTED CPMPy model: ```python
+from cpmpy import *
+import json
+
+# Decision variables
+a = intvar(1, 9)
+b = intvar(0, 9)
+c = intvar(0, 9)
+d = intvar(0, 9)
+
+# Constraints
+m = Model()
+
+# No two digits are the same
+m += AllDifferent([a, b, c, d])
+
+# The 2-digit number cd is 3 times the 2-digit number ab
+m += 10*c + d == 3*(10*a + b)
+
+# The 2-digit number da is 2 times the 2-digit number bc
+m += 10*d + a == 2*(10*b + c)
+
+# Solve the model and print the solution in the specified format
+if m.solve():
+    solution = {"a": a.value(), "b": b.value(), "c": c.value(), "d": d.value()}
+    print(json.dumps(solution))
+
+```
+Solution from predicted model: {"a": 2, "b": 1, "c": 6, "d": 3}
+
+Actual solution: {"a": 2, "b": 1, "c": 6, "d": 3}
+
+Solution log: True
+Solution 2 log: True
+Model log: True
+Constraint log: Wrong: 0, Total: 3
+---------------------------------------------------------------------------------------------
+
+Question: A boy wants to give an apple to a girl. To get to her, he has to pass through five gates, each with a guard. He bribes each guard with half of his apples, plus one. The boy does not have a knife, therefore he gives the guard an integer number of apples. After heâ€™s given the apple to the girl, he has no apples left. How many did he have to begin with and in the process?
+
+It is mandatory that the answer should be given according to the following JSON schema:
+```json
+{
+  "apples": [int]
+}
+```
+where "apples" is an array of 6 integers, each representing the number of apples before each gate, plus the last element being the number of apples given to the girl.
+
+For example, a valid JSON (not the answer) would be:
+```json
+{
+    "apples": [1, 2, 3, 4, 5, 6]
+}
+```
+
+
+PREDICTED Pseudo model: N/A
+PREDICTED CPMPy model: ```python
+from cpmpy import *
+import json
+
+# Decision variables
+apples = intvar(1, 100, shape=6)  # number of apples before each gate
+
+# Constraints
+m = Model()
+
+# The number of apples given to each guard is half of the remaining apples plus one
+for i in range(5):
+    m += apples[i + 1] == (apples[i] // 2) + 1
+
+# The boy has no apples left after giving the last apple to the girl
+m += apples[5] == 0
+
+# Solve the model and print the results in the required format
+if m.solve():
+    solution = {"apples": apples.value().tolist()}
+    print(json.dumps(solution))
+
+```
+Solution from predicted model: 
+Actual solution: {"apples": [94, 46, 22, 10, 4, 1]}
+
+Solution log: False
+Solution 2 log: Error when trying to check solution 2 from predicted model: Expecting value: line 1 column 1 (char 0)
+Model log: False
+Constraint log: Error in constraint evaluation: invalid syntax (<string>, line 1)
+---------------------------------------------------------------------------------------------
+
+Question: A magic square is an n x n grid (n != 2) such that each cell contains a different integer from 1 to n^2 and the sum of the integers in each row, column and diagonal is equal. Find a magic square for size 4, knowing that the sum of integers of each row, column and diagonal has to be equal to n(n^2+ 1)/2 (integer).
+
+It is mandatory that the answer should be given according to the following JSON schema:
+```json
+{
+    "square": [[int]]
+}
+
+For example, a 3x3 magic square should be given as:
+```json
+{
+    "square": [[2, 7, 6], [9, 5, 1], [4, 3, 8]]
+}
+```
+This means that the first row of the square is [2, 7, 6], the second row is [9, 5, 1] and the third row is [4, 3, 8].
+PREDICTED Pseudo model: N/A
+PREDICTED CPMPy model: ```python
+from cpmpy import *
+import json
+
+# Data
+n = 4
+magic_sum = n * (n**2 + 1) // 2
+
+# Decision variables
+square = intvar(1, n**2, shape=(n, n))
+
+# Constraints
+m = Model()
+
+# All numbers in the square must be different
+m += AllDifferent(square.flat)
+
+# Constraints for rows, columns, and diagonals
+for i in range(n):
+    m += sum(square[i, :]) == magic_sum  # row sum
+    m += sum(square[:, i]) == magic_sum  # column sum
+m += sum(square[i, i] for i in range(n)) == magic_sum  # main diagonal sum
+m += sum(square[i, n - i - 1] for i in range(n)) == magic_sum  # secondary diagonal sum
+
+# Solve the model and print the results in the required format
+if m.solve():
+    solution = {"square": square.value().tolist()}
+    print(json.dumps(solution))
+
+```
+Solution from predicted model: {"square": [[1, 13, 16, 4], [6, 10, 7, 11], [12, 8, 9, 5], [15, 3, 2, 14]]}
+
+Actual solution: {"square": [[1, 13, 16, 4], [8, 12, 9, 5], [10, 6, 7, 11], [15, 3, 2, 14]]}
+
+Solution log: False
+Solution 2 log: True
+Model log: True
+Constraint log: Error in constraint evaluation: invalid syntax (<string>, line 1)
+---------------------------------------------------------------------------------------------
+
+Question: Following a robbery at Sparkles the Jewellerâ€™s, Inspector Korner of the Yard interviewed six of the usual suspects. He knew that the getaway car had been barely big enough to hold two, so he reckoned that at least four of them were innocent - but which ones? He also supposed that the innocent ones would tell the truth, while the guilty one or ones would lie. What they actually said was:
+- ARTIE: "It wasn't me."
+- BILL: "Crackitt was in it up to his neck."
+- CRACKITT: "No I wasn't."
+- DODGY: "If Crackitt did it, Bill did it with him."
+- EDGY: "Nobody did it alone."
+- FINGERS: "Thatâ€™s right: it was Artie and Dodgy together."
+If the good inspectorâ€™s suppositions were correct, who is guilty?
+
+It is mandatory that the answer should be given according to the following JSON schema:
+```json
+{
+    "artie": 0 | 1,
+    "bill": 0 | 1,
+    "crackitt": 0 | 1,
+    "dodgy": 0 | 1,
+    "edgy": 0 | 1,
+    "fingers": 0 | 1
+}
+```
+
+Where 0 means that the suspect is innocent and 1 means that the suspect is guilty.
+
+For example, if the guilty suspect is Artie, Bill, and Crackitt, the answer should be:
+```json
+{
+    "artie": 1,
+    "bill": 1,
+    "crackitt": 1,
+    "dodgy": 0,
+    "edgy": 0,
+    "fingers": 0
+}
+```
+PREDICTED Pseudo model: N/A
+PREDICTED CPMPy model: ```python
+from cpmpy import *
+import json
+
+# Decision variables
+artie, bill, crackitt, dodgy, edgy, fingers = boolvar(shape=6)
+
+# Model setup
+m = Model()
+
+# At least four of them are innocent
+m += sum([artie, bill, crackitt, dodgy, edgy, fingers]) >= 4
+
+# Artie: "It wasn't me."
+m += artie == 0
+
+# Bill: "Crackitt was in it up to his neck."
+m += bill == crackitt
+
+# Crackitt: "No I wasn't."
+m += crackitt == 0
+
+# Dodgy: "If Crackitt did it, Bill did it with him."
+m += (crackitt == 1).implies(dodgy == bill)
+
+# Edgy: "Nobody did it alone."
+m += edgy == (artie + bill + crackitt + dodgy + edgy + fingers == 2)
+
+# Fingers: "Thatâ€™s right: it was Artie and Dodgy together."
+m += fingers == (artie == 1) & (dodgy == 1)
+
+# Solve the model and print the results in the required format
+if m.solve():
+    solution = {
+        "artie": int(artie.value()),
+        "bill": int(bill.value()),
+        "crackitt": int(crackitt.value()),
+        "dodgy": int(dodgy.value()),
+        "edgy": int(edgy.value()),
+        "fingers": int(fingers.value())
+    }
+    print(json.dumps(solution))
+
+```
+Solution from predicted model: 
+Actual solution: {"artie": 0, "bill": 1, "crackitt": 0, "dodgy": 0, "edgy": 0, "fingers": 1}
+
+Solution log: False
+Solution 2 log: Error when trying to check solution 2 from predicted model: Expecting value: line 1 column 1 (char 0)
+Model log: False
+Constraint log: Wrong: 7, Total: 7
+---------------------------------------------------------------------------------------------
+
+Question: Alice has to give Bob change of 199 euros. She has 6 different types of coins of different value ([1, 2, 5, 10, 25, 50]) and she has a certain number of coins of each value available ([20, 10, 15, 8, 4, 2]). How can the change be composed with the available coins minimizing the number of coins used?
+
+It is mandatory that the answer should be given according to the following JSON schema:
+```json
+{
+    "coin_counts": [int]
+}
+```
+
+For example, if she gives to Bob 1 coin of value 1 and 3 coins of value 25, then the answer should be:
+```json
+{
+    "coin_counts": [1, 0, 0, 0, 3, 0]
+}
+```
+
+PREDICTED Pseudo model: N/A
+PREDICTED CPMPy model: ```python
+from cpmpy import *
+import json
+
+# Data
+change = 199
+coin_values = [1, 2, 5, 10, 25, 50]
+available_coins = [20, 10, 15, 8, 4, 2]
+
+# Decision variables
+coin_counts = intvar(0, max(available_coins), shape=len(coin_values))
+
+# Model setup
+m = Model()
+
+# Constraint: the sum of the coin values times their counts should equal the change
+m += sum(coin_values[i] * coin_counts[i] for i in range(len(coin_values))) == change
+
+# Constraint: the number of each coin used should be less than or equal to the available number
+for i in range(len(coin_values)):
+    m += coin_counts[i] <= available_coins[i]
+
+# Objective: minimize the total number of coins used
+m.minimize(sum(coin_counts))
+
+# Solve the model and print the results in the required format
+if m.solve():
+    solution = {"coin_counts": coin_counts.value().tolist()}
+    print(json.dumps(solution))
+
+```
+Solution from predicted model: {"coin_counts": [0, 2, 0, 2, 3, 2]}
+
+Actual solution: {"coin_counts": [0, 2, 0, 2, 3, 2]}
+
+Solution log: True
+Solution 2 log: True
+Model log: True
+Constraint log: Wrong: 1, Total: 1
+---------------------------------------------------------------------------------------------
+
+Question: We want to assign a different colour to the following countries: Belgium, Denmark, France, Germany, Netherlands and Luxembourg.
+Two neighbouring countries cannot have the same colour.
+Read the data below with the graph representing the adjacency of the countries: each pair (i; j) means that country i is adjacent to country j.
+You can use integers starting from 1 to represent the colours.
+Find a colouring that minimizes the number of colours used.
+
+Here is the data:
+{
+    "num_edges": 9,
+    "graph": [
+        [3, 1],
+        [3, 6],
+        [3, 4],
+        [6, 4],
+        [6, 1],
+        [1, 5],
+        [1, 4],
+        [4, 5],
+        [4, 2]
+    ],
+    "nodes": ["Belgium", "Denmark", "France", "Germany", "Netherlands", "Luxembourg"]
+}
+
+It is mandatory that the answer should be given according to the following JSON schema:
+```json
+{
+    "colors": [int]
+}
+```
+where the list of integers represents the colours assigned to the countries in the order they are given in the input.
+
+For example, a valid JSON (not the answer) would be:
+```json
+{
+    "colors": [1, 2, 4, 2, 3, 5]
+}
+```
+
+PREDICTED Pseudo model: N/A
+PREDICTED CPMPy model: ```python
+from cpmpy import *
+import json
+
+# Data
+num_countries = 6
+num_edges = 9
+graph = [
+    [3, 1],
+    [3, 6],
+    [3, 4],
+    [6, 4],
+    [6, 1],
+    [1, 5],
+    [1, 4],
+    [4, 5],
+    [4, 2]
+]
+countries = ["Belgium", "Denmark", "France", "Germany", "Netherlands", "Luxembourg"]
+
+# Decision variables
+colors = intvar(1, num_countries, shape=num_countries)
+
+# Model setup
+m = Model()
+
+# Constraints
+for edge in graph:
+    country1_idx = edge[0] - 1
+    country2_idx = edge[1] - 1
+    m += colors[country1_idx] != colors[country2_idx]
+
+# Objective: minimize the number of colors used
+m.minimize(max(colors))
+
+# Solve the model and print the results in the required format
+if m.solve():
+    solution = {"colors": [colors[i].value() for i in range(num_countries)]}
+    print(json.dumps(solution))
+
+```
+Solution from predicted model: {"colors": [4, 1, 1, 2, 1, 3]}
+
+Actual solution: {"colors": [4, 1, 1, 2, 1, 3]}
+
+Solution log: True
+Solution 2 log: True
+Model log: True
+Constraint log: Wrong: 0, Total: 9
+---------------------------------------------------------------------------------------------
+
+Question: Please schedule non-overlapping movie showings at a cinema to maximize the number of shows one can watch.
+
+Here is the data:
+{
+    "num_movies": 9,
+    "movies": [
+        {"title": "Tarjan of the Jungle", "interval": [4, 13]},
+        {"title": "The Four Volume Problem", "interval": [17, 27]},
+        {"title": "The President's Algorist", "interval": [1, 10]},
+        {"title": "Steiner's Tree", "interval": [12, 18]},
+        {"title": "Process Terminated", "interval": [23, 30]},
+        {"title": "Halting State", "interval": [9, 16]},
+        {"title": "Programming Challenges", "interval": [19, 25]},
+        {"title": "Discrete Mathematics", "interval": [2, 7]},
+        {"title": "Calculated Bets", "interval": [26, 31]}
+    ]
+}
+
+It is mandatory that the answer should be given according to the following JSON schema:
+```json
+{
+    "selected_movies": [0 | 1]
+}
+```
+
+where 0 or 1 is the binary value indicating whether the movie is selected or not, in the same order as the input.
+
+For example, a valid JSON (but not the correct answer) would be:
+```json
+{
+    "selected_movies": [1, 0, 1, 1, 0, 0, 0, 0, 0]
+}
+```
+
+where the selected movies are Tarjan of the Jungle, The President's Algorist and Steiner's Tree.
+PREDICTED Pseudo model: N/A
+PREDICTED CPMPy model: ```python
+from cpmpy import *
+import json
+
+# Data
+num_movies = 9
+movies_data = [
+    {"title": "Tarjan of the Jungle", "interval": [4, 13]},
+    {"title": "The Four Volume Problem", "interval": [17, 27]},
+    {"title": "The President's Algorist", "interval": [1, 10]},
+    {"title": "Steiner's Tree", "interval": [12, 18]},
+    {"title": "Process Terminated", "interval": [23, 30]},
+    {"title": "Halting State", "interval": [9, 16]},
+    {"title": "Programming Challenges", "interval": [19, 25]},
+    {"title": "Discrete Mathematics", "interval": [2, 7]},
+    {"title": "Calculated Bets", "interval": [26, 31]}
+]
+
+# Decision variables
+selected_movies = boolvar(shape=num_movies)
+
+# Model setup
+m = Model()
+
+# Constraints
+for i in range(num_movies):
+    for j in range(i + 1, num_movies):
+        # Non-overlapping intervals
+        m += (movies_data[i]["interval"][1] <= movies_data[j]["interval"][0]) | \
+             (movies_data[j]["interval"][1] <= movies_data[i]["interval"][0])
+
+# Objective: maximize the number of selected movies
+m.maximize(sum(selected_movies))
+
+# Solve the model and print the results in the required format
+if m.solve():
+    solution = {"selected_movies": [int(selected_movies[i].value()) for i in range(num_movies)]}
+    print(json.dumps(solution))
+
+```
+Solution from predicted model: 
+Actual solution: {"selected_movies": [0, 0, 0, 0, 0, 1, 1, 1, 1]}
+
+Solution log: False
+Solution 2 log: Error when trying to check solution 2 from predicted model: Expecting value: line 1 column 1 (char 0)
+Model log: False
+Constraint log: Error in constraint evaluation: invalid syntax (<string>, line 1)
+---------------------------------------------------------------------------------------------
+
+Question: A bank van had several bags of coins, each containing either 16, 17, 23, 24, 39, or 40 coins (there are multiple bags of the same kind). While the van was parked on the street, thieves stole some bags. A total of 100 coins were lost. It is required to find how many bags were stolen for each type of coin bag.
+
+It is mandatory that the answer should be given according to the following JSON schema:
+```json
+{
+  "bags": [int]
+}
+```
+where `bags` is a list of integers, each representing the number of bags stolen for each type of coin bag. The order of the integers in the list should be the same as the order of the coin bags in the input list.
+
+For example, if they stole 2 bags of 16 coins and 3 bags of 40 coins, the answer should be:
+```json
+{
+  "bags": [2, 0, 0, 0, 0, 3]
+}
+```
+PREDICTED Pseudo model: N/A
+PREDICTED CPMPy model: ```python
+from cpmpy import *
+import json
+
+# Data
+coins_per_bag = [16, 17, 23, 24, 39, 40]
+total_coins_lost = 100
+
+# Decision variables
+bags_stolen = intvar(0, total_coins_lost // min(coins_per_bag), shape=len(coins_per_bag))
+
+# Model setup
+m = Model()
+
+# Constraint: the total number of coins stolen is equal to the total coins lost
+m += sum(bags_stolen * coins_per_bag) == total_coins_lost
+
+# Solve the model and print the results in the required format
+if m.solve():
+    solution = {"bags": bags_stolen.value().tolist()}
+    print(json.dumps(solution))
+
+```
+Solution from predicted model: {"bags": [2, 4, 0, 0, 0, 0]}
+
+Actual solution: {"bags": [2, 4, 0, 0, 0, 0]}
+
+Solution log: True
+Solution 2 log: True
+Model log: True
+Constraint log: Wrong: 0, Total: 1
+---------------------------------------------------------------------------------------------
+
+Question: Out of the set of integers 1,...,100 you are given ten different integers ([81 21 79  4 29 70 28 20 14  7]). From this set A of ten integers you can always find two disjoint non-empty subsets, S and T, such that the sum of elements in S equals the sum of elements in T. Note: S union T does not need to be all ten elements of A. Find sets S and T for the given set A.
+
+It is mandatory that the answer should be given according to the following JSON schema:
+```json
+{
+  "in_S": [0 | 1],
+  "in_T": [0 | 1]
+}
+```
+where in_S and in_T are arrays of 10 elements each. The elements of in_S and in_T should be 0 or 1, depending on whether the corresponding element of A is in S or T.
+
+For example, if the answer is S = {81} and T = {21, 79}, the answer should be:
+```json
+{
+  "in_S": [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  "in_T": [0, 1, 1, 0, 0, 0, 0, 0, 0, 0]
+}
+```
+PREDICTED Pseudo model: N/A
+PREDICTED CPMPy model: ```python
+from cpmpy import *
+import json
+
+# Data
+A = [81, 21, 79, 4, 29, 70, 28, 20, 14, 7]
+n = len(A)
+
+# Decision variables
+in_S = boolvar(shape=n)
+in_T = boolvar(shape=n)
+
+# Constraints
+m = Model()
+
+# S and T are disjoint non-empty subsets
+m += sum(in_S) >= 1
+m += sum(in_T) >= 1
+m += sum(in_S) + sum(in_T) == n
+m += sum((in_S[i] & in_T[i]) for i in range(n)) == 0
+
+# The sum of elements in S equals the sum of elements in T
+m += sum(A[i] * in_S[i] for i in range(n)) == sum(A[i] * in_T[i] for i in range(n))
+
+# Solve the model and print the results in the required format
+if m.solve():
+    solution = {
+        "in_S": [int(in_S[i].value()) for i in range(n)],
+        "in_T": [int(in_T[i].value()) for i in range(n)]
+    }
+    print(json.dumps(solution))
+
+```
+Solution from predicted model: 
+Actual solution: {"in_S": [0, 0, 0, 1, 1, 0, 1, 1, 0, 0], "in_T": [1, 0, 0, 0, 0, 0, 0, 0, 0, 0]}
+
+Solution log: False
+Solution 2 log: Error when trying to check solution 2 from predicted model: Expecting value: line 1 column 1 (char 0)
+Model log: False
+Constraint log: Error in constraint evaluation: invalid syntax (<string>, line 1)
+---------------------------------------------------------------------------------------------
+
+Question: In graph theory, an independent set is a set of vertices in a graph, no two of which are adjacent. A maximal independent set is an independent set that is not a subset of any other independent set. A graph may have many maximal independent sets of widely varying sizes: find the maximal independent sets for the data provided. The data provides an array containing for each node of the graph the set of adjacent nodes.
+
+Here is the data:
+{
+    "n": 8,
+    "adjacency_list": [  // indexing is 1-based
+        [2, 3, 7],
+        [1, 4, 8],
+        [1, 4, 5],
+        [2, 3, 6],
+        [3, 6, 7],
+        [4, 5, 8],
+        [1, 5, 8],
+        [2, 6, 7]
+    ]
+}
+
+It is mandatory that the answer should be given according to the following JSON schema:
+```json
+{
+    "nodes": [0 | 1]
+}
+```
+where `nodes` is an array of 0s and 1s, where 1 indicates that the node is part of the maximal independent set and 0 indicates that it is not.
+
+For example, a valid JSON (but not the answer for the example above) would be:
+```json
+{
+    "nodes": [0, 0, 0, 0, 0, 0, 0, 1]
+}
+```
+PREDICTED Pseudo model: N/A
+PREDICTED CPMPy model: ```python
+from cpmpy import *
+import json
+
+# Data
+n = 8
+adjacency_list = [  # 1-based indexing
+    [2, 3, 7],
+    [1, 4, 8],
+    [1, 4, 5],
+    [2, 3, 6],
+    [3, 6, 7],
+    [4, 5, 8],
+    [1, 5, 8],
+    [2, 6, 7]
+]
+
+# Decision variables
+nodes = boolvar(shape=n)
+
+# Constraints
+m = Model()
+
+# Constraint: No two adjacent nodes can both be in the independent set
+for i in range(n):
+    for j in adjacency_list[i]:
+        m += nodes[i] + nodes[j - 1] <= 1
+
+# Objective: Maximize the number of nodes in the independent set
+m.maximize(sum(nodes))
+
+# Solve the model and print the results in the required format
+if m.solve():
+    solution = {"nodes": [int(nodes[i].value()) for i in range(n)]}
+    print(json.dumps(solution))
+
+```
+Solution from predicted model: {"nodes": [0, 1, 1, 0, 0, 1, 1, 0]}
+
+Actual solution: {"nodes": [0, 1, 1, 0, 0, 1, 1, 0]}
+
+Solution log: True
+Solution 2 log: True
+Model log: True
+Constraint log: Wrong: 0, Total: 24
+---------------------------------------------------------------------------------------------
+
+Question: In preparation for Passover, five children at Hebrew school (Bernice, Carl, Debby, Sammy, and Ted) have been chosen to present different parts of the story of the Exodus from Egypt (burning bush, captivity, Mosesâ€™s youth, Passover, or the Ten Commandments). Each child is a different age (three, five, seven, eight, or ten), and the family of each child has recently made its own exodus to America from a different country (Ethiopia, Kazakhstan, Lithuania, Morocco, or Yemen). Can you find the age of each child, his or her familyâ€™s country of origin, and the part of the Exodus story each related?
+1. Debbyâ€™s family is from Lithuania.
+2. The child who told the story of the Passover is two years older than Bernice.
+3. The child whose family is from Yemen is younger than the child from the Ethiopian family.
+4. The child from the Moroccan family is three years older than Ted.
+5. Sammy is three years older than the child who told the story of Mosesâ€™s youth in the house of the Pharaoh.
+Determine the association: Age-Child-Country-Story.
+
+It is mandatory that the answer should be given according to the following JSON schema:
+```json
+{
+    "ages": [int],
+    "children": [int],
+    "countries": [int],
+    "stories": [int]
+}
+```
+Where each list contains integers from 1 to 5 representing the mapping of the children to the ages, countries, and stories. The numbers should be in the same order as the entities in the question (alphabetical order).
+
+For example, a valid JSON (but not the answer for the example above) would be:
+```json
+{
+    "ages": [1, 2, 3, 4, 5],
+    "children": [1, 2, 3, 4, 5],
+    "countries": [1, 2, 3, 4, 5],
+    "stories": [1, 2, 3, 4, 5]
+}
+```
+PREDICTED Pseudo model: N/A
+PREDICTED CPMPy model: ```python
+from cpmpy import *
+import json
+
+# Decision Variables
+ages = intvar(3, 10, shape=5)
+children = intvar(1, 5, shape=5)
+countries = intvar(1, 5, shape=5)
+stories = intvar(1, 5, shape=5)
+
+# Constraints
+m = Model()
+
+# Debby's family is from Lithuania
+m += countries[children.index(3)] == 3
+
+# The child who told the story of the Passover is two years older than Bernice
+m += ages[children.index(1)] + 2 == ages[children.index(4)]
+
+# The child whose family is from Yemen is younger than the child from the Ethiopian family
+m += ages[children.index(5)] < ages[children.index(2)]
+
+# The child from the Moroccan family is three years older than Ted
+m += ages[children.index(4)] == ages[children.index(5)] + 3
+
+# Sammy is three years older than the child who told the story of Moses's youth in the house of the Pharaoh
+m += ages[children.index(2)] == ages[children.index(1)] + 3
+
+# All children are different
+m += AllDifferent(children)
+
+# Solve the model and print the results in the required format
+if m.solve():
+    solution = {
+        "ages": ages.value().tolist(),
+        "children": children.value().tolist(),
+        "countries": countries.value().tolist(),
+        "stories": stories.value().tolist()
+    }
+    print(json.dumps(solution))
+
+```
+Solution from predicted model: 'NDVarArray' object has no attribute 'index'
+Actual solution: {"ages": [4, 2, 1, 5, 3], "children": [4, 5, 1, 3, 2], "countries": [2, 3, 1, 5, 4], "stories": [5, 4, 1, 2, 3]}
+
+Solution log: False
+Solution 2 log: Error when trying to check solution 2 from predicted model: Expecting value: line 1 column 1 (char 0)
+Model log: False
+Constraint log: Error in constraint evaluation: invalid syntax (<string>, line 1)
+---------------------------------------------------------------------------------------------
+
+Question: There are 13 people. 4 of them are male. They randomly enter a room one at a time. Find a way that the males and females enter so that the ratio of females to males in the room at any one time is no greater than 7/3?
+
+It is mandatory that the answer should be given according to the following JSON schema:
+```json
+{
+  "sequence": [0 | 1]
+}
+```
+where 0 means a male enters the room, and 1 means a female enters the room.
+
+For example a valid JSON (but not a valid answer) would be:
+```json
+{
+  "sequence": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+}
+```
+PREDICTED Pseudo model: N/A
+PREDICTED CPMPy model: ```python
+from cpmpy import *
+import json
+
+# Data
+num_people = 13
+num_males = 4
+num_females = num_people - num_males
+
+# Decision variables
+# 0 represents a male entering the room, 1 represents a female entering the room
+sequence = boolvar(shape=num_people)
+
+# Model setup
+m = Model()
+
+# Constraint: the ratio of females to males in the room at any one time is no greater than 7/3
+for i in range(num_people):
+    num_females_so_far = sum(sequence[j] for j in range(i + 1))
+    num_males_so_far = i + 1 - num_females_so_far
+    m += (3 * num_males_so_far >= 7 * num_females_so_far)
+
+# Solve the model and print the results in the required format
+if m.solve():
+    solution = {"sequence": [int(sequence[i].value()) for i in range(num_people)]
+    print(json.dumps(solution))
+
+```
+Solution from predicted model: invalid syntax (<string>, line 26)
+Actual solution: {"sequence": [0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1]}
+
+Solution log: False
+Solution 2 log: Error when trying to check solution 2 from predicted model: Expecting value: line 1 column 1 (char 0)
+Model log: False
+Constraint log: Error in constraint evaluation: invalid syntax (<string>, line 1)
+---------------------------------------------------------------------------------------------
+
+Question: At the hospital n people are on a waiting list for a kidneyâ€™s transplant. We have the information about the compatibility between these people as a directed graph: compatible[i] is the set of people to which i can donate. Given this information, we want to maximize the number of people that receive a new kidney: anyone who gives a kidney must receive one, and no person receives more than one kidney. Use the following data:
+
+{
+    "num_people": 8,
+    "compatible": [  // 1-based index
+        [2, 3],
+        [1, 6],
+        [1, 4, 7],
+        [2],
+        [2],
+        [5],
+        [8],
+        [3]
+    ]
+}
+
+It is mandatory that the answer should be given according to the following JSON schema:
+```json
+{
+    "transplants": [[0 | 1]]
+}
+```
+
+Where transplants[i][j] is 1 if person i gives a kidney to person j, and 0 otherwise.
+
+For example, a valid JSON (but not the answer for the example above) would be:
+```json
+{
+    "transplants": [
+        [1, 1, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0]
+    ]
+}
+```
+PREDICTED Pseudo model: N/A
+PREDICTED CPMPy model: ```python
+from cpmpy import *
+import json
+
+# Data
+num_people = 8
+compatible = [
+    [2, 3],
+    [1, 6],
+    [1, 4, 7],
+    [2],
+    [2],
+    [5],
+    [8],
+    [3]
+]
+
+# Decision variables
+transplants = boolvar(shape=(num_people, num_people))
+
+# Constraints
+m = Model()
+
+# Each person can donate a kidney to at most one person
+for i in range(num_people):
+    m += sum(transplants[i]) <= 1
+
+# Each person can receive a kidney from at most one person
+for j in range(num_people):
+    m += sum(transplants[i, j] for i in range(num_people)) <= 1
+
+# Compatibility constraints
+for i in range(num_people):
+    for j in compatible[i]:
+        m += transplants[i, j - 1] == transplants[j - 1, i]
+
+# Solve the model and print the results in the required format
+if m.solve():
+    solution = {"transplants": [[int(transplants[i, j].value()) for j in range(num_people)] for i in range(num_people)}
+    print(json.dumps(solution))
+
+```
+Solution from predicted model: closing parenthesis '}' does not match opening parenthesis '[' (<string>, line 39)
+Actual solution: {"transplants": [[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 1, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 1], [0, 0, 1, 0, 0, 0, 0, 0]]}
+
+Solution log: False
+Solution 2 log: Error when trying to check solution 2 from predicted model: Expecting value: line 1 column 1 (char 0)
+Model log: False
+Constraint log: Error in constraint evaluation: invalid syntax (<string>, line 1)
+---------------------------------------------------------------------------------------------
+
+Question: A farmer has 25 cows numbered 1 to 25. number 1 cow gives 1kg milk, number 2 gives 2 kg... number and so on up to number 25 that gives 25 kg per day. The farmer has 5 sons and he wants to distribute his cows to them: 7 to the first, 6 to the second and so on down to 3 to the last, however, the total quantity of milk produced should be the same: how can he distribute the cows?
+
+It is mandatory that the answer should be given according to the following JSON schema:
+```json
+{
+    "cow_assignments": [int]
+}
+```
+where `cow_assignments` is a list of 25 integers (from 0 to 4) that maps the cow to the son.
+PREDICTED Pseudo model: N/A
+PREDICTED CPMPy model: ```python
+from cpmpy import *
+import json
+
+# Data
+num_cows = 25
+num_sons = 5
+milk_produced = [i for i in range(1, num_cows + 1)]
+cows_per_son = [7, 6, 5, 4, 3]
+
+# Decision variables
+cow_assignments = intvar(0, num_sons - 1, shape=num_cows)  # son to which each cow is assigned
+
+# Constraints
+m = Model()
+
+# Each cow should be assigned to one son
+for i in range(num_cows):
+    m += sum(cow_assignments == i) == 1
+
+# Total milk produced by each son should be the same
+for son in range(num_sons):
+    m += sum(milk_produced[i] for i in range(num_cows) if cow_assignments[i] == son) == cows_per_son[son] * sum(range(1, num_cows + 1))
+
+# Solve the model and print the results in the required format
+if m.solve():
+    solution = {"cow_assignments": cow_assignments.value().tolist()}
+    print(json.dumps(solution))
+
+```
+Solution from predicted model: 
+Actual solution: {"cow_assignments": [0, 0, 3, 0, 2, 2, 1, 1, 0, 1, 0, 1, 1, 0, 1, 2, 3, 2, 4, 2, 4, 3, 3, 0, 4]}
+
+Solution log: False
+Solution 2 log: Error when trying to check solution 2 from predicted model: Expecting value: line 1 column 1 (char 0)
+Model log: False
+Constraint log: Error in constraint evaluation: invalid syntax (<string>, line 1)
+---------------------------------------------------------------------------------------------
+
+Question: A kid goes into a grocery store and buys four items. The cashier charges $7.11, the kid pays and is about to leave when the cashier calls the kid back, and says "Hold on, I multiplied the four items instead of adding them; Iâ€™ll try again; Hah, with adding them the price still comes to $7.11". What were the prices of the four items?
+
+It is mandatory that the answer should be given according to the following JSON schema:
+```json
+{
+  "prices": [int]
+}
+```
+where `prices` is a list of four integers representing the prices of the four items in cents.
+
+For example, a valid JSON (but not the answer for the example above) would be:
+```json
+{
+  "prices": [120, 210, 100, 123]
+}
+```
+PREDICTED Pseudo model: N/A
+PREDICTED CPMPy model: ```python
+from cpmpy import *
+import json
+
+# Decision variables
+prices = intvar(1, 711, shape=4)  # prices of the four items in cents
+
+# Constraints
+m = Model()
+
+# The sum of the prices should be 711 cents
+m += sum(prices) == 711
+
+# The product of the prices should also be 711 cents
+m += reduce(lambda x, y: x * y, prices) == 711 ** 2
+
+# Solve the model and print the results in the required format
+if m.solve():
+    solution = {"prices": prices.value().tolist()}
+    print(json.dumps(solution))
+
+```
+Solution from predicted model: name 'reduce' is not defined
+Actual solution: {"prices": [150, 120, 125, 316]}
+
+Solution log: False
+Solution 2 log: Error when trying to check solution 2 from predicted model: Expecting value: line 1 column 1 (char 0)
+Model log: False
+Constraint log: Error in constraint evaluation: invalid syntax (<string>, line 1)
+---------------------------------------------------------------------------------------------
+
+Question: We want to climb a stair of n steps with [m1, m2] steps at a time. For example a stair of 4 steps with m1 = 1, and m2 = 2 can be climbed with a sequence of four one-step moves or with two two-steps moves. Find a way to climb a stair of 20 steps with m1 = 3 and m2 = 5, i.e. you can take only 3 or 4 or 5 steps at a time.
+
+It is mandatory that the answer should be given according to the following JSON schema:
+```json
+{
+  "steps": [int]
+}
+```
+where `steps` is a list of integers representing the sequence of steps.
+
+PREDICTED Pseudo model: N/A
+PREDICTED CPMPy model: ```python
+from cpmpy import *
+import json
+
+# Data
+total_steps = 20
+step_sizes = [3, 4, 5]
+
+# Decision variables
+steps = intvar(3, 5, shape=total_steps // min(step_sizes))
+
+# Constraints
+m = Model()
+
+# The sum of the steps should be equal to the total number of steps
+m += sum(steps) == total_steps
+
+# Solve the model and print the results in the required format
+if m.solve():
+    solution = {"steps": steps.value().tolist()}
+    print(json.dumps(solution))
+
+```
+Solution from predicted model: {"steps": [5, 3, 3, 3, 3, 3]}
+
+Actual solution: {"steps": [5, 5, 4, 3, 3]}
+
+Solution log: False
+Solution 2 log: True
+Model log: False
+Constraint log: Error in constraint evaluation: invalid syntax (<string>, line 1)
+---------------------------------------------------------------------------------------------
+
+Question: Find a combination of 4 different numbers between 1 and 100, such that the sum of the squares of the two first numbers is equal to the sum of the squares of the other two numbers, i.e. a^2 + b^2 = c^2 + d^2 for some a, b, c, d in {1, 100}, a != b != c != d.
+
+It is mandatory that the answer should be given according to the following JSON schema:
+```json
+{
+    "a": int,
+    "b": int,
+    "c": int,
+    "d": int
+}
+```
+where a, b, c, d are the numbers that satisfy the condition, i.e. a^2 + b^2 = c^2 + d^2.
+
+PREDICTED Pseudo model: N/A
+PREDICTED CPMPy model: ```python
+from cpmpy import *
+import json
+
+# Decision variables
+a = intvar(1, 100)
+b = intvar(1, 100)
+c = intvar(1, 100)
+d = intvar(1, 100)
+
+# Constraints
+m = Model()
+
+# Ensure that a, b, c, d are all different
+m += AllDifferent([a, b, c, d])
+
+# The sum of the squares of the two first numbers is equal to the sum of the squares of the other two numbers
+m += a**2 + b**2 == c**2 + d**2
+
+# Solve the model and print the solution in the specified format
+if m.solve():
+    solution = {"a": a.value(), "b": b.value(), "c": c.value(), "d": d.value()}
+    print(json.dumps(solution))
+```
+Solution from predicted model: {"a": 1, "b": 8, "c": 4, "d": 7}
+
+Actual solution: {"a": 1, "b": 8, "c": 4, "d": 7}
+
+Solution log: True
+Solution 2 log: True
+Model log: True
+Constraint log: Wrong: 0, Total: 2
+---------------------------------------------------------------------------------------------
+
