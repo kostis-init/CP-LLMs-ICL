@@ -3,18 +3,10 @@ import together
 import os
 from openai import OpenAI
 
+### Add your key, depending on the model you want to use
 OPENAI_API_KEY = "YOUR_OPENAI_API_KEY"
 TOGETHER_API_KEY = 'YOUR_TOGETHER_API_KEY'
 DEEPSEEK_API_KEY = 'YOUR_DEEPSEEK_API_KEY'
-ANTHROPIC_API_KEY = 'YOUR_ANTHROPIC_API_KEY'
-
-os.environ['OPENAI_API_KEY'] = OPENAI_API_KEY
-os.environ['ANTHROPIC_API_KEY'] = ANTHROPIC_API_KEY
-together.api_key = TOGETHER_API_KEY
-
-# ANTHROPIC
-# MODEL = 'claude-3-sonnet-20240229'
-# MODEL = 'claude-3-haiku-20240307'
 
 # OPEN AI
 # MODEL = "gpt-4-0125-preview"
@@ -48,17 +40,19 @@ MODEL = "gpt-3.5-turbo-0125"
 # MODEL = 'Qwen/Qwen1.5-14B-Chat'
 # MODEL = 'Qwen/Qwen1.5-72B-Chat'
 
+# LLM CLIENT
+os.environ['OPENAI_API_KEY'] = OPENAI_API_KEY
+together.api_key = TOGETHER_API_KEY
+
 if MODEL.startswith('gpt'):
     LLM_CLIENT = OpenAI()
-elif 'claude' in MODEL:
-    LLM_CLIENT = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
 elif MODEL == 'deepseek-coder' or MODEL == 'deepseek-chat':
     LLM_CLIENT = OpenAI(api_key=DEEPSEEK_API_KEY, base_url="https://api.deepseek.com/v1")
 else:
     LLM_CLIENT = OpenAI(api_key=TOGETHER_API_KEY, base_url="https://api.together.xyz/v1")
 
+# Config
 LIMIT = 999
-
 NUM_EXAMPLES = 4
 
 # EXAMPLES_SELECTOR = "static"

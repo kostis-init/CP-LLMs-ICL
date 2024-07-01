@@ -5,11 +5,19 @@
 
 This repository contains the code for the paper "Constraint Modelling with LLMs using In-Context Learning". The paper explores the potential of using pre-trained Large Language Models (LLMs) to transform textual combinatorial problem descriptions into concrete and executable Constraint Programming (CP) specifications through retrieval-augmented in-context learning. For more details, please refer to the [paper](#citation).
 
+## Structure
+
+The repository is structured as follows:
+
+- `llms4cp/`: Contains the code for the pipeline presented in the paper.
+- `data/`: Contains the datasets used (for more details check [there](data/README.md)).
+- `results/`: Contains results from the experiments.
+
 ## Getting Started
 
 ### Prerequisites
 
-- Python 3.9 or higher.
+- Python 3.9
 
 ### Installation
 
@@ -27,6 +35,7 @@ This repository contains the code for the paper "Constraint Modelling with LLMs 
 Open the [configuration file](llms4cp/in_context_config.py) and set the following:
 
 - **API keys** for LLM platforms (e.g., `OPENAI_API_KEY`).
+    - Only one key is required, depending on the LLM used. For example, for OpenAI's models fill only `OPENAI_API_KEY`.
 - **MODEL**: Which LLM to use for generating the CP models (e.g., `gpt-3.5-turbo`).
 - **NUM_EXAMPLES**: Number of examples to add to the context (e.g., `4`).
 - **EXAMPLES_SELECTOR**: Method for selecting examples (e.g., `static`).
