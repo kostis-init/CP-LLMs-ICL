@@ -56,4 +56,21 @@ python main.py --dataset APLAI --method CPMPY
 
 If our research is helpful for your work, please consider citing our paper as follows:
 
-    @inproceedings{todo}
+    @InProceedings{michailidis_et_al:LIPIcs.CP.2024.20,
+      author =	{Michailidis, Kostis and Tsouros, Dimos and Guns, Tias},
+      title =	{{Constraint Modelling with LLMs Using In-Context Learning}},
+      booktitle =	{30th International Conference on Principles and Practice of Constraint Programming (CP 2024)},
+      pages =	{20:1--20:27},
+      series =	{Leibniz International Proceedings in Informatics (LIPIcs)},
+      ISBN =	{978-3-95977-336-2},
+      ISSN =	{1868-8969},
+      year =	{2024},
+      volume =	{307},
+      editor =	{Shaw, Paul},
+      publisher =	{Schloss Dagstuhl -- Leibniz-Zentrum f{\"u}r Informatik},
+      address =	{Dagstuhl, Germany},
+      URL =		{https://drops.dagstuhl.de/entities/document/10.4230/LIPIcs.CP.2024.20},
+      URN =		{urn:nbn:de:0030-drops-207053},
+      doi =		{10.4230/LIPIcs.CP.2024.20},
+      annote =	{Keywords: Constraint Modelling, Constraint Acquisition, Constraint Programming, Large Language Models, In-Context Learning, Natural Language Processing, Named Entity Recognition, Retrieval-Augmented Generation, Optimisation}
+    }
